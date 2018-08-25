@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.Collections;
 
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
+
 import lombok.extern.slf4j.Slf4j;
 import org.apache.cxf.BusFactory;
 import org.apache.cxf.endpoint.Server;
@@ -11,6 +14,7 @@ import org.apache.cxf.ext.logging.LoggingFeature;
 import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
 import org.apache.cxf.jaxrs.client.JAXRSClientFactoryBean;
 import org.apache.cxf.jaxrs.lifecycle.SingletonResourceProvider;
+import org.apache.cxf.transport.http.asyncclient.AsyncHTTPConduit;
 import org.jaxxy.rs.util.reflect.Types;
 import org.junit.After;
 import org.junit.Before;
@@ -20,6 +24,7 @@ public abstract class JaxrsTestCase<I> {
 //----------------------------------------------------------------------------------------------------------------------
 // Fields
 //----------------------------------------------------------------------------------------------------------------------
+
     private static final int DEFAULT_PORT = 9999;
     private Server server;
     private String address;
@@ -27,6 +32,33 @@ public abstract class JaxrsTestCase<I> {
 //----------------------------------------------------------------------------------------------------------------------
 // Abstract Methods
 //----------------------------------------------------------------------------------------------------------------------
+
+    protected abstract I createServiceObject();
+
+//----------------------------------------------------------------------------------------------------------------------
+// Other Methods
+//----------------------------------------------------------------------------------------------------------------------
+
+    public I clientProxy() {
+        DefaultJaxrsClientConfig config = new DefaultJaxrsClientConfig();
+        configureClient(config);
+
+        final Class<I> serviceInterface = serviceInterface();
+
+        JAXRSClientFactoryBean factory = new JAXRSClientFactoryBean();
+        factory.setProviders(config.getProviders());
+        factory.setResourceClass(serviceInterface);
+        factory.setAddress(address);
+        return factory.create(serviceInterface);
+    }
+
+    protected void configureClient(JaxrsClientConfig config) {
+
+    }
+
+    protected void configureServer(JaxrsServerConfig config) {
+
+    }
 
     protected int createPort() {
         try (ServerSocket socket = new ServerSocket(0)) {
@@ -36,16 +68,6 @@ public abstract class JaxrsTestCase<I> {
             return DEFAULT_PORT;
         }
     }
-
-    protected abstract void configureServer(JaxrsServerConfig config);
-
-    protected abstract void configureClient(JaxrsClientConfig config);
-
-    protected abstract I createServiceObject();
-
-//----------------------------------------------------------------------------------------------------------------------
-// Other Methods
-//----------------------------------------------------------------------------------------------------------------------
 
     protected Class<I> serviceInterface() {
         return Types.typeParamFromClass(getClass(), JaxrsTestCase.class, 0);
@@ -70,22 +92,15 @@ public abstract class JaxrsTestCase<I> {
         this.server = factory.create();
     }
 
-    public I clientProxy() {
-        DefaultJaxrsClientConfig config = new DefaultJaxrsClientConfig();
-        configureClient(config);
-
-        final Class<I> serviceInterface = serviceInterface();
-
-        JAXRSClientFactoryBean factory = new JAXRSClientFactoryBean();
-        factory.setProviders(config.getProviders());
-        factory.setResourceClass(serviceInterface);
-        factory.setAddress(address);
-        return factory.create(serviceInterface);
-    }
-
     @After
     public void stopServer() {
         server.stop();
         server.destroy();
+    }
+
+    public WebTarget webTarget() {
+        return ClientBuilder.newClient()
+                .target(address)
+                .property(AsyncHTTPConduit.USE_ASYNC, Boolean.TRUE);
     }
 }
