@@ -12,7 +12,7 @@
 
     <artifactId>jaxxy-cors</artifactId>
 
-    <name>Jaxxy :: Cross-Origin Resource Sharing (CORS) Provider</name>
+    <name>Jaxxy :: CORS Provider</name>
 
     <dependencies>
         <dependency>

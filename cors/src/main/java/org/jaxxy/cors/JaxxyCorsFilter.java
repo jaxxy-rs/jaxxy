@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @PreMatching
 @Slf4j
 @Builder
-public class CorsJaxrsFilter implements ContainerRequestFilter, ContainerResponseFilter {
+public class JaxxyCorsFilter implements ContainerRequestFilter, ContainerResponseFilter {
 //----------------------------------------------------------------------------------------------------------------------
 // Fields
 //----------------------------------------------------------------------------------------------------------------------
@@ -39,7 +39,7 @@ public class CorsJaxrsFilter implements ContainerRequestFilter, ContainerRespons
     static final String ALLOWED_HEADERS_PROP = "allowedHeaders";
     private static final String MAX_AGE_PROP = "maxAge";
     private static final String EMPTY_STRING = "";
-    private static final String PREFLIGHT_FLAG_PROP = "CorsJaxrsFilter.preflightFlag";
+    private static final String PREFLIGHT_FLAG_PROP = "JaxxyCorsFilter.preflightFlag";
     private static final Set<String> SIMPLE_RESPONSE_HEADERS = new HashSet<>(Arrays.asList(
             "CACHE-CONTROL",
             "CONTENT-LANGUAGE",
@@ -77,7 +77,7 @@ public class CorsJaxrsFilter implements ContainerRequestFilter, ContainerRespons
 // Static Methods
 //----------------------------------------------------------------------------------------------------------------------
 
-    public static CorsJaxrsFilter.CorsJaxrsFilterBuilder allowAll() {
+    public static JaxxyCorsFilter.JaxxyCorsFilterBuilder allowAll() {
         return builder()
                 .allowCredentials(false)
                 .allowedMethods(DEFAULT_ALLOWED_METHODS)

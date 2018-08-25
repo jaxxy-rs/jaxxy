@@ -15,7 +15,7 @@ import org.jaxxy.rs.test.JaxrsTestCase;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class CorsJaxrsFilterTest extends JaxrsTestCase<HelloResource> {
+public class JaxxyCorsFilterTest extends JaxrsTestCase<HelloResource> {
 //----------------------------------------------------------------------------------------------------------------------
 // Fields
 //----------------------------------------------------------------------------------------------------------------------
@@ -33,7 +33,7 @@ public class CorsJaxrsFilterTest extends JaxrsTestCase<HelloResource> {
 
     @Override
     protected void configureServer(JaxrsServerConfig config) {
-        config.withProvider(CorsJaxrsFilter.allowAll()
+        config.withProvider(JaxxyCorsFilter.allowAll()
                 .allowedOrigins(Collections.singleton(ALLOWED_ORIGIN))
                 .allowedMethods(new HashSet<>(Arrays.asList("GET", "PUT", "POST")))
                 .allowedHeaders(Collections.singleton("Jaxxy-Foo"))

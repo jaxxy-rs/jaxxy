@@ -21,7 +21,7 @@ import javax.ws.rs.ext.Provider;
 @Provider
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class JsonbJaxrsProvider implements MessageBodyReader<Object>, MessageBodyWriter<Object> {
+public class JaxxyJsonbProvider implements MessageBodyReader<Object>, MessageBodyWriter<Object> {
 //----------------------------------------------------------------------------------------------------------------------
 // Fields
 //----------------------------------------------------------------------------------------------------------------------
@@ -33,13 +33,13 @@ public class JsonbJaxrsProvider implements MessageBodyReader<Object>, MessageBod
 //----------------------------------------------------------------------------------------------------------------------
 
     /**
-     * Creates a new JsonbJaxrsProvider using a default {@link Jsonb} object.
+     * Creates a new JaxxyJsonbProvider using a default {@link Jsonb} object.
      */
-    public JsonbJaxrsProvider() {
+    public JaxxyJsonbProvider() {
         this(JsonbBuilder.create());
     }
 
-    public JsonbJaxrsProvider(Jsonb jsonb) {
+    public JaxxyJsonbProvider(Jsonb jsonb) {
         this.jsonb = jsonb;
     }
 

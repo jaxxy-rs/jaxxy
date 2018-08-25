@@ -12,19 +12,19 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class JsonbJaxrsProviderTest extends JaxrsTestCase<PersonsResource> {
+public class JaxxyJsonbProviderTest extends JaxrsTestCase<PersonsResource> {
 
     @Mock
     private PersonsResource resource;
 
     @Override
     protected void configureServer(JaxrsServerConfig config) {
-        config.withProvider(new JsonbJaxrsProvider());
+        config.withProvider(new JaxxyJsonbProvider());
     }
 
     @Override
     protected void configureClient(JaxrsClientConfig config) {
-        config.withProvider(new JsonbJaxrsProvider());
+        config.withProvider(new JaxxyJsonbProvider());
     }
 
     @Override
