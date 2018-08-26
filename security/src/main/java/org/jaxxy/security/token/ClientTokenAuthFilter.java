@@ -14,29 +14,35 @@
  * limitations under the License.
  */
 
-package org.jaxxy.rs.test;
+package org.jaxxy.security.token;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.function.Supplier;
 
-import lombok.Getter;
+import javax.annotation.Priority;
+import javax.ws.rs.Priorities;
+import javax.ws.rs.client.ClientRequestContext;
+import javax.ws.rs.client.ClientRequestFilter;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.ext.Provider;
 
-@Getter
-public class DefaultJaxrsClientConfig implements JaxrsClientConfig {
+import lombok.RequiredArgsConstructor;
+
+@Provider
+@Priority(Priorities.HEADER_DECORATOR)
+@RequiredArgsConstructor
+public class ClientTokenAuthFilter implements ClientRequestFilter {
 //----------------------------------------------------------------------------------------------------------------------
 // Fields
 //----------------------------------------------------------------------------------------------------------------------
 
-    private final List<Object> providers = new LinkedList<>();
+    private final Supplier<String> tokenSupplier;
 
 //----------------------------------------------------------------------------------------------------------------------
-// JaxrsClientConfig Implementation
+// ClientRequestFilter Implementation
 //----------------------------------------------------------------------------------------------------------------------
-
 
     @Override
-    public <P> JaxrsClientConfig withProvider(P provider) {
-        providers.add(provider);
-        return this;
+    public void filter(ClientRequestContext request) {
+        request.getHeaders().putSingle(HttpHeaders.AUTHORIZATION, String.format("Bearer %s", tokenSupplier.get()));
     }
 }

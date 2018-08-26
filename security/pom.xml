@@ -26,34 +26,20 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>jaxxy-jsonb</artifactId>
+    <artifactId>jaxxy-security</artifactId>
 
-    <name>Jaxxy :: JSON-B Provider</name>
+    <name>Jaxxy :: Security Providers</name>
 
     <dependencies>
         <dependency>
-            <groupId>javax.json.bind</groupId>
-            <artifactId>javax.json.bind-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>javax.json</groupId>
-            <artifactId>javax.json-api</artifactId>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.apache.johnzon</groupId>
-            <artifactId>johnzon-jsonb</artifactId>
-            <version>${johnzon.version}</version>
-            <scope>test</scope>
+            <groupId>com.auth0</groupId>
+            <artifactId>java-jwt</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>org.apache.johnzon</groupId>
-            <artifactId>johnzon-core</artifactId>
-            <version>${johnzon.version}</version>
-            <scope>test</scope>
-        </dependency>
-
         <dependency>
             <groupId>org.jaxxy</groupId>
             <artifactId>jaxxy-test</artifactId>

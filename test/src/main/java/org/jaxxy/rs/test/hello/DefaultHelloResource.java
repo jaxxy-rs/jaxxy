@@ -14,29 +14,15 @@
  * limitations under the License.
  */
 
-package org.jaxxy.rs.test;
+package org.jaxxy.rs.test.hello;
 
-import java.util.LinkedList;
-import java.util.List;
-
-import lombok.Getter;
-
-@Getter
-public class DefaultJaxrsClientConfig implements JaxrsClientConfig {
+public class DefaultHelloResource implements HelloResource {
 //----------------------------------------------------------------------------------------------------------------------
-// Fields
+// HelloResource Implementation
 //----------------------------------------------------------------------------------------------------------------------
-
-    private final List<Object> providers = new LinkedList<>();
-
-//----------------------------------------------------------------------------------------------------------------------
-// JaxrsClientConfig Implementation
-//----------------------------------------------------------------------------------------------------------------------
-
 
     @Override
-    public <P> JaxrsClientConfig withProvider(P provider) {
-        providers.add(provider);
-        return this;
+    public String sayHello(String name) {
+        return String.format("Hello, %s!", name);
     }
 }

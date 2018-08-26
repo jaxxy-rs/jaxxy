@@ -1,9 +1,24 @@
+/*
+ * Copyright (c) 2018 The Jaxxy Authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.jaxxy.rs.test;
 
-import java.io.IOException;
-import java.net.ServerSocket;
 import java.util.Collections;
 
+import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 
@@ -40,8 +55,7 @@ public abstract class JaxrsTestCase<I> {
 //----------------------------------------------------------------------------------------------------------------------
 
     public I clientProxy() {
-        DefaultJaxrsClientConfig config = new DefaultJaxrsClientConfig();
-        configureClient(config);
+        DefaultJaxrsClientConfig config = createClientConfig();
 
         final Class<I> serviceInterface = serviceInterface();
 
@@ -50,6 +64,12 @@ public abstract class JaxrsTestCase<I> {
         factory.setResourceClass(serviceInterface);
         factory.setAddress(address);
         return factory.create(serviceInterface);
+    }
+
+    private DefaultJaxrsClientConfig createClientConfig() {
+        DefaultJaxrsClientConfig config = new DefaultJaxrsClientConfig();
+        configureClient(config);
+        return config;
     }
 
     protected void configureClient(JaxrsClientConfig config) {
@@ -61,12 +81,7 @@ public abstract class JaxrsTestCase<I> {
     }
 
     protected int createPort() {
-        try (ServerSocket socket = new ServerSocket(0)) {
-            return socket.getLocalPort();
-        } catch (IOException e) {
-            log.error("Unable to allocate port, defaulting to {}.", DEFAULT_PORT, e);
-            return DEFAULT_PORT;
-        }
+        return DEFAULT_PORT;
     }
 
     protected Class<I> serviceInterface() {
@@ -99,7 +114,9 @@ public abstract class JaxrsTestCase<I> {
     }
 
     public WebTarget webTarget() {
-        return ClientBuilder.newClient()
+        final Client client = ClientBuilder.newClient();
+        createClientConfig().getProviders().forEach(client::register);
+        return client
                 .target(address)
                 .property(AsyncHTTPConduit.USE_ASYNC, Boolean.TRUE);
     }

@@ -14,12 +14,19 @@
  * limitations under the License.
  */
 
-package org.jaxxy.rs.test;
+package org.jaxxy.rs.test.hello;
 
-public interface JaxrsClientConfig {
-//----------------------------------------------------------------------------------------------------------------------
-// Other Methods
-//----------------------------------------------------------------------------------------------------------------------
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 
-    <P> JaxrsClientConfig withProvider(P provider);
+import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
+
+@Path("/")
+public interface EchoHeaderResource {
+
+    @Path("/echo")
+    @GET
+    @Produces(TEXT_PLAIN)
+    String echo();
 }

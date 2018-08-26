@@ -14,12 +14,35 @@
  * limitations under the License.
  */
 
-package org.jaxxy.rs.util.reflect;
+package org.jaxxy.security.token;
 
-import org.jaxxy.rs.util.exception.FormattedException;
+import java.security.Principal;
 
-public class ReflectionException extends FormattedException {
-    public ReflectionException(Throwable cause, String message, Object... params) {
-        super(cause, message, params);
+import javax.ws.rs.core.SecurityContext;
+
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
+public class SimpleSecurityContext implements SecurityContext {
+    private final String name;
+
+    @Override
+    public Principal getUserPrincipal() {
+        return () -> name;
+    }
+
+    @Override
+    public boolean isUserInRole(String role) {
+        return false;
+    }
+
+    @Override
+    public boolean isSecure() {
+        return true;
+    }
+
+    @Override
+    public String getAuthenticationScheme() {
+        return "TOKEN";
     }
 }

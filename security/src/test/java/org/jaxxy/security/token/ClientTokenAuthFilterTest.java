@@ -14,29 +14,35 @@
  * limitations under the License.
  */
 
-package org.jaxxy.rs.test;
+package org.jaxxy.security.token;
 
-import java.util.LinkedList;
-import java.util.List;
+import javax.ws.rs.core.HttpHeaders;
 
-import lombok.Getter;
+import org.jaxxy.rs.test.JaxrsClientConfig;
+import org.jaxxy.rs.test.JaxrsTestCase;
+import org.jaxxy.rs.test.hello.DefaultEchoHeaderResource;
+import org.jaxxy.rs.test.hello.EchoHeaderResource;
+import org.junit.Test;
 
-@Getter
-public class DefaultJaxrsClientConfig implements JaxrsClientConfig {
+import static org.assertj.core.api.Assertions.assertThat;
+
+public class ClientTokenAuthFilterTest extends JaxrsTestCase<EchoHeaderResource> {
 //----------------------------------------------------------------------------------------------------------------------
-// Fields
+// Other Methods
 //----------------------------------------------------------------------------------------------------------------------
-
-    private final List<Object> providers = new LinkedList<>();
-
-//----------------------------------------------------------------------------------------------------------------------
-// JaxrsClientConfig Implementation
-//----------------------------------------------------------------------------------------------------------------------
-
 
     @Override
-    public <P> JaxrsClientConfig withProvider(P provider) {
-        providers.add(provider);
-        return this;
+    protected void configureClient(JaxrsClientConfig config) {
+        config.withProvider(new ClientTokenAuthFilter(() -> "FooBarBaz"));
+    }
+
+    @Override
+    protected EchoHeaderResource createServiceObject() {
+        return new DefaultEchoHeaderResource(HttpHeaders.AUTHORIZATION);
+    }
+
+    @Test
+    public void testFilter(){
+        assertThat(clientProxy().echo()).isEqualTo("Bearer FooBarBaz");
     }
 }

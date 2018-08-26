@@ -14,29 +14,15 @@
  * limitations under the License.
  */
 
-package org.jaxxy.rs.test;
+package org.jaxxy.security.token;
 
-import java.util.LinkedList;
-import java.util.List;
+import javax.ws.rs.core.SecurityContext;
 
-import lombok.Getter;
-
-@Getter
-public class DefaultJaxrsClientConfig implements JaxrsClientConfig {
+@FunctionalInterface
+public interface TokenAuthenticator {
 //----------------------------------------------------------------------------------------------------------------------
-// Fields
+// Other Methods
 //----------------------------------------------------------------------------------------------------------------------
 
-    private final List<Object> providers = new LinkedList<>();
-
-//----------------------------------------------------------------------------------------------------------------------
-// JaxrsClientConfig Implementation
-//----------------------------------------------------------------------------------------------------------------------
-
-
-    @Override
-    public <P> JaxrsClientConfig withProvider(P provider) {
-        providers.add(provider);
-        return this;
-    }
+    SecurityContext authenticate(String token);
 }

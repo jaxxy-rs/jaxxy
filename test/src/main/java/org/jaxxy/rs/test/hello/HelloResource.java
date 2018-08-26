@@ -14,29 +14,23 @@
  * limitations under the License.
  */
 
-package org.jaxxy.rs.test;
+package org.jaxxy.rs.test.hello;
 
-import java.util.LinkedList;
-import java.util.List;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 
-import lombok.Getter;
+import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
 
-@Getter
-public class DefaultJaxrsClientConfig implements JaxrsClientConfig {
+@Path("/")
+public interface HelloResource {
 //----------------------------------------------------------------------------------------------------------------------
-// Fields
-//----------------------------------------------------------------------------------------------------------------------
-
-    private final List<Object> providers = new LinkedList<>();
-
-//----------------------------------------------------------------------------------------------------------------------
-// JaxrsClientConfig Implementation
+// Other Methods
 //----------------------------------------------------------------------------------------------------------------------
 
-
-    @Override
-    public <P> JaxrsClientConfig withProvider(P provider) {
-        providers.add(provider);
-        return this;
-    }
+    @GET
+    @Produces(TEXT_PLAIN)
+    @Path("/hello/{name}")
+    String sayHello(@PathParam("name") String name);
 }
