@@ -28,10 +28,13 @@ import javax.ws.rs.container.ResourceInfo;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.ext.Provider;
 
+import lombok.extern.slf4j.Slf4j;
+
 import static java.util.Optional.ofNullable;
 
 @Provider
 @Priority(Priorities.AUTHORIZATION)
+@Slf4j
 public class RolesAllowedFilter implements ContainerRequestFilter {
 //----------------------------------------------------------------------------------------------------------------------
 // Fields
@@ -47,10 +50,13 @@ public class RolesAllowedFilter implements ContainerRequestFilter {
 
     @Override
     public void filter(ContainerRequestContext request) {
-        ofNullable(resourceInfo.getResourceMethod().getAnnotation(RolesAllowed.class))
+        final String allowedRole = ofNullable(resourceInfo.getResourceMethod().getAnnotation(RolesAllowed.class))
                 .flatMap(annotation -> Stream.of(annotation.value())
                         .filter(role -> request.getSecurityContext().isUserInRole(role))
                         .findFirst())
                 .orElseThrow(ForbiddenException::new);
+        if(log.isDebugEnabled()) {
+            log.debug("Proceeding with request using allowed role '{}'.", allowedRole);
+        }
     }
 }
