@@ -27,6 +27,10 @@ public class Types {
 // Static Methods
 //----------------------------------------------------------------------------------------------------------------------
 
+    private Types() {
+        // Preventing instantiation.
+    }
+
     public static <T> T instantiate(Class<T> type) {
         try {
             return type.newInstance();
