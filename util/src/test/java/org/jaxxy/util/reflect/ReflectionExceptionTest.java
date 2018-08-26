@@ -16,14 +16,20 @@
 
 package org.jaxxy.util.reflect;
 
-import org.jaxxy.util.exception.FormattedException;
+import org.junit.Test;
 
-public class ReflectionException extends FormattedException {
+import static org.assertj.core.api.Assertions.assertThat;
+
+public class ReflectionExceptionTest {
 //----------------------------------------------------------------------------------------------------------------------
-// Constructors
+// Other Methods
 //----------------------------------------------------------------------------------------------------------------------
 
-    public ReflectionException(ReflectiveOperationException cause, String message, Object... params) {
-        super(cause, message, params);
+    @Test
+    public void testConstructor() {
+        final ReflectiveOperationException cause = new ReflectiveOperationException("Oops!");
+        final ReflectionException e = new ReflectionException(cause, "Hello, %s!", "Jaxxy");
+        assertThat(e.getMessage()).isEqualTo("Hello, Jaxxy!");
+        assertThat(e.getCause()).isEqualTo(cause);
     }
 }
