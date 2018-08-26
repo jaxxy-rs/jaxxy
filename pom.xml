@@ -20,6 +20,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>9</version>
+    </parent>
+
     <groupId>org.jaxxy</groupId>
     <artifactId>jaxxy</artifactId>
     <version>0.0.1-SNAPSHOT</version>
@@ -35,6 +41,12 @@
             <comments>A business-friendly OSS license</comments>
         </license>
     </licenses>
+
+    <scm>
+        <url>https://github.com/jwcarman/jaxxy</url>
+        <connection>scm:git:git@github.com:jwcarman/jaxxy.git</connection>
+        <developerConnection>scm:git:git@github.com:jwcarman/jaxxy.git</developerConnection>
+    </scm>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
