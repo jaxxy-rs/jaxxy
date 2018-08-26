@@ -45,7 +45,7 @@ public class ClientBasicAuthFilterTest extends JaxrsTestCase<EchoHeaderResource>
     }
 
     @Test
-    public void testFilter() {
+    public void shouldSendBasicAuthenticationHeader() {
         assertThat(clientProxy().echo()).isEqualTo("Basic " + Base64.getEncoder().encodeToString("user1:pass1".getBytes(StandardCharsets.UTF_8)));
     }
 }
