@@ -55,8 +55,6 @@ public class RolesAllowedFilter implements ContainerRequestFilter {
                         .filter(role -> request.getSecurityContext().isUserInRole(role))
                         .findFirst())
                 .orElseThrow(ForbiddenException::new);
-        if(log.isDebugEnabled()) {
-            log.debug("Proceeding with request using allowed role '{}'.", allowedRole);
-        }
+        log.debug("Proceeding with request using allowed role '{}'.", allowedRole);
     }
 }
