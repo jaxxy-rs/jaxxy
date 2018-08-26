@@ -1,4 +1,5 @@
 # Jaxxy
+[![Build Status](https://travis-ci.org/jwcarman/jaxxy.svg?branch=master)](https://travis-ci.org/jwcarman/jaxxy)
 
 Jaxxy is a JAX-RS provider collection to make writing JAX-RS applications easier.
 
