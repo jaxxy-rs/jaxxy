@@ -3,7 +3,7 @@ jdk:
   - oraclejdk8
 sudo: false
 install: true
-#addons:
+addons:
 #  sonarqube:
 #    organization: "microbule"
 #    token:
