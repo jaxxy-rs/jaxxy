@@ -47,7 +47,7 @@ public class CorsFilter implements ContainerRequestFilter, ContainerResponseFilt
 // Fields
 //----------------------------------------------------------------------------------------------------------------------
 
-    public static final HashSet<String> DEFAULT_ALLOWED_METHODS = new HashSet<>(Arrays.asList("HEAD", "GET", "PUT", "POST", "DELETE"));
+    public static final Set<String> DEFAULT_ALLOWED_METHODS = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("HEAD", "GET", "PUT", "POST", "DELETE")));
     public static final Set<String> DEFAULT_EXPOSED_HEADERS = Collections.emptySet();
     public static final Set<String> DEFAULT_ALLOWED_HEADERS = Collections.emptySet();
     public static final Set<String> DEFAULT_ALLOWED_ORIGINS = Collections.emptySet();

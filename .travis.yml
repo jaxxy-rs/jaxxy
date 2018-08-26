@@ -2,13 +2,13 @@ language: java
 dist: trusty
 jdk:
   - oraclejdk8
-#addons:
-#  sonarcloud:
-#    organization: "jwcarman-github"
-#    token:
-#      secure: "Yv/3K1pT7X+WLklI3vZgA4Ezvz6CENhZwgg0ZA37ZJsnpvUPLtTwOVrCy1Tg4peDtSIj7Yin7Vn2CMnJ/UxisrH/lVvnfpNDiNUN0vdI9a6gcZyeeABNFCzhUJ2i/H3o8EjW5gDmLLoD5ihItX3Jw/COs+tJrgY5VWFiIj5u7ma5+Pdf5C6l3HRhhGyrYIHzx6FQPCqj7BL4kI5Nrm/81/9FHJHbEmoLZhdGr582xN0V5n6/fX3kwu6IlZ0mM3U5cJWCiCD0LbO0sPYacSL4hhh/sRfJ8V+JHc3xIKUtpMdjlvUcN4Mb5mB9pBoSy+yidr+f0NRGZBHvf4KJbaaSJyJaECsWGrVzsBvbJN6Np7/ga8mtczFUCmWMhHt8VROPMk5iXmB8OFOOCoff4IgpO1B0bguV+xTAnf1aup9FJyK3a04fVjUVXfqXcm5rAvZ5vdbAYMLshQUMAzIaBDPyzaw1o8yr0bXS1DcpFsq2+S5l2vR2JS0oR86a2RyD+Zu/YBuTII30XIIU1qhLdcvdMCahUO5Yrj8svX20Gzs7PQ7ArZAVzJBz3Pt001esNzgj5J02IiM25lC3Pcx2WiBjfHYQCZ7v+XDdHJ9noo96yhKtTBaQ1ZFNL0NZD3VaISrxBwxYLkPSmeB9N7nic5VHQltHxeba5ayKAAhTrDzRPUU="
+addons:
+  sonarcloud:
+    organization: "jwcarman-github"
+    token:
+      secure: "Yv/3K1pT7X+WLklI3vZgA4Ezvz6CENhZwgg0ZA37ZJsnpvUPLtTwOVrCy1Tg4peDtSIj7Yin7Vn2CMnJ/UxisrH/lVvnfpNDiNUN0vdI9a6gcZyeeABNFCzhUJ2i/H3o8EjW5gDmLLoD5ihItX3Jw/COs+tJrgY5VWFiIj5u7ma5+Pdf5C6l3HRhhGyrYIHzx6FQPCqj7BL4kI5Nrm/81/9FHJHbEmoLZhdGr582xN0V5n6/fX3kwu6IlZ0mM3U5cJWCiCD0LbO0sPYacSL4hhh/sRfJ8V+JHc3xIKUtpMdjlvUcN4Mb5mB9pBoSy+yidr+f0NRGZBHvf4KJbaaSJyJaECsWGrVzsBvbJN6Np7/ga8mtczFUCmWMhHt8VROPMk5iXmB8OFOOCoff4IgpO1B0bguV+xTAnf1aup9FJyK3a04fVjUVXfqXcm5rAvZ5vdbAYMLshQUMAzIaBDPyzaw1o8yr0bXS1DcpFsq2+S5l2vR2JS0oR86a2RyD+Zu/YBuTII30XIIU1qhLdcvdMCahUO5Yrj8svX20Gzs7PQ7ArZAVzJBz3Pt001esNzgj5J02IiM25lC3Pcx2WiBjfHYQCZ7v+XDdHJ9noo96yhKtTBaQ1ZFNL0NZD3VaISrxBwxYLkPSmeB9N7nic5VHQltHxeba5ayKAAhTrDzRPUU="
 script:
-  - mvn clean install #org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
+  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
 cache:
   directories:
     - '$HOME/.m2/repository'
