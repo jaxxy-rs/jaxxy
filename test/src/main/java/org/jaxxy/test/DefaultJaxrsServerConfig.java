@@ -14,18 +14,28 @@
  * limitations under the License.
  */
 
-package org.jaxxy.rs.util.exception;
+package org.jaxxy.test;
 
-public abstract class FormattedException extends RuntimeException {
+import java.util.LinkedList;
+import java.util.List;
+
+import lombok.Getter;
+
+@Getter
+public class DefaultJaxrsServerConfig implements JaxrsServerConfig {
 //----------------------------------------------------------------------------------------------------------------------
-// Constructors
+// Fields
 //----------------------------------------------------------------------------------------------------------------------
 
-    public FormattedException(String message, Object... params) {
-        super(String.format(message, params));
-    }
+    private final List<Object> providers  = new LinkedList<>();
 
-    public FormattedException(Throwable cause, String message, Object... params) {
-        super(String.format(message, params), cause);
+//----------------------------------------------------------------------------------------------------------------------
+// JaxrsServerConfig Implementation
+//----------------------------------------------------------------------------------------------------------------------
+
+    @Override
+    public JaxrsServerConfig withProvider(Object provider) {
+        providers.add(provider);
+        return this;
     }
 }

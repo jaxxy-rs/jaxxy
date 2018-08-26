@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.jaxxy.rs.util.reflect;
+package org.jaxxy.util.reflect;
 
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;

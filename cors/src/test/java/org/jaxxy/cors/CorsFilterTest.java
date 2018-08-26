@@ -25,11 +25,11 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.jaxxy.rs.test.JaxrsClientConfig;
-import org.jaxxy.rs.test.JaxrsServerConfig;
-import org.jaxxy.rs.test.JaxrsTestCase;
-import org.jaxxy.rs.test.hello.DefaultHelloResource;
-import org.jaxxy.rs.test.hello.HelloResource;
+import org.jaxxy.test.JaxrsClientConfig;
+import org.jaxxy.test.JaxrsServerConfig;
+import org.jaxxy.test.JaxrsTestCase;
+import org.jaxxy.test.hello.DefaultHelloResource;
+import org.jaxxy.test.hello.HelloResource;
 import org.junit.Assert;
 import org.junit.Test;
 

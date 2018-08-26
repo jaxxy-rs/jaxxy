@@ -14,30 +14,29 @@
  * limitations under the License.
  */
 
-package org.jaxxy.rs.test.hello;
+package org.jaxxy.test;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.core.Context;
+import java.util.LinkedList;
+import java.util.List;
 
-import lombok.RequiredArgsConstructor;
+import lombok.Getter;
 
-@RequiredArgsConstructor
-public class DefaultEchoHeaderResource implements EchoHeaderResource {
+@Getter
+public class DefaultJaxrsClientConfig implements JaxrsClientConfig {
 //----------------------------------------------------------------------------------------------------------------------
 // Fields
 //----------------------------------------------------------------------------------------------------------------------
 
-    private final String headerName;
-
-    @Context
-    private HttpServletRequest request;
+    private final List<Object> providers = new LinkedList<>();
 
 //----------------------------------------------------------------------------------------------------------------------
-// EchoHeaderResource Implementation
+// JaxrsClientConfig Implementation
 //----------------------------------------------------------------------------------------------------------------------
+
 
     @Override
-    public String echo() {
-        return request.getHeader(headerName);
+    public <P> JaxrsClientConfig withProvider(P provider) {
+        providers.add(provider);
+        return this;
     }
 }

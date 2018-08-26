@@ -26,11 +26,11 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import lombok.RequiredArgsConstructor;
-import org.jaxxy.rs.test.JaxrsClientConfig;
-import org.jaxxy.rs.test.JaxrsServerConfig;
-import org.jaxxy.rs.test.JaxrsTestCase;
-import org.jaxxy.rs.test.hello.DefaultHelloResource;
-import org.jaxxy.rs.test.hello.HelloResource;
+import org.jaxxy.test.JaxrsClientConfig;
+import org.jaxxy.test.JaxrsServerConfig;
+import org.jaxxy.test.JaxrsTestCase;
+import org.jaxxy.test.hello.DefaultHelloResource;
+import org.jaxxy.test.hello.HelloResource;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

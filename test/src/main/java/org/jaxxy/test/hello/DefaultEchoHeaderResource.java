@@ -14,23 +14,30 @@
  * limitations under the License.
  */
 
-package org.jaxxy.rs.test.hello;
+package org.jaxxy.test.hello;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.core.Context;
 
-import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
+import lombok.RequiredArgsConstructor;
 
-@Path("/")
-public interface HelloResource {
+@RequiredArgsConstructor
+public class DefaultEchoHeaderResource implements EchoHeaderResource {
 //----------------------------------------------------------------------------------------------------------------------
-// Other Methods
+// Fields
 //----------------------------------------------------------------------------------------------------------------------
 
-    @GET
-    @Produces(TEXT_PLAIN)
-    @Path("/hello/{name}")
-    String sayHello(@PathParam("name") String name);
+    private final String headerName;
+
+    @Context
+    private HttpServletRequest request;
+
+//----------------------------------------------------------------------------------------------------------------------
+// EchoHeaderResource Implementation
+//----------------------------------------------------------------------------------------------------------------------
+
+    @Override
+    public String echo() {
+        return request.getHeader(headerName);
+    }
 }

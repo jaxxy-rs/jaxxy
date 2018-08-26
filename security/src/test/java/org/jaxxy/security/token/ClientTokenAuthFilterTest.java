@@ -18,10 +18,10 @@ package org.jaxxy.security.token;
 
 import javax.ws.rs.core.HttpHeaders;
 
-import org.jaxxy.rs.test.JaxrsClientConfig;
-import org.jaxxy.rs.test.JaxrsTestCase;
-import org.jaxxy.rs.test.hello.DefaultEchoHeaderResource;
-import org.jaxxy.rs.test.hello.EchoHeaderResource;
+import org.jaxxy.test.JaxrsClientConfig;
+import org.jaxxy.test.JaxrsTestCase;
+import org.jaxxy.test.hello.DefaultEchoHeaderResource;
+import org.jaxxy.test.hello.EchoHeaderResource;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

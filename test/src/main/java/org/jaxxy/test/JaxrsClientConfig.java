@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.jaxxy.rs.test;
+package org.jaxxy.test;
 
 public interface JaxrsClientConfig {
 //----------------------------------------------------------------------------------------------------------------------

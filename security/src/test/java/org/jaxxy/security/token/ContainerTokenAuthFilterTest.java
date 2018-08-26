@@ -19,10 +19,10 @@ package org.jaxxy.security.token;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.jaxxy.rs.test.JaxrsServerConfig;
-import org.jaxxy.rs.test.JaxrsTestCase;
-import org.jaxxy.rs.test.hello.DefaultHelloResource;
-import org.jaxxy.rs.test.hello.HelloResource;
+import org.jaxxy.test.JaxrsServerConfig;
+import org.jaxxy.test.JaxrsTestCase;
+import org.jaxxy.test.hello.DefaultHelloResource;
+import org.jaxxy.test.hello.HelloResource;
 import org.jaxxy.security.basic.ClientBasicAuthFilter;
 import org.junit.Test;
 

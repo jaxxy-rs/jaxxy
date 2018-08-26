@@ -16,9 +16,9 @@
 
 package org.jaxxy.jsonb;
 
-import org.jaxxy.rs.test.JaxrsClientConfig;
-import org.jaxxy.rs.test.JaxrsServerConfig;
-import org.jaxxy.rs.test.JaxrsTestCase;
+import org.jaxxy.test.JaxrsClientConfig;
+import org.jaxxy.test.JaxrsServerConfig;
+import org.jaxxy.test.JaxrsTestCase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;

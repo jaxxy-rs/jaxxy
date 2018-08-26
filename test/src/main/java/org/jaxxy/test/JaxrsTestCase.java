@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.jaxxy.rs.test;
+package org.jaxxy.test;
 
 import java.util.Collections;
 
@@ -30,7 +30,7 @@ import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
 import org.apache.cxf.jaxrs.client.JAXRSClientFactoryBean;
 import org.apache.cxf.jaxrs.lifecycle.SingletonResourceProvider;
 import org.apache.cxf.transport.http.asyncclient.AsyncHTTPConduit;
-import org.jaxxy.rs.util.reflect.Types;
+import org.jaxxy.util.reflect.Types;
 import org.junit.After;
 import org.junit.Before;
 

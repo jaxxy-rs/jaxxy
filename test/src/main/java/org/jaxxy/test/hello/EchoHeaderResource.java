@@ -14,12 +14,19 @@
  * limitations under the License.
  */
 
-package org.jaxxy.rs.util.reflect;
+package org.jaxxy.test.hello;
 
-import org.jaxxy.rs.util.exception.FormattedException;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 
-public class ReflectionException extends FormattedException {
-    public ReflectionException(Throwable cause, String message, Object... params) {
-        super(cause, message, params);
-    }
+import static javax.ws.rs.core.MediaType.TEXT_PLAIN;
+
+@Path("/")
+public interface EchoHeaderResource {
+
+    @Path("/echo")
+    @GET
+    @Produces(TEXT_PLAIN)
+    String echo();
 }

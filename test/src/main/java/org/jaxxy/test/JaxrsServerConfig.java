@@ -14,15 +14,8 @@
  * limitations under the License.
  */
 
-package org.jaxxy.rs.test.hello;
+package org.jaxxy.test;
 
-public class DefaultHelloResource implements HelloResource {
-//----------------------------------------------------------------------------------------------------------------------
-// HelloResource Implementation
-//----------------------------------------------------------------------------------------------------------------------
-
-    @Override
-    public String sayHello(String name) {
-        return String.format("Hello, %s!", name);
-    }
+public interface JaxrsServerConfig {
+    <P> JaxrsServerConfig withProvider(P provider);
 }
