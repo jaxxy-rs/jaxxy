@@ -69,11 +69,26 @@
         <junit.version>4.11</junit.version>
         <lombok.version>1.18.2</lombok.version>
         <mockito.version>2.21.0</mockito.version>
+        <servlet.api.version>3.1.0</servlet.api.version>
         <slf4j.version>1.7.25</slf4j.version>
 
     </properties>
 
+    <modules>
+        <module>util</module>
+        <module>jsonb</module>
+        <module>cors</module>
+        <module>cache</module>
+        <module>security</module>
+        <module>test</module>
+    </modules>
+
     <dependencies>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>javax.ws.rs</groupId>
             <artifactId>javax.ws.rs-api</artifactId>
@@ -132,6 +147,16 @@
                 <groupId>javax.ws.rs</groupId>
                 <artifactId>javax.ws.rs-api</artifactId>
                 <version>${jaxrs.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!--
+            Servlet API
+            -->
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>${servlet.api.version}</version>
                 <scope>provided</scope>
             </dependency>
 
@@ -235,13 +260,6 @@
         </dependencies>
     </dependencyManagement>
 
-    <modules>
-        <module>util</module>
-        <module>jsonb</module>
-        <module>cors</module>
-        <module>security</module>
-        <module>test</module>
-    </modules>
 
     <build>
         <pluginManagement>
