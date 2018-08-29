@@ -16,15 +16,11 @@
 
 package org.jaxxy.cors;
 
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 import javax.ws.rs.HttpMethod;
 import javax.ws.rs.container.ContainerRequestContext;
@@ -56,14 +52,6 @@ public class CorsFilter implements ContainerRequestFilter, ContainerResponseFilt
 //----------------------------------------------------------------------------------------------------------------------
 
     private static final String PREFLIGHT_FLAG_PROP = "CorsFilter.preflightFlag";
-    private static final Set<String> SIMPLE_RESPONSE_HEADERS = new HashSet<>(Arrays.asList(
-            "CACHE-CONTROL",
-            "CONTENT-LANGUAGE",
-            "CONTENT-TYPE",
-            "EXPIRES",
-            "LAST-MODIFIED",
-            "PRAGMA"
-    ));
 
     @Singular
     private final Set<String> allowedOrigins;
@@ -154,7 +142,7 @@ public class CorsFilter implements ContainerRequestFilter, ContainerResponseFilt
             log.warn("CORS pre-flight failed: method \"{}\".", method);
             return failedPreflight();
         }
-        final List<String> requestHeaders = request.getHeaders().getOrDefault(AccessControlHeaders.REQUEST_HEADERS, new LinkedList<>()).stream().filter(header -> !SIMPLE_RESPONSE_HEADERS.contains(header)).collect(Collectors.toList());
+        final List<String> requestHeaders = AccessControlHeaders.requestHeadersOf(request);
         final Optional<String> invalidHeader = requestHeaders.stream().filter(requestHeader -> !isWhitelisted(allowedHeaders, requestHeader.toUpperCase())).findFirst();
         if (invalidHeader.isPresent()) {
             log.warn("CORS pre-flight failed: header \"{}\".", invalidHeader.get());

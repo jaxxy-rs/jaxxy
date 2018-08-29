@@ -16,8 +16,16 @@
 
 package org.jaxxy.cors;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import javax.ws.rs.HttpMethod;
 import javax.ws.rs.container.ContainerRequestContext;
+import javax.ws.rs.core.HttpHeaders;
 
 class AccessControlHeaders {
 //----------------------------------------------------------------------------------------------------------------------
@@ -30,6 +38,7 @@ class AccessControlHeaders {
     static final String ORIGIN = "Origin";
     static final String REQUEST_METHOD = "Access-Control-Request-Method";
     static final String REQUEST_HEADERS = "Access-Control-Request-Headers";
+    static final String PRAGMA = "Pragma";
 
     //
     // Response Headers
@@ -41,16 +50,34 @@ class AccessControlHeaders {
     static final String ALLOW_HEADERS = "Access-Control-Allow-Headers";
     static final String ALLOW_ORIGIN = "Access-Control-Allow-Origin";
 
+
+    private static final Set<String> SIMPLE_RESPONSE_HEADERS = new HashSet<>(Arrays.asList(
+            HttpHeaders.CACHE_CONTROL,
+            HttpHeaders.CONTENT_LANGUAGE,
+            HttpHeaders.CONTENT_TYPE,
+            HttpHeaders.EXPIRES,
+            HttpHeaders.LAST_MODIFIED,
+            PRAGMA
+    ));
+
 //----------------------------------------------------------------------------------------------------------------------
-// Constructors
+// Static Methods
 //----------------------------------------------------------------------------------------------------------------------
 
-    private AccessControlHeaders() {
+    static List<String> requestHeadersOf(ContainerRequestContext request) {
+        return request.getHeaders().getOrDefault(REQUEST_HEADERS, new LinkedList<>()).stream().filter(header -> !SIMPLE_RESPONSE_HEADERS.contains(header)).collect(Collectors.toList());
     }
 
     static boolean isPreflight(ContainerRequestContext request) {
         return HttpMethod.OPTIONS.equals(request.getMethod()) &&
                 request.getHeaderString(ORIGIN) != null &&
                 request.getHeaderString(REQUEST_METHOD) != null;
+    }
+
+//----------------------------------------------------------------------------------------------------------------------
+// Constructors
+//----------------------------------------------------------------------------------------------------------------------
+
+    private AccessControlHeaders() {
     }
 }
