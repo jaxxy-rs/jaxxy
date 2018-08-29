@@ -16,7 +16,10 @@
 
 package org.jaxxy.cors;
 
-public class AccessControlHeaders {
+import javax.ws.rs.HttpMethod;
+import javax.ws.rs.container.ContainerRequestContext;
+
+class AccessControlHeaders {
 //----------------------------------------------------------------------------------------------------------------------
 // Fields
 //----------------------------------------------------------------------------------------------------------------------
@@ -24,24 +27,30 @@ public class AccessControlHeaders {
     //
     // Request Headers
     //
-    public static final String ORIGIN = "Origin";
-    public static final String REQUEST_METHOD = "Access-Control-Request-Method";
-    public static final String REQUEST_HEADERS = "Access-Control-Request-Headers";
+    static final String ORIGIN = "Origin";
+    static final String REQUEST_METHOD = "Access-Control-Request-Method";
+    static final String REQUEST_HEADERS = "Access-Control-Request-Headers";
 
     //
     // Response Headers
     //
-    public static final String EXPOSE_HEADERS = "Access-Control-Expose-Headers";
-    public static final String MAX_AGE = "Access-Control-Max-Age";
-    public static final String ALLOW_METHODS = "Access-Control-Allow-Methods";
-    public static final String ALLOW_CREDENTIALS = "Access-Control-Allow-Credentials";
-    public static final String ALLOW_HEADERS = "Access-Control-Allow-Headers";
-    public static final String ALLOW_ORIGIN = "Access-Control-Allow-Origin";
+    static final String EXPOSE_HEADERS = "Access-Control-Expose-Headers";
+    static final String MAX_AGE = "Access-Control-Max-Age";
+    static final String ALLOW_METHODS = "Access-Control-Allow-Methods";
+    static final String ALLOW_CREDENTIALS = "Access-Control-Allow-Credentials";
+    static final String ALLOW_HEADERS = "Access-Control-Allow-Headers";
+    static final String ALLOW_ORIGIN = "Access-Control-Allow-Origin";
 
 //----------------------------------------------------------------------------------------------------------------------
 // Constructors
 //----------------------------------------------------------------------------------------------------------------------
 
     private AccessControlHeaders() {
+    }
+
+    static boolean isPreflight(ContainerRequestContext request) {
+        return HttpMethod.OPTIONS.equals(request.getMethod()) &&
+                request.getHeaderString(ORIGIN) != null &&
+                request.getHeaderString(REQUEST_METHOD) != null;
     }
 }

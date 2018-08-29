@@ -65,8 +65,6 @@ public class CorsFilter implements ContainerRequestFilter, ContainerResponseFilt
             "PRAGMA"
     ));
 
-    private static final String HTTP_METHOD_OPTIONS = "OPTIONS";
-
     @Singular
     private final Set<String> allowedOrigins;
     @Singular
@@ -115,7 +113,7 @@ public class CorsFilter implements ContainerRequestFilter, ContainerResponseFilt
 
     @Override
     public void filter(ContainerRequestContext request) {
-        if (isPreflight(request)) {
+        if (AccessControlHeaders.isPreflight(request)) {
             log.debug("Handling pre-flight CORS request: {} {}", request.getMethod(), request.getUriInfo().getPath());
             request.abortWith(handlePreflight(request));
             request.setProperty(PREFLIGHT_FLAG_PROP, Boolean.TRUE);
@@ -186,9 +184,4 @@ public class CorsFilter implements ContainerRequestFilter, ContainerResponseFilt
         return Response.noContent().header(HttpHeaders.VARY, AccessControlHeaders.ORIGIN).build();
     }
 
-    static boolean isPreflight(ContainerRequestContext request) {
-        return HTTP_METHOD_OPTIONS.equals(request.getMethod()) &&
-                request.getHeaderString(AccessControlHeaders.ORIGIN) != null &&
-                request.getHeaderString(AccessControlHeaders.REQUEST_METHOD) != null;
-    }
 }

@@ -23,7 +23,6 @@ import java.util.concurrent.TimeUnit;
 
 import javax.ws.rs.HttpMethod;
 import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -35,12 +34,10 @@ import org.jaxxy.test.hello.HelloResource;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.jaxxy.cors.CorsFilter.isWhitelisted;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CorsFilterTest extends JaxrsTestCase<HelloResource> {
@@ -53,9 +50,6 @@ public class CorsFilterTest extends JaxrsTestCase<HelloResource> {
 //----------------------------------------------------------------------------------------------------------------------
 // Other Methods
 //----------------------------------------------------------------------------------------------------------------------
-
-    @Mock
-    private ContainerRequestContext requestContext;
 
     @Override
     protected void configureClient(JaxrsClientConfig config) {
@@ -175,18 +169,5 @@ public class CorsFilterTest extends JaxrsTestCase<HelloResource> {
         assertThat(isWhitelisted(Collections.singleton("bar"), "foo")).isFalse();
     }
 
-    @Test
-    public void testIsPreFlight() {
-        when(requestContext.getMethod()).thenReturn(HttpMethod.DELETE);
-        assertThat(CorsFilter.isPreflight(requestContext)).isFalse();
 
-        when(requestContext.getMethod()).thenReturn(HttpMethod.OPTIONS);
-        assertThat(CorsFilter.isPreflight(requestContext)).isFalse();
-
-        when(requestContext.getHeaderString(AccessControlHeaders.ORIGIN)).thenReturn(ALLOWED_ORIGIN);
-        assertThat(CorsFilter.isPreflight(requestContext)).isFalse();
-
-        when(requestContext.getHeaderString(AccessControlHeaders.REQUEST_METHOD)).thenReturn(HttpMethod.GET);
-        assertThat(CorsFilter.isPreflight(requestContext)).isTrue();
-    }
 }

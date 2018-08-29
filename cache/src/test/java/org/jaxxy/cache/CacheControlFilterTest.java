@@ -35,36 +35,26 @@ import static org.jaxxy.cache.CacheControlFilter.quoted;
 
 
 public class CacheControlFilterTest extends JaxrsTestCase<CacheableResource> {
-    @Override
-    protected CacheableResource createServiceObject() {
-        return new DefaultCacheableResource();
-    }
+//----------------------------------------------------------------------------------------------------------------------
+// Other Methods
+//----------------------------------------------------------------------------------------------------------------------
 
     @Override
     protected void configureServer(JaxrsServerConfig config) {
         config.withProvider(new PreconditionsResolver());
         config.withProvider(new CacheControlFilter(() -> {
-            CacheControl cc= new CacheControl();
+            CacheControl cc = new CacheControl();
             cc.setMaxAge(6000);
             cc.setNoTransform(true);
             return cc;
         }));
     }
 
-    @Test
-    public void shouldReturnWithNoPreconditions() {
-        assertThat(clientProxy().noPreconditions()).isEqualTo(DefaultCacheableResource.RESPONSE);
+    @Override
+    protected CacheableResource createServiceObject() {
+        return new DefaultCacheableResource();
     }
 
-    @Test
-    public void shouldReturnWhenEtagNoneMatch() {
-        final Response response = webTarget().path("eTag")
-                .request(MediaType.TEXT_PLAIN_TYPE)
-                .header(HttpHeaders.IF_NONE_MATCH, quoted("bogus"))
-                .get();
-        assertThat(response.getStatus()).isEqualTo(200);
-        assertThat(response.getHeaderString(HttpHeaders.ETAG)).isEqualTo(quoted(DefaultCacheableResource.E_TAG.getValue()));
-    }
     @Test
     public void should304WhenEtagMatches() {
         final Response response = webTarget().path("eTag")
@@ -101,17 +91,39 @@ public class CacheControlFilterTest extends JaxrsTestCase<CacheableResource> {
     }
 
     @Test
-    public void shouldPutSuccessfully() {
-        clientProxy().putNewMessage("foo");
-    }
-
-    @Test
     public void should412WhenIfModifiedSinceOnPut() {
         final Response response = webTarget().path("messages")
                 .request()
                 .header(HttpHeaders.IF_MATCH, quoted("*"))
                 .put(Entity.entity("foo", MediaType.TEXT_PLAIN_TYPE));
         assertThat(response.getStatus()).isEqualTo(412);
+    }
+
+    @Test
+    public void shouldPutSuccessfully() {
+        clientProxy().putNewMessage("foo");
+    }
+
+    @Test
+    public void shouldReturnWhenEtagNoneMatch() {
+        final Response response = webTarget().path("eTag")
+                .request(MediaType.TEXT_PLAIN_TYPE)
+                .header(HttpHeaders.IF_NONE_MATCH, quoted("bogus"))
+                .get();
+        assertThat(response.getStatus()).isEqualTo(200);
+        assertThat(response.getHeaderString(HttpHeaders.ETAG)).isEqualTo(quoted(DefaultCacheableResource.E_TAG.getValue()));
+    }
+
+    @Test
+    public void shouldReturnWhenEtagNoneMatchAndModifiedSince() {
+        final String lastMod = CacheControlFilter.httpDateFormat(Date.from(DefaultCacheableResource.LAST_MODIFIED_INSTANT.minus(1, ChronoUnit.DAYS)));
+        final Response response = webTarget().path("eTag")
+                .request(MediaType.TEXT_PLAIN_TYPE)
+                .header(HttpHeaders.IF_NONE_MATCH, quoted("bogus"))
+                .header(HttpHeaders.IF_MODIFIED_SINCE, lastMod)
+                .get();
+        assertThat(response.getStatus()).isEqualTo(200);
+        assertThat(response.getHeaderString(HttpHeaders.ETAG)).isEqualTo(quoted(DefaultCacheableResource.E_TAG.getValue()));
     }
 
     @Test
@@ -125,4 +137,8 @@ public class CacheControlFilterTest extends JaxrsTestCase<CacheableResource> {
         assertThat(response.getHeaderString(HttpHeaders.LAST_MODIFIED)).isEqualTo(httpDateFormat(DefaultCacheableResource.LAST_MODIFIED));
     }
 
+    @Test
+    public void shouldReturnWithNoPreconditions() {
+        assertThat(clientProxy().noPreconditions()).isEqualTo(DefaultCacheableResource.RESPONSE);
+    }
 }
