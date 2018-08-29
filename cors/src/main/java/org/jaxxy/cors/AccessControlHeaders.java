@@ -37,4 +37,11 @@ public class AccessControlHeaders {
     public static final String ALLOW_CREDENTIALS = "Access-Control-Allow-Credentials";
     public static final String ALLOW_HEADERS = "Access-Control-Allow-Headers";
     public static final String ALLOW_ORIGIN = "Access-Control-Allow-Origin";
+
+//----------------------------------------------------------------------------------------------------------------------
+// Constructors
+//----------------------------------------------------------------------------------------------------------------------
+
+    private AccessControlHeaders() {
+    }
 }
