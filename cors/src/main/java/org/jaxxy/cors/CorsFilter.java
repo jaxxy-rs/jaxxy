@@ -38,15 +38,18 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 
 import lombok.Builder;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Singular;
-import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 
-@Value
+
 @Provider
 @PreMatching
-@Slf4j
+@Getter
 @Builder
+@RequiredArgsConstructor
+@Slf4j
 public class CorsFilter implements ContainerRequestFilter, ContainerResponseFilter {
 //----------------------------------------------------------------------------------------------------------------------
 // Fields
