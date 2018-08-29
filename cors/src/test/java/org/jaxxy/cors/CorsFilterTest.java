@@ -19,9 +19,11 @@ package org.jaxxy.cors;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.concurrent.TimeUnit;
 
 import javax.ws.rs.HttpMethod;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -32,7 +34,15 @@ import org.jaxxy.test.hello.DefaultHelloResource;
 import org.jaxxy.test.hello.HelloResource;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.jaxxy.cors.CorsFilter.isWhitelisted;
+import static org.mockito.Mockito.when;
+
+@RunWith(MockitoJUnitRunner.class)
 public class CorsFilterTest extends JaxrsTestCase<HelloResource> {
 //----------------------------------------------------------------------------------------------------------------------
 // Fields
@@ -44,6 +54,9 @@ public class CorsFilterTest extends JaxrsTestCase<HelloResource> {
 // Other Methods
 //----------------------------------------------------------------------------------------------------------------------
 
+    @Mock
+    private ContainerRequestContext requestContext;
+
     @Override
     protected void configureClient(JaxrsClientConfig config) {
 
@@ -51,10 +64,12 @@ public class CorsFilterTest extends JaxrsTestCase<HelloResource> {
 
     @Override
     protected void configureServer(JaxrsServerConfig config) {
-        config.withProvider(CorsFilter.allowAll()
-                .allowedOrigins(Collections.singleton(ALLOWED_ORIGIN))
-                .allowedMethods(new HashSet<>(Arrays.asList("GET", "PUT", "POST")))
-                .allowedHeaders(Collections.singleton("Jaxxy-Foo"))
+        config.withProvider(CorsFilter.builder()
+                .allowedOrigin(ALLOWED_ORIGIN)
+                .allowedMethod("GET")
+                .allowedMethod("PUT")
+                .allowedMethod("POST")
+                .allowedHeader("Jaxxy-Foo")
                 .build());
     }
 
@@ -102,6 +117,17 @@ public class CorsFilterTest extends JaxrsTestCase<HelloResource> {
     }
 
     @Test
+    public void testPreflightCorsRequestWithNoOrigin() {
+        final WebTarget target = webTarget();
+        final Response response = target.path("hello").path("Jaxxy")
+                .request(MediaType.TEXT_PLAIN)
+                .header("Access-Control-Request-Method", HttpMethod.GET)
+                .options();
+        Assert.assertNull(response.getHeaderString("Access-Control-Allow-Origin"));
+        Assert.assertEquals("Origin", response.getHeaderString("Vary"));
+    }
+
+    @Test
     public void testPreflightCorsRequestWithInvalidOrigin() {
         final WebTarget target = webTarget();
         final Response response = target.path("hello").path("Jaxxy")
@@ -122,5 +148,45 @@ public class CorsFilterTest extends JaxrsTestCase<HelloResource> {
                 .get();
         Assert.assertEquals(ALLOWED_ORIGIN, response.getHeaderString("Access-Control-Allow-Origin"));
         Assert.assertEquals("Origin", response.getHeaderString("Vary"));
+    }
+
+    @Test
+    public void defaultFilter() {
+        CorsFilter filter = CorsFilter.defaultFilter().build();
+        assertThat(filter.getAllowedOrigins()).isEmpty();
+        assertThat(filter.getAllowedHeaders()).isEmpty();
+        assertThat(filter.getExposedHeaders()).isEmpty();
+        assertThat(filter.getAllowedMethods()).hasSize(5)
+                .contains("GET")
+                .contains("POST")
+                .contains("PUT")
+                .contains("DELETE")
+                .contains("HEAD");
+        assertThat(filter.isAllowCredentials()).isFalse();
+        assertThat(filter.getMaxAge()).isEqualTo(TimeUnit.DAYS.toSeconds(1));
+
+    }
+
+    @Test
+    public void testIsWhitelisted() {
+        assertThat(isWhitelisted(null, "foo")).isTrue();
+        assertThat(isWhitelisted(Collections.emptySet(), "foo")).isTrue();
+        assertThat(isWhitelisted(new HashSet<>(Arrays.asList("foo", "bar", "baz")), "foo")).isTrue();
+        assertThat(isWhitelisted(Collections.singleton("bar"), "foo")).isFalse();
+    }
+
+    @Test
+    public void testIsPreFlight() {
+        when(requestContext.getMethod()).thenReturn(HttpMethod.DELETE);
+        assertThat(CorsFilter.isPreflight(requestContext)).isFalse();
+
+        when(requestContext.getMethod()).thenReturn(HttpMethod.OPTIONS);
+        assertThat(CorsFilter.isPreflight(requestContext)).isFalse();
+
+        when(requestContext.getHeaderString(AccessControlHeaders.ORIGIN)).thenReturn(ALLOWED_ORIGIN);
+        assertThat(CorsFilter.isPreflight(requestContext)).isFalse();
+
+        when(requestContext.getHeaderString(AccessControlHeaders.REQUEST_METHOD)).thenReturn(HttpMethod.GET);
+        assertThat(CorsFilter.isPreflight(requestContext)).isTrue();
     }
 }
