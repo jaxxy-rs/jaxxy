@@ -21,6 +21,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 import javax.ws.rs.HttpMethod;
@@ -30,7 +31,7 @@ public class ResourceSharingPolicy {
 // Fields
 //----------------------------------------------------------------------------------------------------------------------
 
-    private static final String ALLOW_ALL = "*";
+    private static final String ALLOW_ALL = UUID.randomUUID().toString();
 
     private static final long ONE_DAY = TimeUnit.DAYS.toMinutes(1);
 
@@ -42,7 +43,7 @@ public class ResourceSharingPolicy {
     private long maxAge = ONE_DAY;
 
 //----------------------------------------------------------------------------------------------------------------------
-// Other Methods
+// Static Methods
 //----------------------------------------------------------------------------------------------------------------------
 
     public static ResourceSharingPolicy defaultPolicy() {
@@ -53,8 +54,64 @@ public class ResourceSharingPolicy {
                 .withMaxAge(1, TimeUnit.DAYS);
     }
 
-    public boolean isAllowedMethod(String method) {
-        return isWhitelisted(allowedMethods, method);
+//----------------------------------------------------------------------------------------------------------------------
+// Getter/Setter Methods
+//----------------------------------------------------------------------------------------------------------------------
+
+    public Set<String> getAllowedMethods() {
+        return allowedMethods;
+    }
+
+    public Set<String> getExposedHeaders() {
+        return exposedHeaders;
+    }
+
+    public long getMaxAge() {
+        return maxAge;
+    }
+
+    public boolean isAllowCredentials() {
+        return allowCredentials;
+    }
+
+//----------------------------------------------------------------------------------------------------------------------
+// Other Methods
+//----------------------------------------------------------------------------------------------------------------------
+
+    public ResourceSharingPolicy allowAllHeaders() {
+        return allowHeaders(ALLOW_ALL);
+    }
+
+    public ResourceSharingPolicy allowAllOrigins() {
+        return allowOrigins(ALLOW_ALL);
+    }
+
+    public ResourceSharingPolicy allowCredentials() {
+        this.allowCredentials = true;
+        return this;
+    }
+
+    public ResourceSharingPolicy allowHeaders(String... headers) {
+        allowedHeaders.addAll(Arrays.asList(headers));
+        return this;
+    }
+
+    public ResourceSharingPolicy allowMethods(String... methods) {
+        allowedMethods.addAll(Arrays.asList(methods));
+        return this;
+    }
+
+    public ResourceSharingPolicy allowOrigins(String... origins) {
+        allowedOrigins.addAll(Arrays.asList(origins));
+        return this;
+    }
+
+    public boolean allowsAllHeaders() {
+        return allowedHeaders.contains(ALLOW_ALL);
+    }
+
+    public boolean allowsAllOrigins() {
+        return allowedOrigins.contains(ALLOW_ALL);
     }
 
     public ResourceSharingPolicy exposeHeaders(String... headers) {
@@ -66,68 +123,20 @@ public class ResourceSharingPolicy {
         return allowedHeaders.containsAll(headers);
     }
 
-    public ResourceSharingPolicy withMaxAge(long duration, TimeUnit unit) {
-        this.maxAge = unit.toMinutes(duration);
-        return this;
+    public boolean isAllowedMethod(String method) {
+        return isWhitelisted(allowedMethods, method);
     }
 
-    public Set<String> getExposedHeaders() {
-        return exposedHeaders;
-    }
-
-    public boolean allowsAllOrigins() {
-        return allowedOrigins.contains(ALLOW_ALL);
-    }
-
-    public boolean allowsAllHeaders() {
-        return allowedHeaders.contains(ALLOW_ALL);
-    }
-
-    public ResourceSharingPolicy allowCredentials() {
-        this.allowCredentials = true;
-        return this;
-    }
-
-    public boolean isAllowCredentials() {
-        return allowCredentials;
-    }
-
-    public long getMaxAge() {
-        return maxAge;
-    }
-
-    public ResourceSharingPolicy allowMethods(String... methods) {
-        allowedMethods.addAll(Arrays.asList(methods));
-        return this;
-    }
-
-    public ResourceSharingPolicy allowAllHeaders() {
-        return allowHeaders(ALLOW_ALL);
-    }
-
-    public ResourceSharingPolicy allowAllOrigins() {
-        return allowOrigins(ALLOW_ALL);
-    }
-
-    public ResourceSharingPolicy allowHeaders(String... headers) {
-        allowedHeaders.addAll(Arrays.asList(headers));
-        return this;
-    }
-
-    public ResourceSharingPolicy allowOrigins(String... origins) {
-        allowedOrigins.addAll(Arrays.asList(origins));
-        return this;
-    }
-
-    public Set<String> getAllowedMethods() {
-        return allowedMethods;
+    private boolean isWhitelisted(Set<String> allowedValues, String value) {
+        return value != null && (allowedValues.contains(value) || allowedValues.contains(ALLOW_ALL));
     }
 
     public boolean isAllowedOrigin(String origin) {
         return isWhitelisted(allowedOrigins, origin);
     }
 
-    private boolean isWhitelisted(Set<String> allowedValues, String value) {
-        return value != null && (allowedValues.contains(value) || allowedValues.contains(ALLOW_ALL));
+    public ResourceSharingPolicy withMaxAge(long duration, TimeUnit unit) {
+        this.maxAge = unit.toMinutes(duration);
+        return this;
     }
 }

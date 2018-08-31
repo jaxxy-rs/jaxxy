@@ -20,6 +20,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
+import javax.ws.rs.HttpMethod;
+
 import org.junit.Test;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
@@ -67,6 +69,13 @@ public class ResourceSharingPolicyTest {
     }
 
     @Test
+    public void nullValuesShouldNeverBeWhitelisted() {
+        final ResourceSharingPolicy policy = new ResourceSharingPolicy()
+                .allowAllOrigins();
+        assertThat(policy.isAllowedOrigin(null)).isFalse();
+    }
+
+    @Test
     public void headersAllowedShouldBeTrueForSublists() {
         final ResourceSharingPolicy policy = new ResourceSharingPolicy();
 
@@ -107,6 +116,8 @@ public class ResourceSharingPolicyTest {
         assertThat(policy.allowsAllOrigins()).isFalse();
         policy.allowAllOrigins();
         assertThat(policy.allowsAllOrigins()).isTrue();
+        assertThat(policy.isAllowedOrigin("foo")).isTrue();
+        assertThat(policy.isAllowedOrigin("bar")).isTrue();
     }
 
     @Test
@@ -125,6 +136,34 @@ public class ResourceSharingPolicyTest {
         assertThat(policy.isAllowedOrigin(null)).isFalse();
         policy.allowAllOrigins();
         assertThat(policy.isAllowedOrigin(null)).isFalse();
+    }
+
+    @Test
+    public void allowedOriginShouldBeCaseSensitive() {
+        final ResourceSharingPolicy policy = new ResourceSharingPolicy()
+                .allowOrigins("foo");
+        assertThat(policy.isAllowedOrigin("foo")).isTrue();
+        assertThat(policy.isAllowedOrigin("Foo")).isFalse();
+        assertThat(policy.isAllowedOrigin("FOO")).isFalse();
+    }
+
+    @Test
+    public void allowedMethodShouldBeCaseSensitive() {
+        final ResourceSharingPolicy policy = new ResourceSharingPolicy()
+                .allowMethods(HttpMethod.GET);
+        assertThat(policy.isAllowedMethod("GET")).isTrue();
+        assertThat(policy.isAllowedMethod("get")).isFalse();
+        assertThat(policy.isAllowedMethod("Get")).isFalse();
+    }
+
+    @Test
+    public void specificValuesShouldBeWhitelisted() {
+        final ResourceSharingPolicy policy = new ResourceSharingPolicy()
+                .allowOrigins("foo", "bar");
+
+        assertThat(policy.isAllowedOrigin("foo")).isTrue();
+        assertThat(policy.isAllowedOrigin("bar")).isTrue();
+        assertThat(policy.isAllowedOrigin("baz")).isFalse();
     }
 
 }
