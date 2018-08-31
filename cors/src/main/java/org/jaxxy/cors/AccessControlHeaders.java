@@ -18,14 +18,15 @@ package org.jaxxy.cors;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.ws.rs.HttpMethod;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.Response;
 
 class AccessControlHeaders {
 //----------------------------------------------------------------------------------------------------------------------
@@ -38,7 +39,6 @@ class AccessControlHeaders {
     static final String ORIGIN = "Origin";
     static final String REQUEST_METHOD = "Access-Control-Request-Method";
     static final String REQUEST_HEADERS = "Access-Control-Request-Headers";
-    static final String PRAGMA = "Pragma";
 
     //
     // Response Headers
@@ -51,27 +51,38 @@ class AccessControlHeaders {
     static final String ALLOW_ORIGIN = "Access-Control-Allow-Origin";
 
 
-    private static final Set<String> SIMPLE_RESPONSE_HEADERS = new HashSet<>(Arrays.asList(
-            HttpHeaders.CACHE_CONTROL,
-            HttpHeaders.CONTENT_LANGUAGE,
-            HttpHeaders.CONTENT_TYPE,
-            HttpHeaders.EXPIRES,
-            HttpHeaders.LAST_MODIFIED,
-            PRAGMA
+    private static final Set<String> SIMPLE_METHODS = new HashSet<>(Arrays.asList(
+       HttpMethod.GET,
+       HttpMethod.HEAD,
+       HttpMethod.POST
     ));
+
+    private static final Set<String> SIMPLE_HEADERS = Stream.of(
+            HttpHeaders.ACCEPT,
+            HttpHeaders.ACCEPT_LANGUAGE,
+            HttpHeaders.CONTENT_LANGUAGE
+    ).collect(Collectors.toCollection(() -> new TreeSet<>(String::compareToIgnoreCase)));
 
 //----------------------------------------------------------------------------------------------------------------------
 // Static Methods
 //----------------------------------------------------------------------------------------------------------------------
 
-    static List<String> requestHeadersOf(ContainerRequestContext request) {
-        return request.getHeaders().getOrDefault(REQUEST_HEADERS, new LinkedList<>()).stream().filter(header -> !SIMPLE_RESPONSE_HEADERS.contains(header)).collect(Collectors.toList());
-    }
-
     static boolean isPreflight(ContainerRequestContext request) {
         return HttpMethod.OPTIONS.equals(request.getMethod()) &&
                 request.getHeaderString(ORIGIN) != null &&
                 request.getHeaderString(REQUEST_METHOD) != null;
+    }
+
+    static Response failedPreflight() {
+        return Response.noContent().header(HttpHeaders.VARY, ORIGIN).build();
+    }
+
+    static boolean isSimpleMethod(String method) {
+        return SIMPLE_METHODS.contains(method);
+    }
+
+    static boolean isSimpleHeader(String header) {
+        return SIMPLE_HEADERS.contains(header);
     }
 
 //----------------------------------------------------------------------------------------------------------------------

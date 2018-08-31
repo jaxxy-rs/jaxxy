@@ -19,31 +19,29 @@ package org.jaxxy.cors;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
-import javax.ws.rs.HttpMethod;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.ContainerResponseContext;
 import javax.ws.rs.container.ContainerResponseFilter;
 import javax.ws.rs.container.PreMatching;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
 
-import lombok.Builder;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.Singular;
 import lombok.extern.slf4j.Slf4j;
+
+import static org.jaxxy.cors.AccessControlHeaders.failedPreflight;
+import static org.jaxxy.cors.AccessControlHeaders.isPreflight;
+import static org.jaxxy.cors.AccessControlHeaders.isSimpleHeader;
+import static org.jaxxy.cors.AccessControlHeaders.isSimpleMethod;
 
 
 @Provider
 @PreMatching
-@Getter
-@Builder
 @RequiredArgsConstructor
 @Slf4j
 public class CorsFilter implements ContainerRequestFilter, ContainerResponseFilter {
@@ -53,47 +51,10 @@ public class CorsFilter implements ContainerRequestFilter, ContainerResponseFilt
 
     private static final String PREFLIGHT_FLAG_PROP = "CorsFilter.preflightFlag";
 
-    @Singular
-    private final Set<String> allowedOrigins;
-    @Singular
-    private final Set<String> allowedMethods;
-    @Singular
-    private final Set<String> allowedHeaders;
-    @Singular
-    private final Set<String> exposedHeaders;
-    private final boolean allowCredentials;
-    private final long maxAge;
+    private final ResourceSharingPolicy policy;
 
-//----------------------------------------------------------------------------------------------------------------------
-// Static Methods
-//----------------------------------------------------------------------------------------------------------------------
-
-    /**
-     * A factory method to return a filter configured with sensible defaults:
-     * <ul>
-     * <li>allowedOrigins = {}</li>
-     * <li>allowedMethods = {"GET", "POST", "PUT", "DELETE", "HEAD"}</li>
-     * <li>allowCredentials = false</li>
-     * <li>allowedHeaders = {}</li>
-     * <li>exposedHeaders = {}</li>
-     * <li>maxAge = 1 day (in seconds)</li>
-     * </ul>
-     *
-     * @return the filter
-     */
-    public static CorsFilter.CorsFilterBuilder defaultFilter() {
-        return builder()
-                .allowedOrigins(Collections.emptySet())
-                .allowedMethod(HttpMethod.GET)
-                .allowedMethod(HttpMethod.POST)
-                .allowedMethod(HttpMethod.PUT)
-                .allowedMethod(HttpMethod.DELETE)
-                .allowedMethod(HttpMethod.HEAD)
-                .allowCredentials(false)
-                .allowedHeaders(Collections.emptySet())
-                .exposedHeaders(Collections.emptySet())
-                .maxAge(TimeUnit.DAYS.toSeconds(1));
-    }
+    @Context
+    private HttpHeaders headers;
 
 //----------------------------------------------------------------------------------------------------------------------
 // ContainerRequestFilter Implementation
@@ -101,7 +62,7 @@ public class CorsFilter implements ContainerRequestFilter, ContainerResponseFilt
 
     @Override
     public void filter(ContainerRequestContext request) {
-        if (AccessControlHeaders.isPreflight(request)) {
+        if (isPreflight(request)) {
             log.debug("Handling pre-flight CORS request: {} {}", request.getMethod(), request.getUriInfo().getPath());
             request.abortWith(handlePreflight(request));
             request.setProperty(PREFLIGHT_FLAG_PROP, Boolean.TRUE);
@@ -115,15 +76,17 @@ public class CorsFilter implements ContainerRequestFilter, ContainerResponseFilt
     @Override
     public void filter(ContainerRequestContext request, ContainerResponseContext response) {
         if (!Boolean.TRUE.equals(request.getProperty(PREFLIGHT_FLAG_PROP))) {
-            final MultivaluedMap<String, Object> headers = response.getHeaders();
+            final MultivaluedMap<String, Object> responseHeaders = response.getHeaders();
             final String origin = request.getHeaderString(AccessControlHeaders.ORIGIN);
-            if (origin != null && isAllowedOrigin(origin)) {
+            responseHeaders.add(HttpHeaders.VARY, AccessControlHeaders.ORIGIN);
+            if (policy.isAllowedOrigin(origin)) {
                 log.debug("Handling simple CORS request: {} {}", request.getMethod(), request.getUriInfo().getPath());
-                exposedHeaders.forEach(header -> headers.add(AccessControlHeaders.EXPOSE_HEADERS, header));
-                headers.add(AccessControlHeaders.ALLOW_ORIGIN, origin);
-                headers.add(AccessControlHeaders.ALLOW_CREDENTIALS, String.valueOf(allowCredentials));
+                policy.getExposedHeaders().forEach(header -> responseHeaders.add(AccessControlHeaders.EXPOSE_HEADERS, header));
+                responseHeaders.add(AccessControlHeaders.ALLOW_ORIGIN, origin);
+                if (policy.isAllowCredentials()) {
+                    responseHeaders.add(AccessControlHeaders.ALLOW_CREDENTIALS, true);
+                }
             }
-            headers.add(HttpHeaders.VARY, AccessControlHeaders.ORIGIN);
         }
     }
 
@@ -132,44 +95,37 @@ public class CorsFilter implements ContainerRequestFilter, ContainerResponseFilt
 //----------------------------------------------------------------------------------------------------------------------
 
     private Response handlePreflight(ContainerRequestContext request) {
-        final String origin = request.getHeaderString(AccessControlHeaders.ORIGIN);
-        if (!isAllowedOrigin(origin)) {
-            log.warn("CORS pre-flight failed: origin \"{}\".", origin);
+        final String origin = headers.getHeaderString(AccessControlHeaders.ORIGIN);
+        if (!policy.isAllowedOrigin(origin)) {
             return failedPreflight();
         }
-        final String method = request.getHeaderString(AccessControlHeaders.REQUEST_METHOD);
-        if (!isWhitelisted(allowedMethods, method)) {
-            log.warn("CORS pre-flight failed: method \"{}\".", method);
+
+        final String method = headers.getHeaderString(AccessControlHeaders.REQUEST_METHOD);
+        if (!policy.isAllowedMethod(method)) {
             return failedPreflight();
         }
-        final List<String> requestHeaders = AccessControlHeaders.requestHeadersOf(request);
-        final Optional<String> invalidHeader = requestHeaders.stream().filter(requestHeader -> !isWhitelisted(allowedHeaders, requestHeader.toUpperCase())).findFirst();
-        if (invalidHeader.isPresent()) {
-            log.warn("CORS pre-flight failed: header \"{}\".", invalidHeader.get());
+
+        final List<String> requestHeaders = Optional.ofNullable(headers.getRequestHeader(AccessControlHeaders.REQUEST_HEADERS)).orElse(Collections.emptyList());
+        if (!policy.headersAllowed(requestHeaders)) {
             return failedPreflight();
         }
+
         final Response.ResponseBuilder builder = Response.noContent();
         builder.header(HttpHeaders.VARY, AccessControlHeaders.ORIGIN);
         builder.header(AccessControlHeaders.ALLOW_ORIGIN, origin);
-        builder.header(AccessControlHeaders.ALLOW_CREDENTIALS, String.valueOf(allowCredentials));
-        builder.header(AccessControlHeaders.MAX_AGE, String.valueOf(maxAge));
-        allowedMethods.forEach(allowedMethod -> builder.header(AccessControlHeaders.ALLOW_METHODS, allowedMethod));
-        requestHeaders.forEach(requestHeader -> builder.header(AccessControlHeaders.ALLOW_HEADERS, requestHeader));
+        if (policy.isAllowCredentials()) {
+            builder.header(AccessControlHeaders.ALLOW_CREDENTIALS, true);
+        }
+        builder.header(AccessControlHeaders.MAX_AGE, policy.getMaxAge());
+
+        policy.getAllowedMethods().stream()
+                .filter(m -> !isSimpleMethod(m))
+                .forEach(m -> builder.header(AccessControlHeaders.ALLOW_METHODS, m));
+
+        requestHeaders.stream()
+                .filter(h -> !isSimpleHeader(h))
+                .forEach(h -> builder.header(AccessControlHeaders.ALLOW_HEADERS, h));
+
         return builder.build();
     }
-
-    private boolean isAllowedOrigin(String origin) {
-        return isWhitelisted(allowedOrigins, origin);
-    }
-
-    static boolean isWhitelisted(Set<String> acceptedValues, String value) {
-        return acceptedValues == null ||
-                acceptedValues.isEmpty() ||
-                acceptedValues.contains(value);
-    }
-
-    private Response failedPreflight() {
-        return Response.noContent().header(HttpHeaders.VARY, AccessControlHeaders.ORIGIN).build();
-    }
-
 }

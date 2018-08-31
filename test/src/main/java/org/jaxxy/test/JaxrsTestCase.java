@@ -36,11 +36,12 @@ import org.junit.Before;
 
 @Slf4j
 public abstract class JaxrsTestCase<I> {
-//----------------------------------------------------------------------------------------------------------------------
+    //----------------------------------------------------------------------------------------------------------------------
 // Fields
 //----------------------------------------------------------------------------------------------------------------------
 
     private static final int DEFAULT_PORT = 9999;
+    public static final String SPLIT_HEADERS_PROP = "org.apache.cxf.http.header.split";
     private Server server;
     private String address;
 
@@ -104,6 +105,7 @@ public abstract class JaxrsTestCase<I> {
         factory.setAddress(address);
         factory.setProviders(config.getProviders());
         factory.setFeatures(Collections.singletonList(new LoggingFeature()));
+        factory.getProperties(true).put(SPLIT_HEADERS_PROP, true);
         this.server = factory.create();
     }
 
@@ -115,6 +117,7 @@ public abstract class JaxrsTestCase<I> {
 
     public WebTarget webTarget() {
         final Client client = ClientBuilder.newClient();
+        client.property(SPLIT_HEADERS_PROP, true);
         createClientConfig().getProviders().forEach(client::register);
         return client
                 .target(address)
