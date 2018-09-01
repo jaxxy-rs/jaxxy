@@ -32,6 +32,7 @@
 
     <packaging>pom</packaging>
     <name>Jaxxy</name>
+    <inceptionYear>2018</inceptionYear>
 
     <licenses>
         <license>
@@ -43,9 +44,9 @@
     </licenses>
 
     <scm>
-        <url>https://github.com/jwcarman/jaxxy</url>
-        <connection>scm:git:git@github.com:jwcarman/jaxxy.git</connection>
-        <developerConnection>scm:git:git@github.com:jwcarman/jaxxy.git</developerConnection>
+        <url>https://github.com/jaxxy-rs/jaxxy</url>
+        <connection>scm:git:git@github.com:jaxxy-rs/jaxxy.git</connection>
+        <developerConnection>scm:git:git@github.com:jaxxy-rs/jaxxy.git</developerConnection>
     </scm>
 
     <properties>
@@ -80,6 +81,7 @@
         <module>cors</module>
         <module>cache</module>
         <module>security</module>
+        <module>logging</module>
         <module>test</module>
     </modules>
 
