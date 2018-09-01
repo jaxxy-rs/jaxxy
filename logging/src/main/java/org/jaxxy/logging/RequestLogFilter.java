@@ -51,10 +51,10 @@ public class RequestLogFilter implements ContainerRequestFilter, ContainerRespon
     private final Logger logger = LoggerFactory.getLogger(RequestLogFilter.class);
 
     @Builder.Default
-    private final String elapsedTimeHeader = DEFAULT_ELAPSED_TIME_HEADER;
+    private String elapsedTimeHeader = DEFAULT_ELAPSED_TIME_HEADER;
 
     @Builder.Default
-    private final TimeUnit elapsedTimeUnit = TimeUnit.SECONDS;
+    private TimeUnit elapsedTimeUnit = TimeUnit.SECONDS;
 
     @Getter(value= AccessLevel.PRIVATE, lazy=true)
     private final double divisor = TimeUnit.NANOSECONDS.convert(1, elapsedTimeUnit);
