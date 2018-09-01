@@ -1,5 +1,5 @@
 # Jaxxy
-[![Build Status](https://travis-ci.org/jwcarman/jaxxy.svg?branch=master)](https://travis-ci.org/jwcarman/jaxxy)
+[![Build Status](https://travis-ci.org/jaxxy-rs/jaxxy.svg?branch=master)](https://travis-ci.org/jwcarman/jaxxy)
 [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=org.jaxxy%3Ajaxxy&metric=alert_status)](https://sonarcloud.io/dashboard?id=org.jaxxy%3Ajaxxy)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=org.jaxxy%3Ajaxxy&metric=coverage)](https://sonarcloud.io/dashboard?id=org.jaxxy%3Ajaxxy)
 [![Maintainability](https://sonarcloud.io/api/project_badges/measure?project=org.jaxxy%3Ajaxxy&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=org.jaxxy%3Ajaxxy)
