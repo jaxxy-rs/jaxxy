@@ -44,6 +44,7 @@ public class DefaultLoggingContextTest {
                 .requestContext(requestContext)
                 .resourceInfo(resourceInfo)
                 .build();
+        MDC.clear();
     }
 
     @Test
@@ -55,11 +56,18 @@ public class DefaultLoggingContextTest {
     public void shouldReturnResourceInfo() {
 
     }
+
     @Test
     public void putShouldAddToMdc() {
         context.put("foo", "bar");
         assertThat(MDC.get("foo")).isEqualTo("bar");
         context.cleanup();
         assertThat(MDC.get("foo")).isNull();
+    }
+
+    @Test
+    public void putWithNullValueShouldDoNothing() {
+        context.put("foo", null);
+        assertThat(MDC.getCopyOfContextMap()).isNullOrEmpty();
     }
 }
