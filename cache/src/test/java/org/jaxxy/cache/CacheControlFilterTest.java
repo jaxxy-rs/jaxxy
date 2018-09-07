@@ -117,7 +117,7 @@ public class CacheControlFilterTest extends JaxrsTestCase<CacheableResource> {
     @Test
     public void shouldReturnWhenEtagNoneMatchAndModifiedSince() {
         final String lastMod = CacheControlFilter.httpDateFormat(Date.from(DefaultCacheableResource.LAST_MODIFIED_INSTANT.minus(1, ChronoUnit.DAYS)));
-        final Response response = webTarget().path("eTag")
+        final Response response = webTarget().path("eTagAndLastModified")
                 .request(MediaType.TEXT_PLAIN_TYPE)
                 .header(HttpHeaders.IF_NONE_MATCH, quoted("bogus"))
                 .header(HttpHeaders.IF_MODIFIED_SINCE, lastMod)
