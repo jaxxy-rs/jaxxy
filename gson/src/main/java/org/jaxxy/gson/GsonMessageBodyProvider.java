@@ -16,6 +16,8 @@
 
 package org.jaxxy.gson;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -27,7 +29,6 @@ import java.nio.charset.StandardCharsets;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyReader;
@@ -52,7 +53,7 @@ public class GsonMessageBodyProvider implements MessageBodyReader<Object>, Messa
 //----------------------------------------------------------------------------------------------------------------------
 
     @Builder.Default
-    private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    private final Gson gson = new GsonBuilder().create();
 
 //----------------------------------------------------------------------------------------------------------------------
 // MessageBodyReader Implementation
@@ -65,8 +66,8 @@ public class GsonMessageBodyProvider implements MessageBodyReader<Object>, Messa
     }
 
     @Override
-    public Object readFrom(Class<Object> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, String> httpHeaders, InputStream entityStream) throws IOException, WebApplicationException {
-        InputStreamReader reader = new InputStreamReader(entityStream, StandardCharsets.UTF_8);
+    public Object readFrom(Class<Object> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, String> httpHeaders, InputStream entityStream) {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(entityStream, StandardCharsets.UTF_8));
         return gson.fromJson(reader, genericType);
     }
 
@@ -80,8 +81,8 @@ public class GsonMessageBodyProvider implements MessageBodyReader<Object>, Messa
     }
 
     @Override
-    public void writeTo(Object o, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream) throws IOException, WebApplicationException {
-        final OutputStreamWriter writer = new OutputStreamWriter(entityStream, StandardCharsets.UTF_8);
+    public void writeTo(Object o, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream) throws IOException {
+        final BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(entityStream, StandardCharsets.UTF_8));
         gson.toJson(o, genericType, writer);
         writer.flush();
     }
