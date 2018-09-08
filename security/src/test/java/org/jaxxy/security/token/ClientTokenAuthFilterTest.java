@@ -33,7 +33,10 @@ public class ClientTokenAuthFilterTest extends JaxrsTestCase<EchoHeaderResource>
 
     @Override
     protected void configureClient(JaxrsClientConfig config) {
-        config.withProvider(new ClientTokenAuthFilter(() -> "FooBarBaz"));
+        config.withProvider(ClientTokenAuthFilter.builder()
+                .tokenSupplier(() -> "FooBarBaz")
+                .build());
+
     }
 
     @Override
@@ -42,7 +45,7 @@ public class ClientTokenAuthFilterTest extends JaxrsTestCase<EchoHeaderResource>
     }
 
     @Test
-    public void testFilter(){
+    public void testFilter() {
         assertThat(clientProxy().echo()).isEqualTo("Bearer FooBarBaz");
     }
 }

@@ -49,7 +49,7 @@ public class JwtTokenTest extends JaxrsTestCase<HelloResource> {
     @Override
     protected void configureClient(JaxrsClientConfig config) {
         final String token = JWT.create()
-                .withIssuer("cengage")
+                .withIssuer("jaxxy")
                 .sign(algorithm);
         config.withProvider(new ClientTokenAuthFilter(() -> token));
     }
@@ -57,7 +57,7 @@ public class JwtTokenTest extends JaxrsTestCase<HelloResource> {
     @Override
     protected void configureServer(JaxrsServerConfig config) {
         JWTVerifier verifier = JWT.require(algorithm)
-                .withIssuer("cengage")
+                .withIssuer("jaxxy")
                 .build();
         config.withProvider(new ContainerTokenAuthFilter(new JwtTokenAuthenticator(verifier)));
     }
@@ -76,20 +76,13 @@ public class JwtTokenTest extends JaxrsTestCase<HelloResource> {
 // Inner Classes
 //----------------------------------------------------------------------------------------------------------------------
 
+    @RequiredArgsConstructor
     private static class JwtSecurityContext implements SecurityContext {
 //----------------------------------------------------------------------------------------------------------------------
 // Fields
 //----------------------------------------------------------------------------------------------------------------------
 
         private final DecodedJWT jwt;
-
-//----------------------------------------------------------------------------------------------------------------------
-// Constructors
-//----------------------------------------------------------------------------------------------------------------------
-
-        public JwtSecurityContext(DecodedJWT jwt) {
-            this.jwt = jwt;
-        }
 
 //----------------------------------------------------------------------------------------------------------------------
 // SecurityContext Implementation

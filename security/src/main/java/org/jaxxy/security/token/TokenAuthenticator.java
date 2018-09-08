@@ -18,11 +18,20 @@ package org.jaxxy.security.token;
 
 import javax.ws.rs.core.SecurityContext;
 
+/**
+ * A TokenAuthenticator is responsible for creating a {@link SecurityContext} given a token header value.
+ */
 @FunctionalInterface
 public interface TokenAuthenticator {
 //----------------------------------------------------------------------------------------------------------------------
 // Other Methods
 //----------------------------------------------------------------------------------------------------------------------
 
+    /**
+     * Creates a {@link SecurityContext} for the given token value.
+     *
+     * @param token the token value
+     * @return the security context
+     */
     SecurityContext authenticate(String token);
 }

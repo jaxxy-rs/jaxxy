@@ -25,13 +25,15 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.ext.Provider;
 
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 
 import static java.util.Optional.ofNullable;
 
 @Provider
 @Priority(Priorities.AUTHENTICATION)
-@RequiredArgsConstructor
+@Builder
+@AllArgsConstructor
 public class ContainerTokenAuthFilter implements ContainerRequestFilter {
 //----------------------------------------------------------------------------------------------------------------------
 // Fields
@@ -50,14 +52,12 @@ public class ContainerTokenAuthFilter implements ContainerRequestFilter {
 
     @Override
     public void filter(ContainerRequestContext request) {
-        final String authHeader = ofNullable(request.getHeaderString(HttpHeaders.AUTHORIZATION))
+        final SecurityContext securityContext = ofNullable(request.getHeaderString(HttpHeaders.AUTHORIZATION))
+                .filter(header -> header.startsWith(HEADER_PREFIX))
+                .map(header -> header.substring(HEADER_PREFIX_LENGTH))
+                .map(authenticator::authenticate)
                 .orElseThrow(() -> new NotAuthorizedException(BEARER_SCHEME));
-        if (!authHeader.startsWith(HEADER_PREFIX)) {
-            throw new NotAuthorizedException(BEARER_SCHEME);
-        }
-        final String token = authHeader.substring(HEADER_PREFIX_LENGTH);
-        final SecurityContext context = ofNullable(authenticator.authenticate(token))
-                .orElseThrow(() -> new NotAuthorizedException(BEARER_SCHEME));
-        request.setSecurityContext(context);
+
+        request.setSecurityContext(securityContext);
     }
 }

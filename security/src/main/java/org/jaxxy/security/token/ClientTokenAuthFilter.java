@@ -25,11 +25,13 @@ import javax.ws.rs.client.ClientRequestFilter;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.ext.Provider;
 
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 
 @Provider
 @Priority(Priorities.HEADER_DECORATOR)
-@RequiredArgsConstructor
+@Builder
+@AllArgsConstructor
 public class ClientTokenAuthFilter implements ClientRequestFilter {
 //----------------------------------------------------------------------------------------------------------------------
 // Fields
