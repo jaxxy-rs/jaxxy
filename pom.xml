@@ -55,6 +55,13 @@
         <maven.compiler.target>1.8</maven.compiler.target>
 
         <sonar.exclusions>/src/main/java/org/jaxxy/test/**/*</sonar.exclusions>
+
+        <!--
+        Maven Plugins
+        -->
+        <os.maven.plugin.version>1.6.0</os.maven.plugin.version>
+        <protobuf.maven.plugin.version>0.5.1</protobuf.maven.plugin.version>
+
         <!--
         Dependencies
         -->
@@ -71,20 +78,25 @@
         <junit.version>4.11</junit.version>
         <lombok.version>1.18.2</lombok.version>
         <mockito.version>2.21.0</mockito.version>
+        <protobuf.version>3.6.1</protobuf.version>
         <servlet.api.version>3.1.0</servlet.api.version>
         <slf4j.version>1.7.25</slf4j.version>
 
     </properties>
 
     <modules>
-        <module>util</module>
-        <module>jsonb</module>
-        <module>cors</module>
+
+
         <module>cache</module>
-        <module>security</module>
-        <module>logging</module>
+        <module>cors</module>
         <module>gson</module>
+        <module>io</module>
+        <module>jsonb</module>
+        <module>logging</module>
+        <module>protobuf</module>
+        <module>security</module>
         <module>test</module>
+        <module>util</module>
     </modules>
 
     <dependencies>
@@ -232,6 +244,11 @@
                 <version>${commons.lang3.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.google.protobuf</groupId>
+                <artifactId>protobuf-java</artifactId>
+                <version>${protobuf.version}</version>
+            </dependency>
 
             <!--
             Testing

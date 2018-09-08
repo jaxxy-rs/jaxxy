@@ -1,0 +1,13 @@
+syntax = "proto2";
+
+
+package org.jaxxy.protobuf.example;
+
+option java_package = "org.jaxxy.protobuf";
+option java_outer_classname = "PersonProtos";
+
+message Person {
+    required string id = 1;
+    required string firstName = 2;
+    required string lastName = 3;
+}

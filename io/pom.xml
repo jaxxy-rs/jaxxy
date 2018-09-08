@@ -26,9 +26,9 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>jaxxy-gson</artifactId>
+    <artifactId>jaxxy-io</artifactId>
 
-    <name>Jaxxy :: GSON Provider</name>
+    <name>Jaxxy :: I/O Providers</name>
 
     <dependencies>
 
@@ -38,13 +38,8 @@
         </dependency>
 
         <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>org.jaxxy</groupId>
-            <artifactId>jaxxy-io</artifactId>
+            <artifactId>jaxxy-util</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 

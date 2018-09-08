@@ -14,31 +14,18 @@
  * limitations under the License.
  */
 
-package org.jaxxy.gson;
+package org.jaxxy.protobuf;
 
-import java.util.List;
-
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
-@Produces("application/vnd.jaxxy.person+json;charset=iso-8859-1")
-@Consumes("application/vnd.jaxxy.person+json;charset=iso-8859-1")
+
 @Path("/")
-public interface PersonResource {
-
-    @Path("/persons")
+public interface PersonResource  {
     @GET
-    List<Person> getAll();
-
     @Path("/persons/{id}")
-    @GET
-    Person getPerson(@PathParam("id") String id);
-
-    @Path("/persons")
-    @POST
-    void createPerson(Person person);
+    @Produces("application/protobuf")
+    PersonProtos.Person getPerson(@PathParam("id") String id);
 }

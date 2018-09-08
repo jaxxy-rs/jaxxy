@@ -17,38 +17,30 @@
 package org.jaxxy.jsonb;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.Reader;
+import java.io.Writer;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
-import java.nio.charset.StandardCharsets;
 
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.ext.MessageBodyReader;
-import javax.ws.rs.ext.MessageBodyWriter;
-import javax.ws.rs.ext.Provider;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import org.jaxxy.io.json.JsonMessageBodyProvider;
 
 /**
  * Supports reading/writing JSON bodies using the Java API for JSON Binding (JSON-B).
  *
  * @see <a href="https://jcp.org/en/jsr/detail?id=367">JSR 367</a>
  */
-@Provider
-@Produces(MediaType.APPLICATION_JSON)
-@Consumes(MediaType.APPLICATION_JSON)
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class JsonbMessageBodyProvider implements MessageBodyReader<Object>, MessageBodyWriter<Object> {
+public class JsonbMessageBodyProvider extends JsonMessageBodyProvider<Object> {
 //----------------------------------------------------------------------------------------------------------------------
 // Fields
 //----------------------------------------------------------------------------------------------------------------------
@@ -57,31 +49,16 @@ public class JsonbMessageBodyProvider implements MessageBodyReader<Object>, Mess
     private final Jsonb jsonb = JsonbBuilder.create();
 
 //----------------------------------------------------------------------------------------------------------------------
-// MessageBodyReader Implementation
+// Other Methods
 //----------------------------------------------------------------------------------------------------------------------
 
     @Override
-    public boolean isReadable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
-        return true;
+    protected Object readFrom(Class<Object> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, String> httpHeaders, Reader reader) throws IOException {
+        return jsonb.fromJson(reader, genericType);
     }
 
     @Override
-    public Object readFrom(Class<Object> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, String> httpHeaders, InputStream entityStream) {
-        return jsonb.fromJson(entityStream, genericType);
-    }
-
-//----------------------------------------------------------------------------------------------------------------------
-// MessageBodyWriter Implementation
-//----------------------------------------------------------------------------------------------------------------------
-
-    @Override
-    public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
-        return true;
-    }
-
-    @Override
-    public void writeTo(Object o, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream) throws IOException {
-        final String json = jsonb.toJson(o);
-        entityStream.write(json.getBytes(StandardCharsets.UTF_8));
+    protected void writeTo(Object o, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, Object> httpHeaders, Writer writer) throws IOException {
+        jsonb.toJson(o, genericType, writer);
     }
 }

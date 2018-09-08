@@ -14,47 +14,39 @@
  * limitations under the License.
  */
 
-package org.jaxxy.gson;
+package org.jaxxy.io;
 
-import java.io.Reader;
-import java.io.Writer;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.ext.Provider;
+import javax.ws.rs.ext.MessageBodyReader;
+import javax.ws.rs.ext.MessageBodyWriter;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import org.jaxxy.io.json.JsonMessageBodyProvider;
+import org.jaxxy.util.reflect.Types;
 
-@Provider
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class GsonMessageBodyProvider extends JsonMessageBodyProvider<Object> {
+public abstract class MessageBodyProvider<T> implements MessageBodyReader<T>, MessageBodyWriter<T> {
 //----------------------------------------------------------------------------------------------------------------------
 // Fields
 //----------------------------------------------------------------------------------------------------------------------
 
-    @Builder.Default
-    private final Gson gson = new GsonBuilder().create();
+    private final Class<T> supportedType = Types.typeParamFromClass(getClass(), MessageBodyProvider.class, 0);
 
 //----------------------------------------------------------------------------------------------------------------------
-// Other Methods
+// MessageBodyReader Implementation
 //----------------------------------------------------------------------------------------------------------------------
 
     @Override
-    protected Object readFrom(Class<Object> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, String> httpHeaders, Reader reader) {
-        return gson.fromJson(reader, genericType);
+    public boolean isReadable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
+        return supportedType.isAssignableFrom(type);
     }
 
+//----------------------------------------------------------------------------------------------------------------------
+// MessageBodyWriter Implementation
+//----------------------------------------------------------------------------------------------------------------------
+
     @Override
-    protected void writeTo(Object o, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, Object> httpHeaders, Writer writer) {
-        gson.toJson(o, genericType, writer);
+    public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
+        return supportedType.isAssignableFrom(type);
     }
 }

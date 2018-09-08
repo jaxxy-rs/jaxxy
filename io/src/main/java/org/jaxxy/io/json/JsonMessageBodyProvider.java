@@ -14,31 +14,15 @@
  * limitations under the License.
  */
 
-package org.jaxxy.gson;
-
-import java.util.List;
+package org.jaxxy.io.json;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
-@Produces("application/vnd.jaxxy.person+json;charset=iso-8859-1")
-@Consumes("application/vnd.jaxxy.person+json;charset=iso-8859-1")
-@Path("/")
-public interface PersonResource {
+import org.jaxxy.io.CharacterMessageBodyProvider;
 
-    @Path("/persons")
-    @GET
-    List<Person> getAll();
-
-    @Path("/persons/{id}")
-    @GET
-    Person getPerson(@PathParam("id") String id);
-
-    @Path("/persons")
-    @POST
-    void createPerson(Person person);
+@Produces({MediaType.APPLICATION_JSON, "application/*+json"})
+@Consumes({MediaType.APPLICATION_JSON, "application/*+json"})
+public abstract class JsonMessageBodyProvider<T> extends CharacterMessageBodyProvider<T> {
 }

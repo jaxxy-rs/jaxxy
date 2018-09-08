@@ -26,11 +26,16 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>jaxxy-gson</artifactId>
+    <artifactId>jaxxy-protobuf</artifactId>
 
-    <name>Jaxxy :: GSON Provider</name>
+    <name>Jaxxy :: Protocol Buffers</name>
 
     <dependencies>
+
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -55,4 +60,38 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <testResources>
+            <testResource>
+                <directory>src/test/proto</directory>
+            </testResource>
+        </testResources>
+        <extensions>
+            <extension>
+                <groupId>kr.motd.maven</groupId>
+                <artifactId>os-maven-plugin</artifactId>
+                <version>${os.maven.plugin.version}</version>
+            </extension>
+        </extensions>
+
+        <plugins>
+            <plugin>
+                <groupId>org.xolstice.maven.plugins</groupId>
+                <artifactId>protobuf-maven-plugin</artifactId>
+                <version>${protobuf.maven.plugin.version}</version>
+                <extensions>true</extensions>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>test-compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <protocArtifact>com.google.protobuf:protoc:3.6.1:exe:${os.detected.classifier}</protocArtifact>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
