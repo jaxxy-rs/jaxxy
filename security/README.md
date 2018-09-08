@@ -1,6 +1,6 @@
 # Jaxxy Security
 
-The Jaxxy Security module provides useful providers for:
+The Jaxxy Security module contains useful providers for:
 
 - Adding security credentials to client requests
 - Verifying security credentials on container requests
@@ -10,11 +10,11 @@ The Jaxxy Security module provides useful providers for:
 
 #### Verifying a Token
 
-Suppose you want to verify a JWT token using the [Java JWT](https://github.com/auth0/java-jwt) library from Auth0.  
-First, you'll need a JWT-based SecurityContext implementation:
+Suppose you want to verify a JWT token using the [Java JWT](https://github.com/auth0/java-jwt) library from Auth0. First, you'll need a JWT-based SecurityContext implementation:
+
 
 ```java
-public class class JwtSecurityContext implements SecurityContext {
+public  class JwtSecurityContext implements SecurityContext {
 
     private final DecodedJWT jwt;
 
