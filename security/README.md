@@ -76,7 +76,7 @@ public class SecureApplication extends Application {
                         .withIssuer("jaxxy")
                         .build(); 
         final JwtTokenAuthenticator authenticator = new JwtTokenAuthenticator(verifier);
-        return (Collections).singleton(new ContainerTokenAuthFilter(authenticator));
+        return Collections.singleton(new ContainerTokenAuthFilter(authenticator));
     }
     
     public Set<Class<?>> getClasses() {
