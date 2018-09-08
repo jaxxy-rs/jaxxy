@@ -30,7 +30,6 @@ import java.lang.reflect.Type;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.Provider;
@@ -83,7 +82,7 @@ public abstract class CharacterMessageBodyProvider<T> extends MessageBodyProvide
 //----------------------------------------------------------------------------------------------------------------------
 
     @Override
-    public final T readFrom(Class<T> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, String> httpHeaders, InputStream entityStream) throws IOException, WebApplicationException {
+    public final T readFrom(Class<T> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, String> httpHeaders, InputStream entityStream) throws IOException {
         final Reader reader = new BufferedReader(new InputStreamReader(entityStream, extractCharset(mediaType)));
         return readFrom(type, genericType, annotations, mediaType, httpHeaders, reader);
     }
@@ -93,7 +92,7 @@ public abstract class CharacterMessageBodyProvider<T> extends MessageBodyProvide
 //----------------------------------------------------------------------------------------------------------------------
 
     @Override
-    public final void writeTo(T t, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream) throws IOException, WebApplicationException {
+    public final void writeTo(T t, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, Object> httpHeaders, OutputStream entityStream) throws IOException {
         final Charset charset = extractCharset(mediaType);
         final Writer writer = new BufferedWriter(new OutputStreamWriter(entityStream, charset));
         writeTo(t, type, genericType, annotations, mediaType, httpHeaders, writer);
