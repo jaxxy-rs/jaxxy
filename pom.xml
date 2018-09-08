@@ -63,6 +63,7 @@
         <auth0.jwt.version>3.4.0</auth0.jwt.version>
         <commons.lang3.version>3.8</commons.lang3.version>
         <cxf.version>3.2.6</cxf.version>
+        <gson.version>2.8.5</gson.version>
         <jaxrs.version>2.1</jaxrs.version>
         <johnzon.version>1.1.8</johnzon.version>
         <jsonb.version>1.0</jsonb.version>
@@ -82,6 +83,7 @@
         <module>cache</module>
         <module>security</module>
         <module>logging</module>
+        <module>gson</module>
         <module>test</module>
     </modules>
 
@@ -207,6 +209,15 @@
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-rt-transports-http-hc</artifactId>
                 <version>${cxf.version}</version>
+            </dependency>
+
+            <!--
+            MISC
+            -->
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>${gson.version}</version>
             </dependency>
 
             <dependency>
