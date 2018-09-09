@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.jaxxy.rxjava;
+package org.jaxxy.reactor;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ForkJoinPool;
@@ -31,7 +31,7 @@ import static java.util.Optional.ofNullable;
 @Provider
 @Builder
 @AllArgsConstructor
-public class SingleInvokerProvider implements RxInvokerProvider<SingleInvoker> {
+public class MonoInvokerProvider implements RxInvokerProvider<MonoInvoker> {
 //----------------------------------------------------------------------------------------------------------------------
 // Fields
 //----------------------------------------------------------------------------------------------------------------------
@@ -43,13 +43,14 @@ public class SingleInvokerProvider implements RxInvokerProvider<SingleInvoker> {
 // RxInvokerProvider Implementation
 //----------------------------------------------------------------------------------------------------------------------
 
+
     @Override
-    public SingleInvoker getRxInvoker(SyncInvoker syncInvoker, ExecutorService executorService) {
-        return new SingleInvoker(syncInvoker, ofNullable(executorService).orElse(defaultExecutorService));
+    public MonoInvoker getRxInvoker(SyncInvoker syncInvoker, ExecutorService executorService) {
+        return new MonoInvoker(syncInvoker, ofNullable(executorService).orElse(defaultExecutorService));
     }
 
     @Override
     public boolean isProviderFor(Class<?> clazz) {
-        return SingleInvoker.class.equals(clazz);
+        return MonoInvoker.class.equals(clazz);
     }
 }
