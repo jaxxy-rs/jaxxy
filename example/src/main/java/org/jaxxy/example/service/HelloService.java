@@ -16,6 +16,7 @@
 
 package org.jaxxy.example.service;
 
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -30,7 +31,7 @@ public interface HelloService {
 //----------------------------------------------------------------------------------------------------------------------
 
     @GET
-    @Path("/{name}")
+    @Path("/{name}/{n}")
     @Produces(APPLICATION_JSON)
-    HelloResponse sayHello(@PathParam("name") String name);
+    HelloResponse sayHello(@PathParam("name") String name, @PathParam("n") @DefaultValue("1") int n);
 }

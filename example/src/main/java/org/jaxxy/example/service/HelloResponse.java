@@ -16,11 +16,16 @@
 
 package org.jaxxy.example.service;
 
+import java.util.List;
+
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Singular;
 
 @Getter
 @Builder
 public class HelloResponse {
-    private final String greeting;
+
+    @Singular
+    private final List<String> greetings;
 }

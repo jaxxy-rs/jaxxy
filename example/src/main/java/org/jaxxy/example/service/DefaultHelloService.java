@@ -16,13 +16,17 @@
 
 package org.jaxxy.example.service;
 
+import java.util.stream.IntStream;
+
 public class DefaultHelloService implements HelloService {
 //----------------------------------------------------------------------------------------------------------------------
 // HelloService Implementation
 //----------------------------------------------------------------------------------------------------------------------
 
     @Override
-    public HelloResponse sayHello(String name) {
-        return HelloResponse.builder().greeting(String.format("Hello, %s!", name)).build();
+    public HelloResponse sayHello(String name, int n) {
+        final HelloResponse.HelloResponseBuilder builder = HelloResponse.builder();
+        IntStream.range(0, n).forEach(i->builder.greeting(String.format("Hello, %s (%d)!", name, i)));
+        return builder.build();
     }
 }
