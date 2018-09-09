@@ -54,7 +54,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
-        <sonar.exclusions>/src/main/java/org/jaxxy/test/**/*</sonar.exclusions>
+        <sonar.exclusions>/src/main/java/org/jaxxy/test/**/*,src/main/java/org/jaxxy/example/**/*</sonar.exclusions>
 
         <!--
         Maven Plugins
@@ -92,6 +92,7 @@
 
         <module>cache</module>
         <module>cors</module>
+        <module>example</module>
         <module>gson</module>
         <module>io</module>
         <module>jsonb</module>
