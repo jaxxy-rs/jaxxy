@@ -66,4 +66,10 @@ public class CharacterMessageBodyProviderTest extends JaxrsTestCase<LocalDateRes
         final LocalDate actual = clientProxy().now();
         assertThat(actual).isEqualTo(expected);
     }
+
+    @Test
+    public void shouldSerializeNullsSuccessfully() {
+        final LocalDate actual = clientProxy().now();
+        assertThat(actual).isNull();
+    }
 }

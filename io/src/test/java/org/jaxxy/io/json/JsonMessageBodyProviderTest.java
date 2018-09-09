@@ -61,6 +61,12 @@ public class JsonMessageBodyProviderTest extends JaxrsTestCase<JsonLocalDateReso
     }
 
     @Test
+    public void shouldSerializeNullApplicationJson() {
+        final LocalDate actual = clientProxy().nowJson();
+        assertThat(actual).isNull();
+    }
+
+    @Test
     public void shouldSerializeVendorJson() {
         final LocalDate expected = LocalDate.now();
         when(resource.nowVendorJson()).thenReturn(expected);
