@@ -32,9 +32,9 @@ import org.jaxxy.logging.LoggingContextFilter;
 import org.jaxxy.logging.RequestLogFilter;
 import org.jaxxy.logging.decorator.HeadersDecorator;
 import org.jaxxy.logging.decorator.ResourceDecorator;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 
 @Configuration
 public class JaxxyExampleConfiguration {
@@ -43,16 +43,19 @@ public class JaxxyExampleConfiguration {
 //----------------------------------------------------------------------------------------------------------------------
 
     @Bean
+    @ConditionalOnProperty(name="jaxxy.cors.enabled", matchIfMissing = true, havingValue = "true")
     public CorsFilter corsFilter() {
         return new CorsFilter(ResourceSharingPolicy.defaultPolicy());
     }
 
     @Bean
+    @ConditionalOnProperty(name="jaxxy.gzipFeature.enabled", matchIfMissing = true, havingValue = "true")
     public GZIPFeature gzipFeature() {
         return new GZIPFeature();
     }
 
     @Bean
+    @ConditionalOnProperty(name="jaxxy.loggingContext.headers.enabled", matchIfMissing = true, havingValue = "true")
     public HeadersDecorator headersDecorator() {
         return new HeadersDecorator();
     }
@@ -63,38 +66,43 @@ public class JaxxyExampleConfiguration {
     }
 
     @Bean
-    @Profile("jsonb")
+    @ConditionalOnProperty(name="jaxxy.json.provider", matchIfMissing = false, havingValue = "jsonb")
     public JsonbMessageBodyProvider jsonbMessageBodyProvider() {
         return new JsonbMessageBodyProvider();
     }
 
     @Bean
-    @Profile("gson")
+    @ConditionalOnProperty(name="jaxxy.json.provider", matchIfMissing = true, havingValue = "gson")
     public GsonMessageBodyProvider gsonMessageBodyProvider() {
         return new GsonMessageBodyProvider();
     }
 
     @Bean
+    @ConditionalOnProperty(name="jaxxy.loggingContext.enabled", matchIfMissing = true, havingValue = "true")
     public LoggingContextFilter loggingContextFilter(List<LoggingContextDecorator> decorators) {
         return new LoggingContextFilter(decorators);
     }
 
     @Bean
+    @ConditionalOnProperty(name="jaxxy.loggingFeature.enabled", matchIfMissing = true, havingValue = "true")
     public LoggingFeature loggingFeature() {
         return new LoggingFeature();
     }
 
     @Bean
+    @ConditionalOnProperty(name="jaxxy.requestLog.enabled", matchIfMissing = true, havingValue = "true")
     public RequestLogFilter requestLogFilter() {
         return RequestLogFilter.builder().build();
     }
 
     @Bean
+    @ConditionalOnProperty(name="jaxxy.loggingContext.resource.enabled", matchIfMissing = true, havingValue = "true")
     public ResourceDecorator resourceDecorator() {
         return new ResourceDecorator();
     }
 
     @Bean
+    @ConditionalOnProperty(name="jaxxy.swagger.enabled", matchIfMissing = true, havingValue = "true")
     public Swagger2Feature swagger2Feature() {
         final Swagger2Feature feature = new Swagger2Feature();
         feature.setScanAllResources(true);
