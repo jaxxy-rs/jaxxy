@@ -26,12 +26,15 @@ import org.jaxxy.cors.ResourceSharingPolicy;
 import org.jaxxy.example.service.DefaultHelloService;
 import org.jaxxy.example.service.HelloService;
 import org.jaxxy.gson.GsonMessageBodyProvider;
+import org.jaxxy.jsonb.JsonbMessageBodyProvider;
 import org.jaxxy.logging.LoggingContextDecorator;
 import org.jaxxy.logging.LoggingContextFilter;
+import org.jaxxy.logging.RequestLogFilter;
 import org.jaxxy.logging.decorator.HeadersDecorator;
 import org.jaxxy.logging.decorator.ResourceDecorator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 @Configuration
 public class JaxxyExampleConfiguration {
@@ -59,12 +62,14 @@ public class JaxxyExampleConfiguration {
         return new DefaultHelloService();
     }
 
-//    @Bean
-//    public JsonbMessageBodyProvider jsonbMessageBodyProvider() {
-//        return new JsonbMessageBodyProvider();
-//    }
+    @Bean
+    @Profile("jsonb")
+    public JsonbMessageBodyProvider jsonbMessageBodyProvider() {
+        return new JsonbMessageBodyProvider();
+    }
 
     @Bean
+    @Profile("gson")
     public GsonMessageBodyProvider gsonMessageBodyProvider() {
         return new GsonMessageBodyProvider();
     }
@@ -79,10 +84,10 @@ public class JaxxyExampleConfiguration {
         return new LoggingFeature();
     }
 
-//    @Bean
-//    public RequestLogFilter requestLogFilter() {
-//        return RequestLogFilter.builder().build();
-//    }
+    @Bean
+    public RequestLogFilter requestLogFilter() {
+        return RequestLogFilter.builder().build();
+    }
 
     @Bean
     public ResourceDecorator resourceDecorator() {
