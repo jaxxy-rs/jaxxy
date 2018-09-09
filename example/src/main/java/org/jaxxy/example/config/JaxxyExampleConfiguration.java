@@ -25,7 +25,7 @@ import org.jaxxy.cors.CorsFilter;
 import org.jaxxy.cors.ResourceSharingPolicy;
 import org.jaxxy.example.service.DefaultHelloService;
 import org.jaxxy.example.service.HelloService;
-import org.jaxxy.jsonb.JsonbMessageBodyProvider;
+import org.jaxxy.gson.GsonMessageBodyProvider;
 import org.jaxxy.logging.LoggingContextDecorator;
 import org.jaxxy.logging.LoggingContextFilter;
 import org.jaxxy.logging.decorator.HeadersDecorator;
@@ -59,15 +59,15 @@ public class JaxxyExampleConfiguration {
         return new DefaultHelloService();
     }
 
-    @Bean
-    public JsonbMessageBodyProvider jsonbMessageBodyProvider() {
-        return new JsonbMessageBodyProvider();
-    }
-
 //    @Bean
-//    public GsonMessageBodyProvider gsonMessageBodyProvider() {
-//        return new GsonMessageBodyProvider();
+//    public JsonbMessageBodyProvider jsonbMessageBodyProvider() {
+//        return new JsonbMessageBodyProvider();
 //    }
+
+    @Bean
+    public GsonMessageBodyProvider gsonMessageBodyProvider() {
+        return new GsonMessageBodyProvider();
+    }
 
     @Bean
     public LoggingContextFilter loggingContextFilter(List<LoggingContextDecorator> decorators) {
