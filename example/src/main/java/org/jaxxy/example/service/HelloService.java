@@ -22,6 +22,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 
+import org.jaxxy.example.HelloProtos;
+
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 @Path("/hello")
@@ -34,4 +36,9 @@ public interface HelloService {
     @Path("/{name}/{n}")
     @Produces(APPLICATION_JSON)
     HelloResponse sayHello(@PathParam("name") String name, @PathParam("n") @DefaultValue("1") int n);
+
+    @GET
+    @Path("/proto/{name}/{n}")
+    @Produces("application/protobuf")
+    HelloProtos.HelloResponse helloProto(@PathParam("name") String name, @PathParam("n") @DefaultValue("1") int n);
 }

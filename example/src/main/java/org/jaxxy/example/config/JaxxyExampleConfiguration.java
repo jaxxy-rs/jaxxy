@@ -33,6 +33,7 @@ import org.jaxxy.logging.LoggingContextFilter;
 import org.jaxxy.logging.RequestLogFilter;
 import org.jaxxy.logging.decorator.HeadersDecorator;
 import org.jaxxy.logging.decorator.ResourceDecorator;
+import org.jaxxy.protobuf.ProtobufMessageBodyProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -59,6 +60,11 @@ public class JaxxyExampleConfiguration {
     @ConditionalOnProperty(name = "jaxxy.loggingContext.headers.enabled", matchIfMissing = true, havingValue = "true")
     public HeadersDecorator headersDecorator() {
         return new HeadersDecorator();
+    }
+
+    @Bean
+    public ProtobufMessageBodyProvider protobufMessageBodyProvider() {
+        return new ProtobufMessageBodyProvider();
     }
 
     @Bean

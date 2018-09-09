@@ -1,0 +1,11 @@
+syntax = "proto2";
+
+
+package org.jaxxy.example;
+
+option java_package = "org.jaxxy.example";
+option java_outer_classname = "HelloProtos";
+
+message HelloResponse {
+    repeated string greetings = 1;
+}

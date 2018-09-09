@@ -18,6 +18,8 @@ package org.jaxxy.example.service;
 
 import java.util.stream.IntStream;
 
+import org.jaxxy.example.HelloProtos;
+
 public class DefaultHelloService implements HelloService {
 //----------------------------------------------------------------------------------------------------------------------
 // HelloService Implementation
@@ -27,6 +29,13 @@ public class DefaultHelloService implements HelloService {
     public HelloResponse sayHello(String name, int n) {
         final HelloResponse.HelloResponseBuilder builder = HelloResponse.builder();
         IntStream.range(0, n).forEach(i->builder.greeting(String.format("Hello, %s (%d)!", name, i)));
+        return builder.build();
+    }
+
+    @Override
+    public HelloProtos.HelloResponse helloProto(String name, int n) {
+        final HelloProtos.HelloResponse.Builder builder = HelloProtos.HelloResponse.newBuilder();
+        IntStream.range(0, n).forEach(i->builder.addGreetings(String.format("Hello, %s (%d)!", name, i)));
         return builder.build();
     }
 }
