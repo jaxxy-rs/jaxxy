@@ -63,6 +63,11 @@
             <artifactId>swagger-ui</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.fasterxml.jackson.jaxrs</groupId>
+            <artifactId>jackson-jaxrs-json-provider</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.jaxxy</groupId>
             <artifactId>jaxxy-logging</artifactId>
             <version>0.0.1-SNAPSHOT</version>

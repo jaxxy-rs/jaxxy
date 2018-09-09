@@ -18,6 +18,7 @@ package org.jaxxy.example.config;
 
 import java.util.List;
 
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import org.apache.cxf.ext.logging.LoggingFeature;
 import org.apache.cxf.jaxrs.swagger.Swagger2Feature;
 import org.apache.cxf.transport.common.gzip.GZIPFeature;
@@ -43,19 +44,19 @@ public class JaxxyExampleConfiguration {
 //----------------------------------------------------------------------------------------------------------------------
 
     @Bean
-    @ConditionalOnProperty(name="jaxxy.cors.enabled", matchIfMissing = true, havingValue = "true")
+    @ConditionalOnProperty(name = "jaxxy.cors.enabled", matchIfMissing = true, havingValue = "true")
     public CorsFilter corsFilter() {
         return new CorsFilter(ResourceSharingPolicy.defaultPolicy());
     }
 
     @Bean
-    @ConditionalOnProperty(name="jaxxy.gzipFeature.enabled", matchIfMissing = true, havingValue = "true")
+    @ConditionalOnProperty(name = "jaxxy.gzipFeature.enabled", matchIfMissing = true, havingValue = "true")
     public GZIPFeature gzipFeature() {
         return new GZIPFeature();
     }
 
     @Bean
-    @ConditionalOnProperty(name="jaxxy.loggingContext.headers.enabled", matchIfMissing = true, havingValue = "true")
+    @ConditionalOnProperty(name = "jaxxy.loggingContext.headers.enabled", matchIfMissing = true, havingValue = "true")
     public HeadersDecorator headersDecorator() {
         return new HeadersDecorator();
     }
@@ -66,43 +67,49 @@ public class JaxxyExampleConfiguration {
     }
 
     @Bean
-    @ConditionalOnProperty(name="jaxxy.json.provider", matchIfMissing = false, havingValue = "jsonb")
+    @ConditionalOnProperty(name = "jaxxy.json.provider", havingValue = "jsonb")
     public JsonbMessageBodyProvider jsonbMessageBodyProvider() {
         return new JsonbMessageBodyProvider();
     }
 
     @Bean
-    @ConditionalOnProperty(name="jaxxy.json.provider", matchIfMissing = true, havingValue = "gson")
+    @ConditionalOnProperty(name = "jaxxy.json.provider", matchIfMissing = true, havingValue = "gson")
     public GsonMessageBodyProvider gsonMessageBodyProvider() {
         return new GsonMessageBodyProvider();
     }
 
     @Bean
-    @ConditionalOnProperty(name="jaxxy.loggingContext.enabled", matchIfMissing = true, havingValue = "true")
+    @ConditionalOnProperty(name = "jaxxy.json.provider", havingValue = "jackson")
+    public JacksonJsonProvider jacksonJsonProvider() {
+        return new JacksonJsonProvider();
+    }
+
+    @Bean
+    @ConditionalOnProperty(name = "jaxxy.loggingContext.enabled", matchIfMissing = true, havingValue = "true")
     public LoggingContextFilter loggingContextFilter(List<LoggingContextDecorator> decorators) {
         return new LoggingContextFilter(decorators);
     }
 
     @Bean
-    @ConditionalOnProperty(name="jaxxy.loggingFeature.enabled", matchIfMissing = true, havingValue = "true")
+    @ConditionalOnProperty(name = "jaxxy.loggingFeature.enabled", matchIfMissing = true, havingValue = "true")
     public LoggingFeature loggingFeature() {
         return new LoggingFeature();
     }
 
     @Bean
-    @ConditionalOnProperty(name="jaxxy.requestLog.enabled", matchIfMissing = true, havingValue = "true")
+    @ConditionalOnProperty(name = "jaxxy.requestLog.enabled", matchIfMissing = true, havingValue = "true")
     public RequestLogFilter requestLogFilter() {
         return RequestLogFilter.builder().build();
     }
 
     @Bean
-    @ConditionalOnProperty(name="jaxxy.loggingContext.resource.enabled", matchIfMissing = true, havingValue = "true")
+    @ConditionalOnProperty(name = "jaxxy.loggingContext.resource.enabled", matchIfMissing = true, havingValue = "true")
     public ResourceDecorator resourceDecorator() {
         return new ResourceDecorator();
     }
 
     @Bean
-    @ConditionalOnProperty(name="jaxxy.swagger.enabled", matchIfMissing = true, havingValue = "true")
+    @ConditionalOnProperty(name = "jaxxy.swagger.enabled", matchIfMissing = true, havingValue = "true")
     public Swagger2Feature swagger2Feature() {
         final Swagger2Feature feature = new Swagger2Feature();
         feature.setScanAllResources(true);
