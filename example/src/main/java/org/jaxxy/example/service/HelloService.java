@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.jaxxy.example;
+package org.jaxxy.example.service;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -24,7 +24,7 @@ import javax.ws.rs.Produces;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 @Path("/hello")
-public interface HelloResource {
+public interface HelloService {
 //----------------------------------------------------------------------------------------------------------------------
 // Other Methods
 //----------------------------------------------------------------------------------------------------------------------

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.jaxxy.example;
+package org.jaxxy.example.service;
 
 import lombok.Builder;
 import lombok.Getter;

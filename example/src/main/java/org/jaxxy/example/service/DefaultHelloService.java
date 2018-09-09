@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package org.jaxxy.example;
+package org.jaxxy.example.service;
 
-public class DefaultHelloResource implements HelloResource {
+public class DefaultHelloService implements HelloService {
 //----------------------------------------------------------------------------------------------------------------------
-// HelloResource Implementation
+// HelloService Implementation
 //----------------------------------------------------------------------------------------------------------------------
 
     @Override
