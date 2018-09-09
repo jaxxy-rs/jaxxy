@@ -32,7 +32,6 @@ import java.nio.charset.StandardCharsets;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.ext.Provider;
 
 /**
  * A character stream-based message body provider.  This provider takes care of creating
@@ -40,7 +39,6 @@ import javax.ws.rs.ext.Provider;
  *
  * @param <T> the type supported by this provider
  */
-@Provider
 public abstract class CharacterMessageBodyProvider<T> extends MessageBodyProvider<T> {
 //----------------------------------------------------------------------------------------------------------------------
 // Abstract Methods

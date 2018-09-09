@@ -22,9 +22,11 @@ import java.lang.reflect.Type;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
+import javax.ws.rs.ext.Provider;
 
 import org.jaxxy.util.reflect.Types;
 
+@Provider
 public abstract class MessageBodyProvider<T> implements MessageBodyReader<T>, MessageBodyWriter<T> {
 //----------------------------------------------------------------------------------------------------------------------
 // Fields

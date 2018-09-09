@@ -20,16 +20,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 
 import com.google.protobuf.Message;
 import org.jaxxy.io.MessageBodyProvider;
+import org.jaxxy.util.reflect.Methods;
 
 @Produces({"application/protobuf", "application/vnd.google.protobuf"})
 @Consumes({"application/protobuf", "application/vnd.google.protobuf"})
@@ -40,11 +41,8 @@ public class ProtobufMessageBodyProvider extends MessageBodyProvider<Message> {
 
     @Override
     public Message readFrom(Class<Message> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, String> httpHeaders, InputStream entityStream) {
-        try {
-            return type.cast(type.getMethod("parseFrom", InputStream.class).invoke(null, entityStream));
-        } catch (ReflectiveOperationException e) {
-            throw new InternalServerErrorException("Unable to invoke parseFrom method on class " + type.getCanonicalName() + ".", e);
-        }
+        final Method method = Methods.getMethod(type, "parseFrom", InputStream.class);
+        return type.cast(Methods.softenedInvokeStatic(method, entityStream));
     }
 
 //----------------------------------------------------------------------------------------------------------------------
