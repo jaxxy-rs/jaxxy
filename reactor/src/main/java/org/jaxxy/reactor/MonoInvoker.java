@@ -16,8 +16,6 @@
 
 package org.jaxxy.reactor;
 
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutorService;
 import java.util.function.Function;
 
 import javax.ws.rs.client.Entity;
@@ -36,7 +34,6 @@ public class MonoInvoker implements RxInvoker<Mono<?>> {
 //----------------------------------------------------------------------------------------------------------------------
 
     private final SyncInvoker syncInvoker;
-    private final ExecutorService executor;
 
 //----------------------------------------------------------------------------------------------------------------------
 // RxInvoker Implementation
@@ -44,134 +41,134 @@ public class MonoInvoker implements RxInvoker<Mono<?>> {
 
     @Override
     public Mono<Response> delete() {
-        return single(SyncInvoker::delete);
+        return mono(SyncInvoker::delete);
     }
 
     @Override
     public <R> Mono<R> delete(Class<R> responseType) {
-        return single(s -> s.delete(responseType));
+        return mono(s -> s.delete(responseType));
     }
 
     @Override
     public <R> Mono<R> delete(GenericType<R> responseType) {
-        return single(s -> s.delete(responseType));
+        return mono(s -> s.delete(responseType));
     }
 
     @Override
     public Mono<Response> get() {
-        return single(SyncInvoker::get);
+        return mono(SyncInvoker::get);
     }
 
     @Override
     public <R> Mono<R> get(Class<R> responseType) {
-        return single(s -> s.get(responseType));
+        return mono(s -> s.get(responseType));
     }
 
     @Override
     public <R> Mono<R> get(GenericType<R> responseType) {
-        return single(s -> s.get(responseType));
+        return mono(s -> s.get(responseType));
     }
 
     @Override
     public Mono<Response> head() {
-        return single(SyncInvoker::head);
+        return mono(SyncInvoker::head);
     }
 
     @Override
     public Mono<Response> method(String name) {
-        return single(s -> s.method(name));
+        return mono(s -> s.method(name));
     }
 
     @Override
     public <R> Mono<R> method(String name, Class<R> responseType) {
-        return single(s -> s.method(name, responseType));
+        return mono(s -> s.method(name, responseType));
     }
 
     @Override
     public <R> Mono<R> method(String name, GenericType<R> responseType) {
-        return single(s -> s.method(name, responseType));
+        return mono(s -> s.method(name, responseType));
     }
 
     @Override
     public Mono<Response> method(String name, Entity<?> entity) {
-        return single(s -> s.method(name, entity));
+        return mono(s -> s.method(name, entity));
     }
 
     @Override
     public <R> Mono<R> method(String name, Entity<?> entity, Class<R> responseType) {
-        return single(s -> s.method(name, entity, responseType));
+        return mono(s -> s.method(name, entity, responseType));
     }
 
     @Override
     public <R> Mono<R> method(String name, Entity<?> entity, GenericType<R> responseType) {
-        return single(s -> s.method(name, entity, responseType));
+        return mono(s -> s.method(name, entity, responseType));
     }
 
     @Override
     public Mono<Response> options() {
-        return single(SyncInvoker::options);
+        return mono(SyncInvoker::options);
     }
 
     @Override
     public <R> Mono<R> options(Class<R> responseType) {
-        return single(s -> s.options(responseType));
+        return mono(s -> s.options(responseType));
     }
 
     @Override
     public <R> Mono<R> options(GenericType<R> responseType) {
-        return single(s -> s.options(responseType));
+        return mono(s -> s.options(responseType));
     }
 
     @Override
     public Mono<Response> post(Entity<?> entity) {
-        return single(s -> s.post(entity));
+        return mono(s -> s.post(entity));
     }
 
     @Override
     public <R> Mono<R> post(Entity<?> entity, Class<R> responseType) {
-        return single(s -> s.post(entity, responseType));
+        return mono(s -> s.post(entity, responseType));
     }
 
     @Override
     public <R> Mono<R> post(Entity<?> entity, GenericType<R> responseType) {
-        return single(s -> s.post(entity, responseType));
+        return mono(s -> s.post(entity, responseType));
     }
 
     @Override
     public Mono<Response> put(Entity<?> entity) {
-        return single(s -> s.put(entity));
+        return mono(s -> s.put(entity));
     }
 
     @Override
     public <R> Mono<R> put(Entity<?> entity, Class<R> responseType) {
-        return single(s -> s.put(entity, responseType));
+        return mono(s -> s.put(entity, responseType));
     }
 
     @Override
     public <R> Mono<R> put(Entity<?> entity, GenericType<R> responseType) {
-        return single(s -> s.put(entity, responseType));
+        return mono(s -> s.put(entity, responseType));
     }
 
     @Override
     public Mono<Response> trace() {
-        return single(SyncInvoker::trace);
+        return mono(SyncInvoker::trace);
     }
 
     @Override
     public <R> Mono<R> trace(Class<R> responseType) {
-        return single(s -> s.trace(responseType));
+        return mono(s -> s.trace(responseType));
     }
 
     @Override
     public <R> Mono<R> trace(GenericType<R> responseType) {
-        return single(s -> s.trace(responseType));
+        return mono(s -> s.trace(responseType));
     }
 
 //----------------------------------------------------------------------------------------------------------------------
 // Other Methods
 //----------------------------------------------------------------------------------------------------------------------
 
-    private <T> Mono<T> single(Function<SyncInvoker, T> fn) {
-        return Mono.fromFuture(CompletableFuture.supplyAsync(() -> fn.apply(syncInvoker), executor));
+    private <T> Mono<T> mono(Function<SyncInvoker, T> fn) {
+        return Mono.fromCallable(() -> fn.apply(syncInvoker));
     }
 }

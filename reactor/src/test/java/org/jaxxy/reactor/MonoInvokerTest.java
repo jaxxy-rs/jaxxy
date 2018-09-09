@@ -16,8 +16,6 @@
 
 package org.jaxxy.reactor;
 
-import java.util.concurrent.Executors;
-
 import javax.ws.rs.client.SyncInvoker;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
@@ -52,7 +50,7 @@ public class MonoInvokerTest {
 
     @Before
     public void setUp() {
-        this.invoker = new MonoInvoker(syncInvoker, Executors.newSingleThreadExecutor());
+        this.invoker = new MonoInvoker(syncInvoker);
     }
 
     @Test

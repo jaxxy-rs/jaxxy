@@ -16,7 +16,6 @@
 
 package org.jaxxy.rxjava;
 
-import java.util.concurrent.ExecutorService;
 import java.util.function.Function;
 
 import javax.ws.rs.client.Entity;
@@ -39,7 +38,6 @@ public class SingleInvoker implements RxInvoker<Single<?>> {
 //----------------------------------------------------------------------------------------------------------------------
 
     private final SyncInvoker syncInvoker;
-    private final ExecutorService executor;
 
 //----------------------------------------------------------------------------------------------------------------------
 // RxInvoker Implementation
@@ -175,6 +173,6 @@ public class SingleInvoker implements RxInvoker<Single<?>> {
 //----------------------------------------------------------------------------------------------------------------------
 
     private <T> Single<T> single(Function<SyncInvoker, T> fn) {
-        return Single.fromFuture(executor.submit(() -> fn.apply(syncInvoker)));
+        return Single.fromCallable(() -> fn.apply(syncInvoker));
     }
 }

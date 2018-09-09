@@ -16,8 +16,6 @@
 
 package org.jaxxy.rxjava;
 
-import java.util.concurrent.Executors;
-
 import javax.ws.rs.client.SyncInvoker;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
@@ -37,20 +35,22 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class SingleInvokerTest {
+//----------------------------------------------------------------------------------------------------------------------
+// Fields
+//----------------------------------------------------------------------------------------------------------------------
 
     @Mock
     private SyncInvoker syncInvoker;
 
     private SingleInvoker invoker;
 
+//----------------------------------------------------------------------------------------------------------------------
+// Other Methods
+//----------------------------------------------------------------------------------------------------------------------
+
     @Before
     public void setUp() {
-        this.invoker = new SingleInvoker(syncInvoker, Executors.newSingleThreadExecutor());
-    }
-
-    @After
-    public void verifyMock() {
-        verifyNoMoreInteractions(syncInvoker);
+        this.invoker = new SingleInvoker(syncInvoker);
     }
 
     @Test
@@ -63,14 +63,6 @@ public class SingleInvokerTest {
     }
 
     @Test
-    public void traceWithResponseType() {
-        when(syncInvoker.trace(String.class)).thenReturn("Hello, RX!");
-        final Single<String> single = invoker.trace(String.class);
-        assertThat(single.blockingGet()).isEqualTo("Hello, RX!");
-        verify(syncInvoker).trace(String.class);
-    }
-
-    @Test
     public void traceWithGenericResponseType() {
         when(syncInvoker.trace(new GenericType<>(String.class))).thenReturn("Hello, RX!");
         final Single<String> single = invoker.trace(new GenericType<>(String.class));
@@ -78,4 +70,16 @@ public class SingleInvokerTest {
         verify(syncInvoker).trace(new GenericType<>(String.class));
     }
 
+    @Test
+    public void traceWithResponseType() {
+        when(syncInvoker.trace(String.class)).thenReturn("Hello, RX!");
+        final Single<String> single = invoker.trace(String.class);
+        assertThat(single.blockingGet()).isEqualTo("Hello, RX!");
+        verify(syncInvoker).trace(String.class);
+    }
+
+    @After
+    public void verifyMock() {
+        verifyNoMoreInteractions(syncInvoker);
+    }
 }

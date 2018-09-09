@@ -49,7 +49,7 @@ public class MonoInvokerProviderTest extends JaxrsTestCase<StringResource> {
     @Override
     protected void configureClient(JaxrsClientConfig config) {
         super.configureClient(config);
-        config.withProvider(MonoInvokerProvider.builder().build());
+        config.withProvider(new MonoInvokerProvider());
     }
 
     @Override

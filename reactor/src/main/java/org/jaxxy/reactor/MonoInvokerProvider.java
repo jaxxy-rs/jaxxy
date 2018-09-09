@@ -17,36 +17,20 @@
 package org.jaxxy.reactor;
 
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.ForkJoinPool;
 
 import javax.ws.rs.client.RxInvokerProvider;
 import javax.ws.rs.client.SyncInvoker;
 import javax.ws.rs.ext.Provider;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-
-import static java.util.Optional.ofNullable;
-
 @Provider
-@Builder
-@AllArgsConstructor
 public class MonoInvokerProvider implements RxInvokerProvider<MonoInvoker> {
-//----------------------------------------------------------------------------------------------------------------------
-// Fields
-//----------------------------------------------------------------------------------------------------------------------
-
-    @Builder.Default
-    private final ExecutorService defaultExecutorService = ForkJoinPool.commonPool();
-
 //----------------------------------------------------------------------------------------------------------------------
 // RxInvokerProvider Implementation
 //----------------------------------------------------------------------------------------------------------------------
 
-
     @Override
     public MonoInvoker getRxInvoker(SyncInvoker syncInvoker, ExecutorService executorService) {
-        return new MonoInvoker(syncInvoker, ofNullable(executorService).orElse(defaultExecutorService));
+        return new MonoInvoker(syncInvoker);
     }
 
     @Override

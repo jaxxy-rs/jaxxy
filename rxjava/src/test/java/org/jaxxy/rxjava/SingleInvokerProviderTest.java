@@ -49,7 +49,7 @@ public class SingleInvokerProviderTest extends JaxrsTestCase<StringResource> {
     @Override
     protected void configureClient(JaxrsClientConfig config) {
         super.configureClient(config);
-        config.withProvider(SingleInvokerProvider.builder().build());
+        config.withProvider(new SingleInvokerProvider());
     }
 
     @Override
