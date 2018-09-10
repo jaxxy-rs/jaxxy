@@ -85,7 +85,6 @@
         <rxjava.version>2.2.2</rxjava.version>
         <servlet.api.version>3.1.0</servlet.api.version>
         <slf4j.version>1.7.25</slf4j.version>
-        <snakeyaml.version>1.23</snakeyaml.version>
         <spring.boot.version>2.0.4.RELEASE</spring.boot.version>
         <swagger.ui.version>3.18.2</swagger.ui.version>
 
@@ -105,7 +104,6 @@
         <module>reactor</module>
         <module>rxjava</module>
         <module>security</module>
-        <module>snakeyaml</module>
         <module>test</module>
         <module>util</module>
     </modules>

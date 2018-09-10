@@ -40,8 +40,13 @@ public interface HelloService {
 
     @GET
     @Path("/smile/{name}/{n}")
-    @Produces(APPLICATION_JACKSON_SMILE )
+    @Produces(APPLICATION_JACKSON_SMILE)
     HelloResponse helloSmile(@PathParam("name") String name, @PathParam("n") @DefaultValue("1") int n);
+
+    @GET
+    @Path("/yaml/{name}/{n}")
+    @Produces("application/yaml")
+    HelloResponse helloYaml(@PathParam("name") String name, @PathParam("n") @DefaultValue("1") int n);
 
     @GET
     @Path("/proto/{name}/{n}")

@@ -38,6 +38,11 @@ public class DefaultHelloService implements HelloService {
     }
 
     @Override
+    public HelloResponse helloYaml(String name, int n) {
+        return hello(name, n);
+    }
+
+    @Override
     public HelloProtos.HelloResponse helloProto(String name, int n) {
         final HelloProtos.HelloResponse.Builder builder = HelloProtos.HelloResponse.newBuilder();
         IntStream.range(0, n).forEach(i -> builder.addGreetings(String.format("Hello, %s (%d)!", name, i)));

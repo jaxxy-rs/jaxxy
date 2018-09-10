@@ -20,6 +20,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.fasterxml.jackson.jaxrs.smile.JacksonSmileProvider;
+import com.fasterxml.jackson.jaxrs.yaml.JacksonYAMLProvider;
 import org.apache.cxf.ext.logging.LoggingFeature;
 import org.apache.cxf.jaxrs.swagger.Swagger2Feature;
 import org.apache.cxf.transport.common.gzip.GZIPFeature;
@@ -71,6 +72,11 @@ public class JaxxyExampleConfiguration {
     @Bean
     public JacksonSmileProvider jacksonSmileProvider() {
         return new JacksonSmileProvider();
+    }
+
+    @Bean
+    public JacksonYAMLProvider jacksonYAMLProvider() {
+        return new JacksonYAMLProvider();
     }
 
     @Bean
