@@ -26,16 +26,21 @@ public class DefaultHelloService implements HelloService {
 //----------------------------------------------------------------------------------------------------------------------
 
     @Override
-    public HelloResponse sayHello(String name, int n) {
+    public HelloResponse hello(String name, int n) {
         final HelloResponse.HelloResponseBuilder builder = HelloResponse.builder();
-        IntStream.range(0, n).forEach(i->builder.greeting(String.format("Hello, %s (%d)!", name, i)));
+        IntStream.range(0, n).forEach(i -> builder.greeting(String.format("Hello, %s (%d)!", name, i)));
         return builder.build();
+    }
+
+    @Override
+    public HelloResponse helloSmile(String name, int n) {
+        return hello(name, n);
     }
 
     @Override
     public HelloProtos.HelloResponse helloProto(String name, int n) {
         final HelloProtos.HelloResponse.Builder builder = HelloProtos.HelloResponse.newBuilder();
-        IntStream.range(0, n).forEach(i->builder.addGreetings(String.format("Hello, %s (%d)!", name, i)));
+        IntStream.range(0, n).forEach(i -> builder.addGreetings(String.format("Hello, %s (%d)!", name, i)));
         return builder.build();
     }
 }

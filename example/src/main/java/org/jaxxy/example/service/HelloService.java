@@ -24,6 +24,7 @@ import javax.ws.rs.Produces;
 
 import org.jaxxy.example.HelloProtos;
 
+import static com.fasterxml.jackson.jaxrs.smile.SmileMediaTypes.APPLICATION_JACKSON_SMILE;
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 
 @Path("/hello")
@@ -35,7 +36,12 @@ public interface HelloService {
     @GET
     @Path("/{name}/{n}")
     @Produces(APPLICATION_JSON)
-    HelloResponse sayHello(@PathParam("name") String name, @PathParam("n") @DefaultValue("1") int n);
+    HelloResponse hello(@PathParam("name") String name, @PathParam("n") @DefaultValue("1") int n);
+
+    @GET
+    @Path("/smile/{name}/{n}")
+    @Produces(APPLICATION_JACKSON_SMILE )
+    HelloResponse helloSmile(@PathParam("name") String name, @PathParam("n") @DefaultValue("1") int n);
 
     @GET
     @Path("/proto/{name}/{n}")
