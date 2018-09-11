@@ -16,7 +16,7 @@
 
 package org.jaxxy.cache;
 
-import java.util.Date;
+import java.time.Instant;
 
 import javax.ws.rs.core.EntityTag;
 
@@ -27,6 +27,6 @@ public interface Preconditions {
 
     void evaluate();
     void evaluate(EntityTag eTag);
-    void evaluate(Date lastModified);
-    void evaluate(Date lastModified, EntityTag eTag);
+    void evaluate(Instant lastModified);
+    void evaluate(Instant lastModified, EntityTag eTag);
 }

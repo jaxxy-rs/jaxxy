@@ -16,10 +16,9 @@
 
 package org.jaxxy.cache;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -44,19 +43,14 @@ public class CacheControlFilter implements ContainerResponseFilter {
     static final String ETAG_PROPERTY = CacheControlFilter.class.getCanonicalName() + ".eTag";
     static final String LAST_MODIFIED_PROPERTY = CacheControlFilter.class.getCanonicalName() + ".lastModified";
 
-    private static final TimeZone TIME_ZONE_GMT = TimeZone.getTimeZone("GMT");
-    private static final String HTTP_DATE_FORMAT_PATTERN = "EEE, dd MMM yyyy HH:mm:ss zzz";
-
     private final Supplier<CacheControl> cacheControlSupplier;
 
 //----------------------------------------------------------------------------------------------------------------------
 // Static Methods
 //----------------------------------------------------------------------------------------------------------------------
 
-    static String httpDateFormat(Date date) {
-        final SimpleDateFormat dateFormat = new SimpleDateFormat(HTTP_DATE_FORMAT_PATTERN, Locale.US);
-        dateFormat.setTimeZone(TIME_ZONE_GMT);
-        return dateFormat.format(date);
+    static String httpDateFormat(Instant date) {
+        return date.atOffset(ZoneOffset.UTC).format(DateTimeFormatter.RFC_1123_DATE_TIME);
     }
 
     static String quoted(Object value) {
@@ -71,7 +65,7 @@ public class CacheControlFilter implements ContainerResponseFilter {
     public void filter(ContainerRequestContext request, ContainerResponseContext response) {
         if(Response.Status.Family.SUCCESSFUL.equals(response.getStatusInfo().getFamily())) {
             setHeader(response, HttpHeaders.ETAG, (EntityTag)request.getProperty(ETAG_PROPERTY), etag -> quoted(etag.getValue()));
-            setHeader(response, HttpHeaders.LAST_MODIFIED, (Date)request.getProperty(LAST_MODIFIED_PROPERTY), CacheControlFilter::httpDateFormat);
+            setHeader(response, HttpHeaders.LAST_MODIFIED, (Instant)request.getProperty(LAST_MODIFIED_PROPERTY), CacheControlFilter::httpDateFormat);
         }
         setHeader(response, HttpHeaders.CACHE_CONTROL, cacheControlSupplier.get(), CacheControl::toString);
     }

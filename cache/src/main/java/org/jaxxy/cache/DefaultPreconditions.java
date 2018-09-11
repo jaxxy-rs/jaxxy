@@ -16,6 +16,7 @@
 
 package org.jaxxy.cache;
 
+import java.time.Instant;
 import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
@@ -51,20 +52,20 @@ public class DefaultPreconditions implements Preconditions {
     }
 
     @Override
-    public void evaluate(Date lastModified) {
+    public void evaluate(Instant lastModified) {
         setLastModifiedAttribute(lastModified);
-        throwOnPrecondition(request.evaluatePreconditions(lastModified));
+        throwOnPrecondition(request.evaluatePreconditions(Date.from(lastModified)));
     }
 
-    private void setLastModifiedAttribute(Date lastModified) {
+    private void setLastModifiedAttribute(Instant lastModified) {
         servletRequest.setAttribute(CacheControlFilter.LAST_MODIFIED_PROPERTY, lastModified);
     }
 
     @Override
-    public void evaluate(Date lastModified, EntityTag entityTag) {
+    public void evaluate(Instant lastModified, EntityTag entityTag) {
         setEtagAttribute(entityTag);
         setLastModifiedAttribute(lastModified);
-        throwOnPrecondition(request.evaluatePreconditions(lastModified, entityTag));
+        throwOnPrecondition(request.evaluatePreconditions(Date.from(lastModified), entityTag));
     }
 
     private void setEtagAttribute(EntityTag entityTag) {

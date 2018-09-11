@@ -18,8 +18,9 @@ package org.jaxxy.cache;
 
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
-import java.util.Date;
 
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.EntityTag;
@@ -30,8 +31,8 @@ public class DefaultCacheableResource implements CacheableResource {
 // Fields
 //----------------------------------------------------------------------------------------------------------------------
 
-    static final Instant LAST_MODIFIED_INSTANT = LocalDate.of(2000, 3, 4).atStartOfDay().toInstant(ZoneOffset.UTC);
-    static final Date LAST_MODIFIED = Date.from(LAST_MODIFIED_INSTANT);
+    static final Instant LAST_MODIFIED_INSTANT = Instant.from(OffsetDateTime.of(LocalDate.of(2015, 10, 20), LocalTime.of(7, 28, 20), ZoneOffset.UTC));
+
     static final String RESPONSE = "SUCCESS";
     static final EntityTag E_TAG = EntityTag.valueOf(String.valueOf(RESPONSE.hashCode()));
     @Context
@@ -49,13 +50,13 @@ public class DefaultCacheableResource implements CacheableResource {
 
     @Override
     public String eTagAndLastModified() {
-        preconditions().evaluate(LAST_MODIFIED, E_TAG);
+        preconditions().evaluate(LAST_MODIFIED_INSTANT, E_TAG);
         return RESPONSE;
     }
 
     @Override
     public String lastModified() {
-        preconditions().evaluate(LAST_MODIFIED);
+        preconditions().evaluate(LAST_MODIFIED_INSTANT);
         return RESPONSE;
     }
 

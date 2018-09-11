@@ -16,7 +16,6 @@
 
 package org.jaxxy.cache;
 
-import java.sql.Date;
 import java.time.temporal.ChronoUnit;
 
 import javax.ws.rs.client.Entity;
@@ -67,7 +66,7 @@ public class CacheControlFilterTest extends JaxrsTestCase<CacheableResource> {
 
     @Test
     public void should304WhenNotModifiedSince() {
-        final String lastMod = CacheControlFilter.httpDateFormat(DefaultCacheableResource.LAST_MODIFIED);
+        final String lastMod = CacheControlFilter.httpDateFormat(DefaultCacheableResource.LAST_MODIFIED_INSTANT);
         final Response response = webTarget().path("lastModified")
                 .request(MediaType.TEXT_PLAIN_TYPE)
                 .header(HttpHeaders.IF_MODIFIED_SINCE, lastMod)
@@ -78,7 +77,7 @@ public class CacheControlFilterTest extends JaxrsTestCase<CacheableResource> {
 
     @Test
     public void should304WhenNotModifiedSinceOrEtagMatches() {
-        final String lastModHeader = CacheControlFilter.httpDateFormat(DefaultCacheableResource.LAST_MODIFIED);
+        final String lastModHeader = CacheControlFilter.httpDateFormat(DefaultCacheableResource.LAST_MODIFIED_INSTANT);
         final String etagHeader = quoted(DefaultCacheableResource.RESPONSE.hashCode());
         final Response response = webTarget().path("eTagAndLastModified")
                 .request(MediaType.TEXT_PLAIN_TYPE)
@@ -116,7 +115,7 @@ public class CacheControlFilterTest extends JaxrsTestCase<CacheableResource> {
 
     @Test
     public void shouldReturnWhenEtagNoneMatchAndModifiedSince() {
-        final String lastMod = CacheControlFilter.httpDateFormat(Date.from(DefaultCacheableResource.LAST_MODIFIED_INSTANT.minus(1, ChronoUnit.DAYS)));
+        final String lastMod = CacheControlFilter.httpDateFormat(DefaultCacheableResource.LAST_MODIFIED_INSTANT.minus(1, ChronoUnit.DAYS));
         final Response response = webTarget().path("eTagAndLastModified")
                 .request(MediaType.TEXT_PLAIN_TYPE)
                 .header(HttpHeaders.IF_NONE_MATCH, quoted("bogus"))
@@ -128,13 +127,13 @@ public class CacheControlFilterTest extends JaxrsTestCase<CacheableResource> {
 
     @Test
     public void shouldReturnWhenModifiedSince() {
-        final String lastMod = CacheControlFilter.httpDateFormat(Date.from(DefaultCacheableResource.LAST_MODIFIED_INSTANT.minus(1, ChronoUnit.DAYS)));
+        final String lastMod = CacheControlFilter.httpDateFormat(DefaultCacheableResource.LAST_MODIFIED_INSTANT.minus(1, ChronoUnit.DAYS));
         final Response response = webTarget().path("lastModified")
                 .request(MediaType.TEXT_PLAIN_TYPE)
                 .header(HttpHeaders.IF_MODIFIED_SINCE, lastMod)
                 .get();
         assertThat(response.getStatus()).isEqualTo(200);
-        assertThat(response.getHeaderString(HttpHeaders.LAST_MODIFIED)).isEqualTo(httpDateFormat(DefaultCacheableResource.LAST_MODIFIED));
+        assertThat(response.getHeaderString(HttpHeaders.LAST_MODIFIED)).isEqualTo(httpDateFormat(DefaultCacheableResource.LAST_MODIFIED_INSTANT));
     }
 
     @Test
