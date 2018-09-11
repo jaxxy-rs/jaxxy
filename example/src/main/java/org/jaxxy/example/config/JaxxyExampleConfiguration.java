@@ -26,6 +26,7 @@ import org.apache.cxf.jaxrs.swagger.Swagger2Feature;
 import org.apache.cxf.transport.common.gzip.GZIPFeature;
 import org.jaxxy.cors.CorsFilter;
 import org.jaxxy.cors.ResourceSharingPolicy;
+import org.jaxxy.example.cxf.JaxxyGzipFeature;
 import org.jaxxy.example.service.DefaultHelloService;
 import org.jaxxy.example.service.HelloService;
 import org.jaxxy.gson.GsonMessageBodyProvider;
@@ -55,7 +56,7 @@ public class JaxxyExampleConfiguration {
     @Bean
     @ConditionalOnProperty(name = "jaxxy.gzipFeature.enabled", matchIfMissing = true, havingValue = "true")
     public GZIPFeature gzipFeature() {
-        return new GZIPFeature();
+        return new JaxxyGzipFeature();
     }
 
     @Bean
