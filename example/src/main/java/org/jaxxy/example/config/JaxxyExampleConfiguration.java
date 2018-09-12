@@ -22,6 +22,7 @@ import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.fasterxml.jackson.jaxrs.smile.JacksonSmileProvider;
 import com.fasterxml.jackson.jaxrs.yaml.JacksonYAMLProvider;
 import org.apache.cxf.ext.logging.LoggingFeature;
+import org.apache.cxf.jaxrs.openapi.OpenApiFeature;
 import org.apache.cxf.jaxrs.swagger.Swagger2Feature;
 import org.apache.cxf.transport.common.gzip.GZIPFeature;
 import org.jaxxy.cors.CorsFilter;
@@ -133,5 +134,11 @@ public class JaxxyExampleConfiguration {
         final Swagger2Feature feature = new Swagger2Feature();
         feature.setScanAllResources(true);
         return feature;
+    }
+
+    @Bean
+    @ConditionalOnProperty(name = "jaxxy.openapi.enabled", matchIfMissing = true, havingValue = "true")
+    public OpenApiFeature openApiFeature() {
+        return new OpenApiFeature();
     }
 }
