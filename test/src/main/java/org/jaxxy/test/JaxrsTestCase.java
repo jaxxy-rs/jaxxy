@@ -36,12 +36,12 @@ import org.junit.Before;
 
 @Slf4j
 public abstract class JaxrsTestCase<I> {
-    //----------------------------------------------------------------------------------------------------------------------
+//----------------------------------------------------------------------------------------------------------------------
 // Fields
 //----------------------------------------------------------------------------------------------------------------------
 
-    private static final int DEFAULT_PORT = 9999;
     public static final String SPLIT_HEADERS_PROP = "org.apache.cxf.http.header.split";
+    private static final int DEFAULT_PORT = 9999;
     private Server server;
     private String address;
 
