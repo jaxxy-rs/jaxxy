@@ -43,7 +43,7 @@ public class RolesAllowedFilterTest extends JaxrsTestCase<HelloResource> {
 
     @Override
     protected void configureServer(JaxrsServerConfig config) {
-        config.withProvider(new RolesAllowedFilter());
+        config.withProvider(new RolesAllowedDynamicFeature());
         config.withProvider(new ContainerTokenAuthFilter(token-> new SecurityContext() {
             @Override
             public Principal getUserPrincipal() {

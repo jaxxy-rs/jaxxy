@@ -27,13 +27,9 @@ public class Types {
 // Static Methods
 //----------------------------------------------------------------------------------------------------------------------
 
-    private Types() {
-        // Preventing instantiation.
-    }
-
     public static <T> T instantiate(Class<T> type) {
         try {
-            return type.newInstance();
+            return type.getConstructor().newInstance();
         } catch (ReflectiveOperationException e) {
             throw new ReflectionException(e, "Unable to instantiate object of type %s.", type.getCanonicalName());
         }
@@ -48,5 +44,13 @@ public class Types {
         Map<TypeVariable<?>, Type> typeArguments = TypeUtils.getTypeArguments(type, definingClass);
         TypeVariable<Class<P>> typeVar = definingClass.getTypeParameters()[varIndex];
         return (C) typeArguments.get(typeVar);
+    }
+
+//----------------------------------------------------------------------------------------------------------------------
+// Constructors
+//----------------------------------------------------------------------------------------------------------------------
+
+    private Types() {
+        // Preventing instantiation.
     }
 }

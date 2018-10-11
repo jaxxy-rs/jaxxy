@@ -16,44 +16,38 @@
 
 package org.jaxxy.security.role;
 
-import java.util.stream.Stream;
+import java.util.Set;
 
 import javax.annotation.Priority;
-import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.ForbiddenException;
 import javax.ws.rs.Priorities;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
-import javax.ws.rs.container.ResourceInfo;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.ext.Provider;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
-import static java.util.Optional.ofNullable;
 
 @Provider
 @Priority(Priorities.AUTHORIZATION)
 @Slf4j
+@RequiredArgsConstructor
 public class RolesAllowedFilter implements ContainerRequestFilter {
 //----------------------------------------------------------------------------------------------------------------------
 // Fields
 //----------------------------------------------------------------------------------------------------------------------
 
-    @Context
-    private ResourceInfo resourceInfo;
+    private final Set<String> rolesAllowed;
 
 //----------------------------------------------------------------------------------------------------------------------
 // ContainerRequestFilter Implementation
 //----------------------------------------------------------------------------------------------------------------------
 
-
     @Override
     public void filter(ContainerRequestContext request) {
-        final String allowedRole = ofNullable(resourceInfo.getResourceMethod().getAnnotation(RolesAllowed.class))
-                .flatMap(annotation -> Stream.of(annotation.value())
-                        .filter(role -> request.getSecurityContext().isUserInRole(role))
-                        .findFirst())
+        final String allowedRole = rolesAllowed.stream()
+                .filter(role -> request.getSecurityContext().isUserInRole(role))
+                .findFirst()
                 .orElseThrow(ForbiddenException::new);
         log.debug("Proceeding with request using allowed role '{}'.", allowedRole);
     }
