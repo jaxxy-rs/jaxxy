@@ -21,6 +21,7 @@ import java.util.List;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.fasterxml.jackson.jaxrs.smile.JacksonSmileProvider;
 import com.fasterxml.jackson.jaxrs.yaml.JacksonYAMLProvider;
+import com.google.gson.Gson;
 import org.apache.cxf.ext.logging.LoggingFeature;
 import org.apache.cxf.jaxrs.openapi.OpenApiFeature;
 import org.apache.cxf.jaxrs.swagger.Swagger2Feature;
@@ -94,8 +95,8 @@ public class JaxxyExampleConfiguration {
 
     @Bean
     @ConditionalOnProperty(name = "jaxxy.json.provider", matchIfMissing = true, havingValue = "gson")
-    public GsonMessageBodyProvider gsonMessageBodyProvider() {
-        return new GsonMessageBodyProvider();
+    public GsonMessageBodyProvider gsonMessageBodyProvider(Gson gson) {
+        return new GsonMessageBodyProvider(gson);
     }
 
     @Bean
