@@ -21,7 +21,7 @@
 
     <groupId>org.jaxxy</groupId>
     <artifactId>jaxxy</artifactId>
-    <version>0.0.4-SNAPSHOT</version>
+    <version>0.0.4</version>
 
     <packaging>pom</packaging>
     <name>Jaxxy</name>
@@ -40,7 +40,8 @@
         <url>https://github.com/jaxxy-rs/jaxxy</url>
         <connection>scm:git:git@github.com:jaxxy-rs/jaxxy.git</connection>
         <developerConnection>scm:git:git@github.com:jaxxy-rs/jaxxy.git</developerConnection>
-    </scm>
+      <tag>jaxxy-0.0.4</tag>
+  </scm>
 
     <distributionManagement>
         <snapshotRepository>
