@@ -21,12 +21,21 @@
 
     <groupId>org.jaxxy</groupId>
     <artifactId>jaxxy</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.1-SNAPSHOT</version>
 
     <packaging>pom</packaging>
     <name>Jaxxy</name>
+    <description>A collection of useful JAX-RS providers.</description>
     <inceptionYear>2018</inceptionYear>
+    <url>https://github.com/jaxxy-rs/jaxxy</url>
 
+    <developers>
+        <developer>
+            <id>jwcarman</id>
+            <name>James Carman</name>
+        </developer>
+    </developers>
+    
     <licenses>
         <license>
             <name>Apache 2</name>
