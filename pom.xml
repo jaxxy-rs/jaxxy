@@ -456,9 +456,6 @@
                                 </goals>
                             </execution>
                         </executions>
-                        <configuration>
-                            <useAgent>false</useAgent>
-                        </configuration>
                     </plugin>
                 </plugins>
             </build>
