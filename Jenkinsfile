@@ -21,15 +21,6 @@ pipeline {
         jdk 'JDK8'
     }
     stages {
-        stage ('Initialize') {
-            steps {
-                sh '''
-                    echo "PATH = ${PATH}"
-                    echo "M2_HOME = ${M2_HOME}"
-                '''
-            }
-        }
-
         stage ('Build') {
             steps {
                 sh 'mvn clean deploy'
@@ -38,6 +29,12 @@ pipeline {
                 success {
                     junit '**/target/surefire-reports/**/*.xml'
                 }
+            }
+        }
+
+        stage('Archive') {
+            steps {
+                archiveArtifacts artifacts: '', fingerprint: true, onlyIfSuccessful: true
             }
         }
     }
