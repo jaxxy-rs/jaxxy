@@ -81,23 +81,23 @@
         -->
         <activation.version>1.1.1</activation.version>
         <annotation.version>1.3</annotation.version>
-        <assertj.version>3.11.0</assertj.version>
+        <assertj.version>3.11.1</assertj.version>
         <auth0.jwt.version>3.4.0</auth0.jwt.version>
-        <commons.lang3.version>3.8</commons.lang3.version>
+        <commons.lang3.version>3.8.1</commons.lang3.version>
         <commons.io.version>2.6</commons.io.version>
         <cxf.version>3.2.7</cxf.version>
         <gson.version>2.8.5</gson.version>
         <jackson.version>2.9.6</jackson.version>
         <jaxrs.version>2.1</jaxrs.version>
         <jaxws.version>2.3.0</jaxws.version>
-        <johnzon.version>1.1.8</johnzon.version>
+        <johnzon.version>1.1.10</johnzon.version>
         <jsonb.version>1.0</jsonb.version>
         <jsonp.version>1.1.2</jsonp.version>
         <junit.version>4.11</junit.version>
-        <lombok.version>1.18.2</lombok.version>
+        <lombok.version>1.18.4</lombok.version>
         <mockito.version>2.21.0</mockito.version>
         <protobuf.version>3.6.1</protobuf.version>
-        <reactor.version>3.1.9.RELEASE</reactor.version>
+        <reactor.version>3.2.3.RELEASE</reactor.version>
         <rxjava.version>2.2.2</rxjava.version>
         <servlet.api.version>3.1.0</servlet.api.version>
         <slf4j.version>1.7.25</slf4j.version>
