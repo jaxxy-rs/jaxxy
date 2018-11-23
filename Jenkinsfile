@@ -26,15 +26,10 @@ pipeline {
                 sh 'mvn clean deploy'
             }
             post {
-                success {
+                always {
                     junit '**/target/surefire-reports/**/*.xml'
+                    archiveArtifacts artifacts: '**/target/**/*.jar', fingerprint: true, onlyIfSuccessful: true
                 }
-            }
-        }
-
-        stage('Archive') {
-            steps {
-                archiveArtifacts artifacts: '', fingerprint: true, onlyIfSuccessful: true
             }
         }
     }
