@@ -1,178 +1,89 @@
-/*
- * Copyright (c) 2018 The Jaxxy Authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package org.jaxxy.rxjava;
-
-import java.util.function.Function;
 
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.RxInvoker;
-import javax.ws.rs.client.SyncInvoker;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 
 import io.reactivex.Single;
-import lombok.RequiredArgsConstructor;
 
 /**
- * Provides support for RxJava {@link Single} return types from {@link javax.ws.rs.client.WebTarget}-based
- * invocations.
+ * An {@link RxInvoker} implementation which supports RxJava&apos;s {@link Single}.
  */
-@RequiredArgsConstructor
-public class SingleInvoker implements RxInvoker<Single<?>> {
-//----------------------------------------------------------------------------------------------------------------------
-// Fields
-//----------------------------------------------------------------------------------------------------------------------
-
-    private final SyncInvoker syncInvoker;
-
-//----------------------------------------------------------------------------------------------------------------------
-// RxInvoker Implementation
-//----------------------------------------------------------------------------------------------------------------------
+public interface SingleInvoker extends RxInvoker<Single> {
 
     @Override
-    public Single<Response> delete() {
-        return single(SyncInvoker::delete);
-    }
+    Single<Response> delete();
 
     @Override
-    public <R> Single<R> delete(Class<R> responseType) {
-        return single(s -> s.delete(responseType));
-    }
+    <R> Single<R> delete(Class<R> responseType);
 
     @Override
-    public <R> Single<R> delete(GenericType<R> responseType) {
-        return single(s -> s.delete(responseType));
-    }
+    <R> Single<R> delete(GenericType<R> responseType);
 
     @Override
-    public Single<Response> get() {
-        return single(SyncInvoker::get);
-    }
+    Single<Response> get();
 
     @Override
-    public <R> Single<R> get(Class<R> responseType) {
-        return single(s -> s.get(responseType));
-    }
+    <R> Single<R> get(Class<R> responseType);
 
     @Override
-    public <R> Single<R> get(GenericType<R> responseType) {
-        return single(s -> s.get(responseType));
-    }
+    <R> Single<R> get(GenericType<R> responseType);
 
     @Override
-    public Single<Response> head() {
-        return single(SyncInvoker::head);
-    }
+    Single<Response> head();
 
     @Override
-    public Single<Response> method(String name) {
-        return single(s -> s.method(name));
-    }
+    Single<Response> method(String name);
 
     @Override
-    public <R> Single<R> method(String name, Class<R> responseType) {
-        return single(s -> s.method(name, responseType));
-    }
+    <R> Single<R> method(String name, Class<R> responseType);
 
     @Override
-    public <R> Single<R> method(String name, GenericType<R> responseType) {
-        return single(s -> s.method(name, responseType));
-    }
+    <R> Single<R> method(String name, GenericType<R> responseType);
 
     @Override
-    public Single<Response> method(String name, Entity<?> entity) {
-        return single(s -> s.method(name, entity));
-    }
+    Single<Response> method(String name, Entity<?> entity);
 
     @Override
-    public <R> Single<R> method(String name, Entity<?> entity, Class<R> responseType) {
-        return single(s -> s.method(name, entity, responseType));
-    }
+    <R> Single<R> method(String name, Entity<?> entity, Class<R> responseType);
 
     @Override
-    public <R> Single<R> method(String name, Entity<?> entity, GenericType<R> responseType) {
-        return single(s -> s.method(name, entity, responseType));
-    }
+    <R> Single<R> method(String name, Entity<?> entity, GenericType<R> responseType);
 
     @Override
-    public Single<Response> options() {
-        return single(SyncInvoker::options);
-    }
+    Single<Response> options();
 
     @Override
-    public <R> Single<R> options(Class<R> responseType) {
-        return single(s -> s.options(responseType));
-    }
+    <R> Single<R> options(Class<R> responseType);
 
     @Override
-    public <R> Single<R> options(GenericType<R> responseType) {
-        return single(s -> s.options(responseType));
-    }
+    <R> Single<R> options(GenericType<R> responseType);
 
     @Override
-    public Single<Response> post(Entity<?> entity) {
-        return single(s -> s.post(entity));
-    }
+    Single<Response> post(Entity<?> entity);
 
     @Override
-    public <R> Single<R> post(Entity<?> entity, Class<R> responseType) {
-        return single(s -> s.post(entity, responseType));
-    }
+    <R> Single<R> post(Entity<?> entity, Class<R> responseType);
 
     @Override
-    public <R> Single<R> post(Entity<?> entity, GenericType<R> responseType) {
-        return single(s -> s.post(entity, responseType));
-    }
+    <R> Single<R> post(Entity<?> entity, GenericType<R> responseType);
 
     @Override
-    public Single<Response> put(Entity<?> entity) {
-        return single(s -> s.put(entity));
-    }
+    Single<Response> put(Entity<?> entity);
 
     @Override
-    public <R> Single<R> put(Entity<?> entity, Class<R> responseType) {
-        return single(s -> s.put(entity, responseType));
-    }
+    <R> Single<R> put(Entity<?> entity, Class<R> responseType);
 
     @Override
-    public <R> Single<R> put(Entity<?> entity, GenericType<R> responseType) {
-        return single(s -> s.put(entity, responseType));
-    }
+    <R> Single<R> put(Entity<?> entity, GenericType<R> responseType);
 
     @Override
-    public Single<Response> trace() {
-        return single(SyncInvoker::trace);
-    }
+    Single<Response> trace();
 
     @Override
-    public <R> Single<R> trace(Class<R> responseType) {
-        return single(s -> s.trace(responseType));
-    }
+    <R> Single<R> trace(Class<R> responseType);
 
     @Override
-    public <R> Single<R> trace(GenericType<R> responseType) {
-        return single(s -> s.trace(responseType));
-    }
-
-//----------------------------------------------------------------------------------------------------------------------
-// Other Methods
-//----------------------------------------------------------------------------------------------------------------------
-
-    private <T> Single<T> single(Function<SyncInvoker, T> fn) {
-        return Single.fromCallable(() -> fn.apply(syncInvoker));
-    }
+    <R> Single<R> trace(GenericType<R> responseType);
 }

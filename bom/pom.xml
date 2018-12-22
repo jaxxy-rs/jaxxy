@@ -49,6 +49,11 @@
             </dependency>
             <dependency>
                 <groupId>org.jaxxy</groupId>
+                <artifactId>jaxxy-guava</artifactId>
+                <version>0.0.3-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jaxxy</groupId>
                 <artifactId>jaxxy-io</artifactId>
                 <version>0.0.3-SNAPSHOT</version>
             </dependency>

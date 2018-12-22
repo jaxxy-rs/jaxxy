@@ -25,9 +25,9 @@
         <version>0.0.3-SNAPSHOT</version>
     </parent>
 
-    <artifactId>jaxxy-reactor</artifactId>
+    <artifactId>jaxxy-guava</artifactId>
 
-    <name>Jaxxy :: Project Reactor</name>
+    <name>Jaxxy :: Guava</name>
 
     <dependencies>
         <dependency>
@@ -36,9 +36,8 @@
             <version>0.0.3-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>io.projectreactor</groupId>
-            <artifactId>reactor-core</artifactId>
-            <version>${reactor.version}</version>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
         </dependency>
 
         <dependency>

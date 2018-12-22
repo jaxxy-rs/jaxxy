@@ -25,16 +25,11 @@
         <version>0.0.3-SNAPSHOT</version>
     </parent>
 
-    <artifactId>jaxxy-reactor</artifactId>
+    <artifactId>jaxxy-rx</artifactId>
 
-    <name>Jaxxy :: Project Reactor</name>
+    <name>Jaxxy :: RX</name>
 
     <dependencies>
-        <dependency>
-            <groupId>org.jaxxy</groupId>
-            <artifactId>jaxxy-rx</artifactId>
-            <version>0.0.3-SNAPSHOT</version>
-        </dependency>
         <dependency>
             <groupId>io.projectreactor</groupId>
             <artifactId>reactor-core</artifactId>

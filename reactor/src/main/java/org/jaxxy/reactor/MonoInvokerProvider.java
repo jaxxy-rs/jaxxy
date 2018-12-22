@@ -17,10 +17,15 @@
 package org.jaxxy.reactor;
 
 import java.util.concurrent.ExecutorService;
+import java.util.function.Function;
 
 import javax.ws.rs.client.RxInvokerProvider;
 import javax.ws.rs.client.SyncInvoker;
 import javax.ws.rs.ext.Provider;
+
+import lombok.RequiredArgsConstructor;
+import org.jaxxy.rx.AbstractRxInvoker;
+import reactor.core.publisher.Mono;
 
 @Provider
 public class MonoInvokerProvider implements RxInvokerProvider<MonoInvoker> {
@@ -30,11 +35,26 @@ public class MonoInvokerProvider implements RxInvokerProvider<MonoInvoker> {
 
     @Override
     public MonoInvoker getRxInvoker(SyncInvoker syncInvoker, ExecutorService executorService) {
-        return new MonoInvoker(syncInvoker);
+        return new Invoker(syncInvoker);
     }
 
     @Override
     public boolean isProviderFor(Class<?> clazz) {
         return MonoInvoker.class.equals(clazz);
+    }
+
+//----------------------------------------------------------------------------------------------------------------------
+// Inner Classes
+//----------------------------------------------------------------------------------------------------------------------
+
+    @RequiredArgsConstructor
+    private static class Invoker extends AbstractRxInvoker<Mono> implements MonoInvoker {
+
+        private final SyncInvoker syncInvoker;
+
+        @Override
+        protected <R> Mono async(Function<SyncInvoker, R> fn) {
+            return Mono.fromCallable(() -> fn.apply(syncInvoker));
+        }
     }
 }

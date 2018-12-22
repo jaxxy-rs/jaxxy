@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.jaxxy.test.hello;
+package org.jaxxy.test.echo;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

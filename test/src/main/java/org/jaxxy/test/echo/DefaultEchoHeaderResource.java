@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.jaxxy.test.hello;
+package org.jaxxy.test.echo;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.core.Context;

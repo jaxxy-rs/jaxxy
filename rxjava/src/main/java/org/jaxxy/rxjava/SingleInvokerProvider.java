@@ -17,10 +17,15 @@
 package org.jaxxy.rxjava;
 
 import java.util.concurrent.ExecutorService;
+import java.util.function.Function;
 
 import javax.ws.rs.client.RxInvokerProvider;
 import javax.ws.rs.client.SyncInvoker;
 import javax.ws.rs.ext.Provider;
+
+import io.reactivex.Single;
+import lombok.RequiredArgsConstructor;
+import org.jaxxy.rx.AbstractRxInvoker;
 
 @Provider
 public class SingleInvokerProvider implements RxInvokerProvider<SingleInvoker> {
@@ -30,11 +35,26 @@ public class SingleInvokerProvider implements RxInvokerProvider<SingleInvoker> {
 
     @Override
     public SingleInvoker getRxInvoker(SyncInvoker syncInvoker, ExecutorService executorService) {
-        return new SingleInvoker(syncInvoker);
+        return new Invoker(syncInvoker);
     }
 
     @Override
     public boolean isProviderFor(Class<?> clazz) {
         return SingleInvoker.class.equals(clazz);
+    }
+
+//----------------------------------------------------------------------------------------------------------------------
+// Inner Classes
+//----------------------------------------------------------------------------------------------------------------------
+
+    @RequiredArgsConstructor
+    private static class Invoker extends AbstractRxInvoker<Single> implements SingleInvoker {
+
+        private final SyncInvoker syncInvoker;
+
+        @Override
+        protected <R> Single async(Function<SyncInvoker, R> fn) {
+            return Single.fromCallable(() -> fn.apply(syncInvoker));
+        }
     }
 }
