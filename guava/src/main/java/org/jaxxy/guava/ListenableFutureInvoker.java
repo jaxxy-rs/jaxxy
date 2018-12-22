@@ -8,7 +8,7 @@ import javax.ws.rs.core.Response;
 import com.google.common.util.concurrent.ListenableFuture;
 
 /**
- * An {@link RxInvoker} implementation which supports Guava&apos;s {@link ListenableFuture}.
+ * An {@link RxInvoker} implementation which supports Guava {@link ListenableFuture}.
  */
 public interface ListenableFutureInvoker extends RxInvoker<ListenableFuture> {
 //----------------------------------------------------------------------------------------------------------------------

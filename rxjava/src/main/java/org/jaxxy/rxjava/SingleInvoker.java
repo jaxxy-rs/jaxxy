@@ -8,7 +8,7 @@ import javax.ws.rs.core.Response;
 import io.reactivex.Single;
 
 /**
- * An {@link RxInvoker} implementation which supports RxJava&apos;s {@link Single}.
+ * An {@link RxInvoker} implementation which supports RxJava {@link Single}.
  */
 public interface SingleInvoker extends RxInvoker<Single> {
 

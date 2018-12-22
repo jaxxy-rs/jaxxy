@@ -8,7 +8,7 @@ import javax.ws.rs.core.Response;
 import reactor.core.publisher.Mono;
 
 /**
- * An {@link RxInvoker} which supports Project Reactor&apos;s {@link Mono}.
+ * An {@link RxInvoker} which supports Project Reactor {@link Mono}.
  */
 public interface MonoInvoker extends RxInvoker<Mono> {
     @Override
