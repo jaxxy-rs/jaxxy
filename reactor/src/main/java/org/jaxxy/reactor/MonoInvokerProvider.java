@@ -48,6 +48,7 @@ public class MonoInvokerProvider implements RxInvokerProvider<MonoInvoker> {
 //----------------------------------------------------------------------------------------------------------------------
 
     @RequiredArgsConstructor
+    @SuppressWarnings("unchecked")
     private static class Invoker extends AbstractRxInvoker<Mono> implements MonoInvoker {
 
         private final SyncInvoker syncInvoker;

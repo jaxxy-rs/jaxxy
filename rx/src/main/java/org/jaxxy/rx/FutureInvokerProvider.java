@@ -16,13 +16,38 @@ import static java.util.Optional.ofNullable;
 @Provider
 public class FutureInvokerProvider implements RxInvokerProvider<FutureInvoker> {
 //----------------------------------------------------------------------------------------------------------------------
+// Fields
+//----------------------------------------------------------------------------------------------------------------------
+
+    private final ExecutorService defaultExecutorService;
+
+//----------------------------------------------------------------------------------------------------------------------
+// Constructors
+//----------------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Creates a new {@link FutureInvokerProvider} which calls {@link Executors#newCachedThreadPool()}
+     * to create its default {@link ExecutorService}.
+     */
+    public FutureInvokerProvider() {
+        this(Executors.newCachedThreadPool());
+    }
+
+    /**
+     * Creates a new {@link FutureInvokerProvider} which uses the provided default {@link ExecutorService}.
+     * @param defaultExecutorService
+     */
+    public FutureInvokerProvider(ExecutorService defaultExecutorService) {
+        this.defaultExecutorService = defaultExecutorService;
+    }
+
+//----------------------------------------------------------------------------------------------------------------------
 // RxInvokerProvider Implementation
 //----------------------------------------------------------------------------------------------------------------------
 
-
     @Override
     public FutureInvoker getRxInvoker(SyncInvoker syncInvoker, ExecutorService executorService) {
-        return new Invoker(syncInvoker, ofNullable(executorService).orElse(Executors.newFixedThreadPool(1)));
+        return new Invoker(syncInvoker, ofNullable(executorService).orElse(defaultExecutorService));
     }
 
     @Override
@@ -35,10 +60,18 @@ public class FutureInvokerProvider implements RxInvokerProvider<FutureInvoker> {
 //----------------------------------------------------------------------------------------------------------------------
 
     @RequiredArgsConstructor
+    @SuppressWarnings("unchecked")
     private static class Invoker extends AbstractRxInvoker<Future> implements FutureInvoker {
+//----------------------------------------------------------------------------------------------------------------------
+// Fields
+//----------------------------------------------------------------------------------------------------------------------
 
         private final SyncInvoker syncInvoker;
         private final ExecutorService executorService;
+
+//----------------------------------------------------------------------------------------------------------------------
+// Other Methods
+//----------------------------------------------------------------------------------------------------------------------
 
         @Override
         protected <R> Future async(Function<SyncInvoker, R> fn) {

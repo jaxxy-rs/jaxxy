@@ -7,7 +7,6 @@ import javax.ws.rs.client.RxInvoker;
 import javax.ws.rs.client.SyncInvoker;
 import javax.ws.rs.core.GenericType;
 
-
 public abstract class AbstractRxInvoker<T> implements RxInvoker<T> {
 //----------------------------------------------------------------------------------------------------------------------
 // Abstract Methods

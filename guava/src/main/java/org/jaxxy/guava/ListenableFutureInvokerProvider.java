@@ -1,6 +1,7 @@
 package org.jaxxy.guava;
 
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.function.Function;
 
 import javax.ws.rs.client.RxInvokerProvider;
@@ -16,13 +17,31 @@ import org.jaxxy.rx.AbstractRxInvoker;
 import static java.util.Optional.ofNullable;
 
 @Provider
-@RequiredArgsConstructor
 public class ListenableFutureInvokerProvider implements RxInvokerProvider<ListenableFutureInvoker> {
 //----------------------------------------------------------------------------------------------------------------------
 // Fields
 //----------------------------------------------------------------------------------------------------------------------
 
     private final ListeningExecutorService defaultExecutorService;
+
+//----------------------------------------------------------------------------------------------------------------------
+// Constructors
+//----------------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Creates a new {@link ListenableFutureInvokerProvider} which calls {@link Executors#newCachedThreadPool()}
+     * to create its default {@link ExecutorService}.
+     */
+    public ListenableFutureInvokerProvider() {
+        this(MoreExecutors.listeningDecorator(Executors.newCachedThreadPool()));
+    }
+
+    /**
+     * Creates a new {@link ListenableFutureInvokerProvider} which uses the provided default {@link ExecutorService}.
+     */
+    public ListenableFutureInvokerProvider(ListeningExecutorService defaultExecutorService) {
+        this.defaultExecutorService = defaultExecutorService;
+    }
 
 //----------------------------------------------------------------------------------------------------------------------
 // RxInvokerProvider Implementation
@@ -43,11 +62,19 @@ public class ListenableFutureInvokerProvider implements RxInvokerProvider<Listen
 //----------------------------------------------------------------------------------------------------------------------
 
     @RequiredArgsConstructor
+    @SuppressWarnings("unchecked")
     private static class Invoker extends AbstractRxInvoker<ListenableFuture> implements ListenableFutureInvoker {
+//----------------------------------------------------------------------------------------------------------------------
+// Fields
+//----------------------------------------------------------------------------------------------------------------------
 
         private final SyncInvoker syncInvoker;
         private final ListeningExecutorService executorService;
-        
+
+//----------------------------------------------------------------------------------------------------------------------
+// Other Methods
+//----------------------------------------------------------------------------------------------------------------------
+
         @Override
         protected <R> ListenableFuture async(Function<SyncInvoker, R> fn) {
             return executorService.submit(() -> fn.apply(syncInvoker));

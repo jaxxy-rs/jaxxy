@@ -1,11 +1,8 @@
 package org.jaxxy.guava;
 
-import java.util.concurrent.Executors;
-
 import javax.ws.rs.core.MediaType;
 
 import com.google.common.util.concurrent.ListenableFuture;
-import com.google.common.util.concurrent.MoreExecutors;
 import org.jaxxy.test.JaxrsClientConfig;
 import org.jaxxy.test.JaxrsTestCase;
 import org.jaxxy.test.hello.HelloResource;
@@ -34,7 +31,7 @@ public class ListenableFutureInvokerProviderTest extends JaxrsTestCase<HelloReso
     @Override
     protected void configureClient(JaxrsClientConfig config) {
         super.configureClient(config);
-        config.withProvider(new ListenableFutureInvokerProvider(MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(1))));
+        config.withProvider(new ListenableFutureInvokerProvider());
     }
 
     @Override
