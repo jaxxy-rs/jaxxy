@@ -34,7 +34,7 @@ public class Types {
 //----------------------------------------------------------------------------------------------------------------------
 
     /**
-     * Returns a {@link SupportedTypesPredicate.SupportedTypesPredicateBuilder} with the following types blacklisted:
+     * Returns a {@link SupportedTypesPredicate} builder with the following types blacklisted:
      *
      * <ul>
      * <li>{@link String}</li>
