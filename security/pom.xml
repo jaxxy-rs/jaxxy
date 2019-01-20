@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.jaxxy</groupId>
         <artifactId>jaxxy</artifactId>
-        <version>0.3.0-SNAPSHOT</version>
+        <version>0.3.0</version>
     </parent>
 
     <artifactId>jaxxy-security</artifactId>
@@ -37,7 +37,7 @@
         <dependency>
             <groupId>org.jaxxy</groupId>
             <artifactId>jaxxy-util</artifactId>
-            <version>0.3.0-SNAPSHOT</version>
+            <version>0.3.0</version>
         </dependency>
         <dependency>
             <groupId>com.auth0</groupId>
@@ -46,7 +46,7 @@
         <dependency>
             <groupId>org.jaxxy</groupId>
             <artifactId>jaxxy-test</artifactId>
-            <version>0.3.0-SNAPSHOT</version>
+            <version>0.3.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
