@@ -46,8 +46,9 @@ public class Types {
      * <li>{@link DataSource}</li>
      * </ul>
      * <p>
-     * Per the <a href="https://jcp.org/en/jsr/detail?id=370">JAX-RS 2.1 Specification</a> the JAX-RS implementation
-     * must include entity providers for these types for the {@link javax.ws.rs.core.MediaType#WILDCARD} media type.
+     * Per the <a href="https://jcp.org/en/jsr/detail?id=370">JAX-RS 2.1 Specification</a> (section 4.2.4), the JAX-RS
+     * implementation must include entity providers for these types for the {@link javax.ws.rs.core.MediaType#WILDCARD}
+     * media type.
      *
      * @return the builder
      */
