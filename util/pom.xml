@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.jaxxy</groupId>
         <artifactId>jaxxy</artifactId>
-        <version>0.3.0</version>
+        <version>0.3.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>jaxxy-util</artifactId>
