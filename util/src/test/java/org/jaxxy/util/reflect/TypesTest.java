@@ -16,12 +16,32 @@
 
 package org.jaxxy.util.reflect;
 
+import java.io.File;
+import java.io.InputStream;
+import java.io.Reader;
+
+import javax.activation.DataSource;
+import javax.ws.rs.core.StreamingOutput;
+
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class TypesTest {
+
+    @Test
+    public void predicateWithDefaultBlacklist() {
+        final SupportedTypesPredicate predicate = Types.predicateWithDefaultBlacklist().build();
+        assertThat(predicate.test(String.class)).isFalse();
+        assertThat(predicate.test(byte[].class)).isFalse();
+        assertThat(predicate.test(Reader.class)).isFalse();
+        assertThat(predicate.test(InputStream.class)).isFalse();
+        assertThat(predicate.test(DataSource.class)).isFalse();
+        assertThat(predicate.test(StreamingOutput.class)).isFalse();
+        assertThat(predicate.test(File.class)).isFalse();
+    }
+
     @Test
     public void shouldInstantiate() {
         final Instantiable obj = Types.instantiate(Instantiable.class);
