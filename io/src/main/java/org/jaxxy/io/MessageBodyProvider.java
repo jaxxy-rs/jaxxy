@@ -18,21 +18,34 @@ package org.jaxxy.io;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
+import java.util.function.Predicate;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
+import lombok.extern.slf4j.Slf4j;
 import org.jaxxy.util.reflect.Types;
 
 @Provider
+@Slf4j
 public abstract class MessageBodyProvider<T> implements MessageBodyReader<T>, MessageBodyWriter<T> {
 //----------------------------------------------------------------------------------------------------------------------
 // Fields
 //----------------------------------------------------------------------------------------------------------------------
 
-    private final Class<T> supportedType = Types.typeParamFromClass(getClass(), MessageBodyProvider.class, 0);
+    private final Predicate<Class<?>> supportedTypePredicate;
+
+//----------------------------------------------------------------------------------------------------------------------
+// Constructors
+//----------------------------------------------------------------------------------------------------------------------
+
+    public MessageBodyProvider() {
+        this.supportedTypePredicate = Types.predicateWithDefaultBlacklist()
+                .whitelist(Types.typeParamFromClass(getClass(), MessageBodyProvider.class, 0))
+                .build();
+    }
 
 //----------------------------------------------------------------------------------------------------------------------
 // MessageBodyReader Implementation
@@ -40,7 +53,7 @@ public abstract class MessageBodyProvider<T> implements MessageBodyReader<T>, Me
 
     @Override
     public boolean isReadable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
-        return supportedType.isAssignableFrom(type);
+        return isSupportedType(type);
     }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -49,6 +62,20 @@ public abstract class MessageBodyProvider<T> implements MessageBodyReader<T>, Me
 
     @Override
     public boolean isWriteable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
-        return supportedType.isAssignableFrom(type);
+        return isSupportedType(type);
+    }
+
+//----------------------------------------------------------------------------------------------------------------------
+// Other Methods
+//----------------------------------------------------------------------------------------------------------------------
+
+    /**
+     * Override to customize the types supported by this provider.
+     *
+     * @param type the type
+     * @return whether or not the type is to be supported by this provider
+     */
+    protected boolean isSupportedType(Class<?> type) {
+        return supportedTypePredicate.test(type);
     }
 }

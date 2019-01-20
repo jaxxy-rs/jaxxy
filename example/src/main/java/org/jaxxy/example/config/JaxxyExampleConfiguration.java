@@ -28,7 +28,6 @@ import org.apache.cxf.jaxrs.swagger.Swagger2Feature;
 import org.apache.cxf.transport.common.gzip.GZIPFeature;
 import org.jaxxy.cors.CorsFilter;
 import org.jaxxy.cors.ResourceSharingPolicy;
-import org.jaxxy.example.cxf.JaxxyGzipFeature;
 import org.jaxxy.example.service.DefaultHelloService;
 import org.jaxxy.example.service.HelloService;
 import org.jaxxy.gson.GsonMessageBodyProvider;
@@ -39,6 +38,7 @@ import org.jaxxy.logging.RequestLogFilter;
 import org.jaxxy.logging.decorator.HeadersDecorator;
 import org.jaxxy.logging.decorator.ResourceDecorator;
 import org.jaxxy.protobuf.ProtobufMessageBodyProvider;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -50,15 +50,21 @@ public class JaxxyExampleConfiguration {
 //----------------------------------------------------------------------------------------------------------------------
 
     @Bean
+    @ConditionalOnMissingBean
+    public ResourceSharingPolicy resourceSharingPolicy() {
+        return ResourceSharingPolicy.defaultPolicy();
+    }
+
+    @Bean
     @ConditionalOnProperty(name = "jaxxy.cors.enabled", matchIfMissing = true, havingValue = "true")
-    public CorsFilter corsFilter() {
-        return new CorsFilter(ResourceSharingPolicy.defaultPolicy());
+    public CorsFilter corsFilter(ResourceSharingPolicy policy) {
+        return new CorsFilter(policy);
     }
 
     @Bean
     @ConditionalOnProperty(name = "jaxxy.gzipFeature.enabled", matchIfMissing = true, havingValue = "true")
     public GZIPFeature gzipFeature() {
-        return new JaxxyGzipFeature();
+        return new GZIPFeature();
     }
 
     @Bean
