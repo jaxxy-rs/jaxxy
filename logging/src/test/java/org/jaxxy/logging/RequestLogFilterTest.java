@@ -21,8 +21,8 @@ import java.util.concurrent.TimeUnit;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.jaxxy.test.JaxrsServerConfig;
 import org.jaxxy.test.JaxrsTestCase;
+import org.jaxxy.test.fixture.JaxrsServiceFixtureFactory;
 import org.jaxxy.test.hello.DefaultHelloResource;
 import org.jaxxy.test.hello.HelloResource;
 import org.junit.Test;
@@ -57,11 +57,12 @@ public class RequestLogFilterTest extends JaxrsTestCase<HelloResource> {
 //----------------------------------------------------------------------------------------------------------------------
 
     @Override
-    protected void configureServer(JaxrsServerConfig config) {
-        config.withProvider(RequestLogFilter.builder()
-                .elapsedTimeUnit(TimeUnit.MILLISECONDS)
-                .logger(log)
-                .build());
+    protected JaxrsServiceFixtureFactory createJaxrsFixtureFactory() {
+        return super.createJaxrsFixtureFactory()
+                .withContainerProvider(RequestLogFilter.builder()
+                        .elapsedTimeUnit(TimeUnit.MILLISECONDS)
+                        .logger(log)
+                        .build());
     }
 
     @Override

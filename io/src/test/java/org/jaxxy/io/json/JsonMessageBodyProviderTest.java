@@ -32,9 +32,8 @@ import javax.ws.rs.core.StreamingOutput;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.cxf.jaxrs.ext.multipart.InputStreamDataSource;
-import org.jaxxy.test.JaxrsClientConfig;
-import org.jaxxy.test.JaxrsServerConfig;
 import org.jaxxy.test.JaxrsTestCase;
+import org.jaxxy.test.fixture.JaxrsServiceFixtureFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -57,15 +56,10 @@ public class JsonMessageBodyProviderTest extends JaxrsTestCase<JsonLocalDateReso
 //----------------------------------------------------------------------------------------------------------------------
 
     @Override
-    protected void configureClient(JaxrsClientConfig config) {
-        super.configureClient(config);
-        config.withProvider(new JsonLocalDateMessageBodyProvider());
-    }
-
-    @Override
-    protected void configureServer(JaxrsServerConfig config) {
-        super.configureServer(config);
-        config.withProvider(new JsonLocalDateMessageBodyProvider());
+    protected JaxrsServiceFixtureFactory createJaxrsFixtureFactory() {
+        return super.createJaxrsFixtureFactory()
+                .withClientProvider(new JsonLocalDateMessageBodyProvider())
+                .withContainerProvider(new JsonLocalDateMessageBodyProvider());
     }
 
     @Override
@@ -74,33 +68,8 @@ public class JsonMessageBodyProviderTest extends JaxrsTestCase<JsonLocalDateReso
     }
 
     @Test
-    public void shouldIgnoreReader() {
-        assertIgnored(date -> new StringReader(toJsonString(date)));
-    }
-
-    @Test
-    public void shouldIgnoreString() {
-        assertIgnored(this::toJsonString);
-    }
-
-    @Test
     public void shouldIgnoreByteArray() {
         assertIgnored(date -> toJsonString(date).getBytes(StandardCharsets.UTF_8));
-    }
-
-    @Test
-    public void shouldIgnoreInputStream() {
-        assertIgnored(date -> new ByteArrayInputStream(toJsonString(date).getBytes(StandardCharsets.UTF_8)));
-    }
-
-    @Test
-    public void shouldIgnoreStreamingOutput() {
-        assertIgnored(date -> (StreamingOutput) output -> output.write(toJsonString(date).getBytes(StandardCharsets.UTF_8)));
-    }
-
-    @Test
-    public void shouldIgnoreJafDataSource() {
-        assertIgnored(date -> new InputStreamDataSource(new ByteArrayInputStream(toJsonString(date).getBytes(StandardCharsets.UTF_8)), MediaType.APPLICATION_JSON));
     }
 
     @Test
@@ -116,14 +85,19 @@ public class JsonMessageBodyProviderTest extends JaxrsTestCase<JsonLocalDateReso
         });
     }
 
-    @Test(expected = InternalServerErrorException.class)
-    public void shouldIgnoreUnsupportedTypes() {
-        when(resource.unsupported()).thenReturn(new Date());
-        clientProxy().unsupported();
+    @Test
+    public void shouldIgnoreInputStream() {
+        assertIgnored(date -> new ByteArrayInputStream(toJsonString(date).getBytes(StandardCharsets.UTF_8)));
     }
 
-    private String toJsonString(LocalDate date) {
-        return String.format("\"%s\"", date);
+    @Test
+    public void shouldIgnoreJafDataSource() {
+        assertIgnored(date -> new InputStreamDataSource(new ByteArrayInputStream(toJsonString(date).getBytes(StandardCharsets.UTF_8)), MediaType.APPLICATION_JSON));
+    }
+
+    @Test
+    public void shouldIgnoreReader() {
+        assertIgnored(date -> new StringReader(toJsonString(date)));
     }
 
     private <T> void assertIgnored(Function<LocalDate, T> fn) {
@@ -132,6 +106,26 @@ public class JsonMessageBodyProviderTest extends JaxrsTestCase<JsonLocalDateReso
         when(resource.blacklisted()).thenReturn(Response.ok(entity, MediaType.APPLICATION_JSON).build());
         final LocalDate actual = clientProxy().blacklisted().readEntity(LocalDate.class);
         assertThat(actual).isEqualTo(expected);
+    }
+
+    private String toJsonString(LocalDate date) {
+        return String.format("\"%s\"", date);
+    }
+
+    @Test
+    public void shouldIgnoreStreamingOutput() {
+        assertIgnored(date -> (StreamingOutput) output -> output.write(toJsonString(date).getBytes(StandardCharsets.UTF_8)));
+    }
+
+    @Test
+    public void shouldIgnoreString() {
+        assertIgnored(this::toJsonString);
+    }
+
+    @Test(expected = InternalServerErrorException.class)
+    public void shouldIgnoreUnsupportedTypes() {
+        when(resource.unsupported()).thenReturn(new Date());
+        clientProxy().unsupported();
     }
 
     @Test

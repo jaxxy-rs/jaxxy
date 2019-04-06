@@ -16,9 +16,8 @@
 
 package org.jaxxy.jsonb;
 
-import org.jaxxy.test.JaxrsClientConfig;
-import org.jaxxy.test.JaxrsServerConfig;
 import org.jaxxy.test.JaxrsTestCase;
+import org.jaxxy.test.fixture.JaxrsServiceFixtureFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -34,13 +33,10 @@ public class JsonbMessageBodyProviderTest extends JaxrsTestCase<PersonsResource>
     private PersonsResource resource;
 
     @Override
-    protected void configureServer(JaxrsServerConfig config) {
-        config.withProvider(new JsonbMessageBodyProvider());
-    }
-
-    @Override
-    protected void configureClient(JaxrsClientConfig config) {
-        config.withProvider(new JsonbMessageBodyProvider());
+    protected JaxrsServiceFixtureFactory createJaxrsFixtureFactory() {
+        return super.createJaxrsFixtureFactory()
+                .withClientProvider(new JsonbMessageBodyProvider())
+                .withContainerProvider(new JsonbMessageBodyProvider());
     }
 
     @Override

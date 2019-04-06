@@ -26,9 +26,8 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import lombok.RequiredArgsConstructor;
-import org.jaxxy.test.JaxrsClientConfig;
-import org.jaxxy.test.JaxrsServerConfig;
 import org.jaxxy.test.JaxrsTestCase;
+import org.jaxxy.test.fixture.JaxrsServiceFixtureFactory;
 import org.jaxxy.test.hello.DefaultHelloResource;
 import org.jaxxy.test.hello.HelloResource;
 import org.junit.Test;
@@ -47,19 +46,15 @@ public class JwtTokenTest extends JaxrsTestCase<HelloResource> {
 //----------------------------------------------------------------------------------------------------------------------
 
     @Override
-    protected void configureClient(JaxrsClientConfig config) {
-        final String token = JWT.create()
-                .withIssuer("jaxxy")
-                .sign(algorithm);
-        config.withProvider(new ClientTokenAuthFilter(() -> token));
-    }
-
-    @Override
-    protected void configureServer(JaxrsServerConfig config) {
-        JWTVerifier verifier = JWT.require(algorithm)
-                .withIssuer("jaxxy")
-                .build();
-        config.withProvider(new ContainerTokenAuthFilter(new JwtTokenAuthenticator(verifier)));
+    protected JaxrsServiceFixtureFactory createJaxrsFixtureFactory() {
+        final String issuer = "jaxxy";
+        return super.createJaxrsFixtureFactory()
+                .withClientProvider(new ClientTokenAuthFilter(() -> JWT.create()
+                        .withIssuer(issuer)
+                        .sign(algorithm)))
+                .withContainerProvider(new ContainerTokenAuthFilter(new JwtTokenAuthenticator(JWT.require(algorithm)
+                        .withIssuer(issuer)
+                        .build())));
     }
 
     @Override

@@ -19,9 +19,8 @@ package org.jaxxy.gson;
 import java.util.Arrays;
 import java.util.List;
 
-import org.jaxxy.test.JaxrsClientConfig;
-import org.jaxxy.test.JaxrsServerConfig;
 import org.jaxxy.test.JaxrsTestCase;
+import org.jaxxy.test.fixture.JaxrsServiceFixtureFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
@@ -48,15 +47,10 @@ public class GsonMessageBodyProviderTest extends JaxrsTestCase<PersonResource> {
     }
 
     @Override
-    protected void configureServer(JaxrsServerConfig config) {
-        super.configureServer(config);
-        config.withProvider(new GsonMessageBodyProvider());
-    }
-
-    @Override
-    protected void configureClient(JaxrsClientConfig config) {
-        super.configureClient(config);
-        config.withProvider(new GsonMessageBodyProvider());
+    protected JaxrsServiceFixtureFactory createJaxrsFixtureFactory() {
+        return super.createJaxrsFixtureFactory()
+                .withClientProvider(new GsonMessageBodyProvider())
+                .withContainerProvider(new GsonMessageBodyProvider());
     }
 
     @Test

@@ -22,9 +22,8 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.jaxxy.test.JaxrsClientConfig;
-import org.jaxxy.test.JaxrsServerConfig;
 import org.jaxxy.test.JaxrsTestCase;
+import org.jaxxy.test.fixture.JaxrsServiceFixtureFactory;
 import org.jaxxy.test.hello.DefaultHelloResource;
 import org.jaxxy.test.hello.HelloResource;
 import org.junit.Test;
@@ -50,19 +49,16 @@ public class CorsFilterTest extends JaxrsTestCase<HelloResource> {
 // Other Methods
 //----------------------------------------------------------------------------------------------------------------------
 
-    @Override
-    protected void configureClient(JaxrsClientConfig config) {
-
-    }
 
     @Override
-    protected void configureServer(JaxrsServerConfig config) {
+    protected JaxrsServiceFixtureFactory createJaxrsFixtureFactory() {
         policy = new ResourceSharingPolicy()
                 .allowOrigins(ALLOWED_ORIGIN)
                 .allowMethods("GET", "PUT", "POST")
                 .exposeHeaders("Jaxxy-Foo", "Jaxxy-Bar")
                 .allowHeaders("Jaxxy-Foo", HttpHeaders.CONTENT_LANGUAGE);
-        config.withProvider(new CorsFilter(policy));
+        return super.createJaxrsFixtureFactory()
+                .withContainerProvider(new CorsFilter(policy));
     }
 
     @Override

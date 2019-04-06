@@ -16,9 +16,8 @@
 
 package org.jaxxy.protobuf;
 
-import org.jaxxy.test.JaxrsClientConfig;
-import org.jaxxy.test.JaxrsServerConfig;
 import org.jaxxy.test.JaxrsTestCase;
+import org.jaxxy.test.fixture.JaxrsServiceFixtureFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -29,25 +28,27 @@ import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class ProtobufMessageBodyProviderTest extends JaxrsTestCase<PersonResource> {
+//----------------------------------------------------------------------------------------------------------------------
+// Fields
+//----------------------------------------------------------------------------------------------------------------------
 
     @Mock
     private PersonResource resource;
 
+//----------------------------------------------------------------------------------------------------------------------
+// Other Methods
+//----------------------------------------------------------------------------------------------------------------------
+
+    @Override
+    protected JaxrsServiceFixtureFactory createJaxrsFixtureFactory() {
+        return super.createJaxrsFixtureFactory()
+                .withContainerProvider(new ProtobufMessageBodyProvider())
+                .withClientProvider(new ProtobufMessageBodyProvider());
+    }
+
     @Override
     protected PersonResource createServiceObject() {
         return resource;
-    }
-
-    @Override
-    protected void configureServer(JaxrsServerConfig config) {
-        super.configureServer(config);
-        config.withProvider(new ProtobufMessageBodyProvider());
-    }
-
-    @Override
-    protected void configureClient(JaxrsClientConfig config) {
-        super.configureClient(config);
-        config.withProvider(new ProtobufMessageBodyProvider());
     }
 
     @Test

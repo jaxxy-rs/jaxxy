@@ -20,8 +20,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.jaxxy.security.basic.ClientBasicAuthFilter;
-import org.jaxxy.test.JaxrsServerConfig;
 import org.jaxxy.test.JaxrsTestCase;
+import org.jaxxy.test.fixture.JaxrsServiceFixtureFactory;
 import org.jaxxy.test.hello.DefaultHelloResource;
 import org.jaxxy.test.hello.HelloResource;
 import org.junit.Test;
@@ -35,16 +35,17 @@ public class ContainerTokenAuthFilterTest extends JaxrsTestCase<HelloResource> {
     }
 
     @Override
-    protected void configureServer(JaxrsServerConfig config) {
-        config.withProvider(ContainerTokenAuthFilter.builder()
-                .authenticator((token) -> {
-                    if ("ABC123".equals(token)) {
-                        return new SimpleSecurityContext("Jaxxy");
-                    } else {
-                        return null;
-                    }
-                })
-                .build());
+    protected JaxrsServiceFixtureFactory createJaxrsFixtureFactory() {
+        return super.createJaxrsFixtureFactory()
+                .withContainerProvider(ContainerTokenAuthFilter.builder()
+                        .authenticator((token) -> {
+                            if ("ABC123".equals(token)) {
+                                return new SimpleSecurityContext("Jaxxy");
+                            } else {
+                                return null;
+                            }
+                        })
+                        .build());
     }
 
     @Test

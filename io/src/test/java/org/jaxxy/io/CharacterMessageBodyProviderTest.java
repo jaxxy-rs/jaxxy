@@ -18,9 +18,8 @@ package org.jaxxy.io;
 
 import java.time.LocalDate;
 
-import org.jaxxy.test.JaxrsClientConfig;
-import org.jaxxy.test.JaxrsServerConfig;
 import org.jaxxy.test.JaxrsTestCase;
+import org.jaxxy.test.fixture.JaxrsServiceFixtureFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -42,16 +41,12 @@ public class CharacterMessageBodyProviderTest extends JaxrsTestCase<LocalDateRes
 // Other Methods
 //----------------------------------------------------------------------------------------------------------------------
 
-    @Override
-    protected void configureClient(JaxrsClientConfig config) {
-        super.configureClient(config);
-        config.withProvider(new LocalDateMessageBodyProvider());
-    }
 
     @Override
-    protected void configureServer(JaxrsServerConfig config) {
-        super.configureServer(config);
-        config.withProvider(new LocalDateMessageBodyProvider());
+    protected JaxrsServiceFixtureFactory createJaxrsFixtureFactory() {
+        return super.createJaxrsFixtureFactory()
+                .withContainerProvider(new LocalDateMessageBodyProvider())
+                .withClientProvider(new LocalDateMessageBodyProvider());
     }
 
     @Override

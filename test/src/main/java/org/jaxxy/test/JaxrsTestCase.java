@@ -16,20 +16,13 @@
 
 package org.jaxxy.test;
 
-import java.util.Collections;
-
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.cxf.BusFactory;
-import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.ext.logging.LoggingFeature;
-import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
-import org.apache.cxf.jaxrs.client.JAXRSClientFactoryBean;
-import org.apache.cxf.jaxrs.lifecycle.SingletonResourceProvider;
-import org.apache.cxf.transport.http.asyncclient.AsyncHTTPConduit;
+import org.jaxxy.test.fixture.JaxrsServiceFixture;
+import org.jaxxy.test.fixture.JaxrsServiceFixtureFactory;
+import org.jaxxy.test.fixture.JaxrsServiceFixtures;
 import org.jaxxy.util.reflect.Types;
 import org.junit.After;
 import org.junit.Before;
@@ -40,10 +33,7 @@ public abstract class JaxrsTestCase<I> {
 // Fields
 //----------------------------------------------------------------------------------------------------------------------
 
-    public static final String SPLIT_HEADERS_PROP = "org.apache.cxf.http.header.split";
-    private static final int DEFAULT_PORT = 9999;
-    private Server server;
-    private String address;
+    private JaxrsServiceFixture<I> fixture;
 
 //----------------------------------------------------------------------------------------------------------------------
 // Abstract Methods
@@ -56,71 +46,31 @@ public abstract class JaxrsTestCase<I> {
 //----------------------------------------------------------------------------------------------------------------------
 
     public I clientProxy() {
-        DefaultJaxrsClientConfig config = createClientConfig();
-
-        final Class<I> serviceInterface = serviceInterface();
-
-        JAXRSClientFactoryBean factory = new JAXRSClientFactoryBean();
-        factory.setProviders(config.getProviders());
-        factory.setResourceClass(serviceInterface);
-        factory.setAddress(address);
-        return factory.create(serviceInterface);
+        return fixture.createClientProxy();
     }
 
-    private DefaultJaxrsClientConfig createClientConfig() {
-        DefaultJaxrsClientConfig config = new DefaultJaxrsClientConfig();
-        configureClient(config);
-        return config;
+    protected JaxrsServiceFixtureFactory createJaxrsFixtureFactory() {
+        return JaxrsServiceFixtures.createFactory()
+                .withContainerFeature(new LoggingFeature())
+                .withClientFeature(new LoggingFeature());
     }
 
-    protected void configureClient(JaxrsClientConfig config) {
-
-    }
-
-    protected void configureServer(JaxrsServerConfig config) {
-
-    }
-
-    protected int createPort() {
-        return DEFAULT_PORT;
-    }
-
-    protected Class<I> serviceInterface() {
+    private Class<I> serviceInterface() {
         return Types.typeParamFromClass(getClass(), JaxrsTestCase.class, 0);
     }
 
     @Before
     public void startServer() {
-        this.address = String.format("http://localhost:%d", createPort());
-        DefaultJaxrsServerConfig config = new DefaultJaxrsServerConfig();
-        configureServer(config);
-
-        final Class<I> serviceInterface = serviceInterface();
-
-        final JAXRSServerFactoryBean factory = new JAXRSServerFactoryBean();
-        factory.setBus(BusFactory.getDefaultBus(true));
-        factory.setResourceClasses(serviceInterface);
-        factory.setResourceProvider(serviceInterface, new SingletonResourceProvider(createServiceObject(), true));
-        factory.setServiceBean(createServiceObject());
-        factory.setAddress(address);
-        factory.setProviders(config.getProviders());
-        factory.setFeatures(Collections.singletonList(new LoggingFeature()));
-        factory.getProperties(true).put(SPLIT_HEADERS_PROP, true);
-        this.server = factory.create();
+        this.fixture = createJaxrsFixtureFactory()
+                .build(serviceInterface(), createServiceObject());
     }
 
     @After
-    public void stopServer() {
-        server.stop();
-        server.destroy();
+    public void stopServer() throws Exception {
+        fixture.close();
     }
 
     public WebTarget webTarget() {
-        final Client client = ClientBuilder.newClient();
-        client.property(SPLIT_HEADERS_PROP, true);
-        createClientConfig().getProviders().forEach(client::register);
-        return client
-                .target(address)
-                .property(AsyncHTTPConduit.USE_ASYNC, Boolean.TRUE);
+        return fixture.createWebTarget();
     }
 }

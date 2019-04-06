@@ -16,8 +16,8 @@
 
 package org.jaxxy.logging;
 
-import org.jaxxy.test.JaxrsServerConfig;
 import org.jaxxy.test.JaxrsTestCase;
+import org.jaxxy.test.fixture.JaxrsServiceFixtureFactory;
 import org.jaxxy.test.hello.DefaultHelloResource;
 import org.jaxxy.test.hello.HelloResource;
 import org.junit.Test;
@@ -32,6 +32,9 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 @RunWith(MockitoJUnitRunner.class)
 public class LoggingContextFilterTest extends JaxrsTestCase<HelloResource> {
+//----------------------------------------------------------------------------------------------------------------------
+// Fields
+//----------------------------------------------------------------------------------------------------------------------
 
     @Mock
     private LoggingContextDecorator decorator1;
@@ -43,14 +46,19 @@ public class LoggingContextFilterTest extends JaxrsTestCase<HelloResource> {
     @Captor
     private ArgumentCaptor<LoggingContext> contextCaptor;
 
+//----------------------------------------------------------------------------------------------------------------------
+// Other Methods
+//----------------------------------------------------------------------------------------------------------------------
+
     @Override
-    protected HelloResource createServiceObject() {
-        return new DefaultHelloResource();
+    protected JaxrsServiceFixtureFactory createJaxrsFixtureFactory() {
+        return super.createJaxrsFixtureFactory()
+                .withContainerProvider(new LoggingContextFilter(decorator1, decorator2));
     }
 
     @Override
-    protected void configureServer(JaxrsServerConfig config) {
-        config.withProvider(new LoggingContextFilter(decorator1, decorator2));
+    protected HelloResource createServiceObject() {
+        return new DefaultHelloResource();
     }
 
     @Test

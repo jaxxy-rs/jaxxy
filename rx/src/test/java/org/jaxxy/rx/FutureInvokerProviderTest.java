@@ -9,8 +9,8 @@ import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.jaxxy.test.JaxrsClientConfig;
 import org.jaxxy.test.JaxrsTestCase;
+import org.jaxxy.test.fixture.JaxrsServiceFixtureFactory;
 import org.jaxxy.test.str.StringResource;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,10 +45,11 @@ public class FutureInvokerProviderTest extends JaxrsTestCase<StringResource> {
 // Other Methods
 //----------------------------------------------------------------------------------------------------------------------
 
+
     @Override
-    protected void configureClient(JaxrsClientConfig config) {
-        super.configureClient(config);
-        config.withProvider(new FutureInvokerProvider());
+    protected JaxrsServiceFixtureFactory createJaxrsFixtureFactory() {
+        return super.createJaxrsFixtureFactory()
+                .withClientProvider(new FutureInvokerProvider());
     }
 
     @Override

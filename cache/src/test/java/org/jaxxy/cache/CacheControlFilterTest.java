@@ -24,8 +24,8 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.jaxxy.test.JaxrsServerConfig;
 import org.jaxxy.test.JaxrsTestCase;
+import org.jaxxy.test.fixture.JaxrsServiceFixtureFactory;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -39,14 +39,15 @@ public class CacheControlFilterTest extends JaxrsTestCase<CacheableResource> {
 //----------------------------------------------------------------------------------------------------------------------
 
     @Override
-    protected void configureServer(JaxrsServerConfig config) {
-        config.withProvider(new PreconditionsResolver());
-        config.withProvider(new CacheControlFilter(() -> {
-            CacheControl cc = new CacheControl();
-            cc.setMaxAge(6000);
-            cc.setNoTransform(true);
-            return cc;
-        }));
+    protected JaxrsServiceFixtureFactory createJaxrsFixtureFactory() {
+        return super.createJaxrsFixtureFactory()
+                .withContainerProvider(new PreconditionsResolver())
+                .withContainerProvider(new CacheControlFilter(() -> {
+                    CacheControl cc = new CacheControl();
+                    cc.setMaxAge(6000);
+                    cc.setNoTransform(true);
+                    return cc;
+                }));
     }
 
     @Override

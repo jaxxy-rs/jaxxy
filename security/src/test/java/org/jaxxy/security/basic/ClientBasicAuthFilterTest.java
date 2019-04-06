@@ -21,10 +21,10 @@ import java.util.Base64;
 
 import javax.ws.rs.core.HttpHeaders;
 
-import org.jaxxy.test.JaxrsClientConfig;
 import org.jaxxy.test.JaxrsTestCase;
 import org.jaxxy.test.echo.DefaultEchoHeaderResource;
 import org.jaxxy.test.echo.EchoHeaderResource;
+import org.jaxxy.test.fixture.JaxrsServiceFixtureFactory;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -35,8 +35,9 @@ public class ClientBasicAuthFilterTest extends JaxrsTestCase<EchoHeaderResource>
 //----------------------------------------------------------------------------------------------------------------------
 
     @Override
-    protected void configureClient(JaxrsClientConfig config) {
-        config.withProvider(new ClientBasicAuthFilter("user1", "pass1"));
+    protected JaxrsServiceFixtureFactory createJaxrsFixtureFactory() {
+        return super.createJaxrsFixtureFactory()
+                .withClientProvider(new ClientBasicAuthFilter("user1", "pass1"));
     }
 
     @Override

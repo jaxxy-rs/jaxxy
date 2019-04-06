@@ -19,8 +19,8 @@ package org.jaxxy.rxjava;
 import javax.ws.rs.core.MediaType;
 
 import io.reactivex.Single;
-import org.jaxxy.test.JaxrsClientConfig;
 import org.jaxxy.test.JaxrsTestCase;
+import org.jaxxy.test.fixture.JaxrsServiceFixtureFactory;
 import org.jaxxy.test.hello.HelloResource;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,9 +44,9 @@ public class SingleInvokerProviderTest extends JaxrsTestCase<HelloResource> {
 //----------------------------------------------------------------------------------------------------------------------
 
     @Override
-    protected void configureClient(JaxrsClientConfig config) {
-        super.configureClient(config);
-        config.withProvider(new SingleInvokerProvider());
+    protected JaxrsServiceFixtureFactory createJaxrsFixtureFactory() {
+        return super.createJaxrsFixtureFactory()
+                .withClientProvider(new SingleInvokerProvider());
     }
 
     @Override

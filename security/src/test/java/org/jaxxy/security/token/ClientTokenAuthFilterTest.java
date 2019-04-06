@@ -18,10 +18,10 @@ package org.jaxxy.security.token;
 
 import javax.ws.rs.core.HttpHeaders;
 
-import org.jaxxy.test.JaxrsClientConfig;
 import org.jaxxy.test.JaxrsTestCase;
 import org.jaxxy.test.echo.DefaultEchoHeaderResource;
 import org.jaxxy.test.echo.EchoHeaderResource;
+import org.jaxxy.test.fixture.JaxrsServiceFixtureFactory;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -31,12 +31,13 @@ public class ClientTokenAuthFilterTest extends JaxrsTestCase<EchoHeaderResource>
 // Other Methods
 //----------------------------------------------------------------------------------------------------------------------
 
-    @Override
-    protected void configureClient(JaxrsClientConfig config) {
-        config.withProvider(ClientTokenAuthFilter.builder()
-                .tokenSupplier(() -> "FooBarBaz")
-                .build());
 
+    @Override
+    protected JaxrsServiceFixtureFactory createJaxrsFixtureFactory() {
+        return super.createJaxrsFixtureFactory()
+                .withClientProvider(ClientTokenAuthFilter.builder()
+                        .tokenSupplier(() -> "FooBarBaz")
+                        .build());
     }
 
     @Override

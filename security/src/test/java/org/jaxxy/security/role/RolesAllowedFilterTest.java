@@ -24,8 +24,8 @@ import javax.ws.rs.core.SecurityContext;
 
 import org.jaxxy.security.token.ClientTokenAuthFilter;
 import org.jaxxy.security.token.ContainerTokenAuthFilter;
-import org.jaxxy.test.JaxrsServerConfig;
 import org.jaxxy.test.JaxrsTestCase;
+import org.jaxxy.test.fixture.JaxrsServiceFixtureFactory;
 import org.jaxxy.test.hello.HelloResource;
 import org.junit.Test;
 
@@ -37,34 +37,45 @@ public class RolesAllowedFilterTest extends JaxrsTestCase<HelloResource> {
 //----------------------------------------------------------------------------------------------------------------------
 
     @Override
+    protected JaxrsServiceFixtureFactory createJaxrsFixtureFactory() {
+        return super.createJaxrsFixtureFactory()
+                .withContainerProvider(new RolesAllowedDynamicFeature())
+                .withContainerProvider(new ContainerTokenAuthFilter(token-> new SecurityContext() {
+                    @Override
+                    public Principal getUserPrincipal() {
+                        return () -> "fake";
+                    }
+
+                    @Override
+                    public boolean isUserInRole(String role) {
+                        return token.equals(role);
+                    }
+
+                    @Override
+                    public boolean isSecure() {
+                        return true;
+                    }
+
+                    @Override
+                    public String getAuthenticationScheme() {
+                        return "bogus";
+                    }
+                }));
+    }
+
+    @Override
     protected HelloResource createServiceObject() {
         return new ProtectedHelloResource();
     }
 
-    @Override
-    protected void configureServer(JaxrsServerConfig config) {
-        config.withProvider(new RolesAllowedDynamicFeature());
-        config.withProvider(new ContainerTokenAuthFilter(token-> new SecurityContext() {
-            @Override
-            public Principal getUserPrincipal() {
-                return () -> "fake";
-            }
-
-            @Override
-            public boolean isUserInRole(String role) {
-                return token.equals(role);
-            }
-
-            @Override
-            public boolean isSecure() {
-                return true;
-            }
-
-            @Override
-            public String getAuthenticationScheme() {
-                return "bogus";
-            }
-        }));
+    @Test
+    public void should403WhenNotInRole() {
+        final Response response = webTarget()
+                .register(new ClientTokenAuthFilter(() -> "notarole"))
+                .path("hello").path("Jaxxy")
+                .request(MediaType.TEXT_PLAIN)
+                .get();
+        assertThat(response.getStatus()).isEqualTo(403);
     }
 
     @Test
@@ -85,15 +96,5 @@ public class RolesAllowedFilterTest extends JaxrsTestCase<HelloResource> {
                 .request(MediaType.TEXT_PLAIN)
                 .get();
         assertThat(response.getStatus()).isEqualTo(200);
-    }
-
-    @Test
-    public void should403WhenNotInRole() {
-        final Response response = webTarget()
-                .register(new ClientTokenAuthFilter(() -> "notarole"))
-                .path("hello").path("Jaxxy")
-                .request(MediaType.TEXT_PLAIN)
-                .get();
-        assertThat(response.getStatus()).isEqualTo(403);
     }
 }
