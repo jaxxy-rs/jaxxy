@@ -29,6 +29,7 @@ import org.jaxxy.test.fixture.JaxrsServiceFixtureFactory;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.fail;
 import static org.jaxxy.cache.CacheControlFilter.httpDateFormat;
 import static org.jaxxy.cache.CacheControlFilter.quoted;
 
@@ -101,7 +102,11 @@ public class CacheControlFilterTest extends JaxrsTestCase<CacheableResource> {
 
     @Test
     public void shouldPutSuccessfully() {
-        clientProxy().putNewMessage("foo");
+        try {
+            clientProxy().putNewMessage("foo");
+        }catch(Exception e) {
+            fail("Should successfully put the value");
+        }
     }
 
     @Test
