@@ -43,6 +43,7 @@ public class DefaultLoggingContextTest {
         context = DefaultLoggingContext.builder()
                 .requestContext(requestContext)
                 .resourceInfo(resourceInfo)
+                .serializer(String::valueOf)
                 .build();
         MDC.clear();
     }
@@ -54,7 +55,7 @@ public class DefaultLoggingContextTest {
 
     @Test
     public void shouldReturnResourceInfo() {
-
+        assertThat(context.getResourceInfo()).isSameAs(resourceInfo);
     }
 
     @Test

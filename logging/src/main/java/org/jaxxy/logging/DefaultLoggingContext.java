@@ -24,7 +24,6 @@ import javax.ws.rs.container.ResourceInfo;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Singular;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 
@@ -36,11 +35,11 @@ public class DefaultLoggingContext implements LoggingContext {
 // Fields
 //----------------------------------------------------------------------------------------------------------------------
 
-    @Singular
     private final List<MDC.MDCCloseable> closeables = new LinkedList<>();
 
     private final ResourceInfo resourceInfo;
     private final ContainerRequestContext requestContext;
+    private final LoggingContextSerializer serializer;
 
 //----------------------------------------------------------------------------------------------------------------------
 // LoggingContext Implementation
@@ -49,7 +48,7 @@ public class DefaultLoggingContext implements LoggingContext {
     @Override
     public void put(String key, Object value) {
         if (value != null) {
-            closeables.add(MDC.putCloseable(key, String.valueOf(value)));
+            closeables.add(MDC.putCloseable(key, serializer.apply(value)));
         }
     }
 
