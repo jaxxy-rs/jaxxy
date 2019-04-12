@@ -26,6 +26,7 @@ import java.util.Date;
 import java.util.function.Function;
 
 import javax.ws.rs.InternalServerErrorException;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
@@ -122,7 +123,7 @@ public class JsonMessageBodyProviderTest extends JaxrsTestCase<JsonLocalDateReso
         assertIgnored(this::toJsonString);
     }
 
-    @Test(expected = InternalServerErrorException.class)
+    @Test(expected = WebApplicationException.class)
     public void shouldIgnoreUnsupportedTypes() {
         when(resource.unsupported()).thenReturn(new Date());
         clientProxy().unsupported();
