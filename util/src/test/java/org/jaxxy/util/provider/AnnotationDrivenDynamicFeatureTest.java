@@ -19,18 +19,18 @@ package org.jaxxy.util.provider;
 import javax.ws.rs.container.ResourceInfo;
 import javax.ws.rs.core.FeatureContext;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
-public class AnnotationDrivenDynamicFeatureTest {
+@ExtendWith(MockitoExtension.class)
+class AnnotationDrivenDynamicFeatureTest {
 
     @Mock
     private ResourceInfo resourceInfo;
@@ -39,7 +39,7 @@ public class AnnotationDrivenDynamicFeatureTest {
     private FeatureContext featureContext;
 
     @Test
-    public void methodWithAnnotationShouldBeProcessed() throws Exception {
+    void methodWithAnnotationShouldBeProcessed() throws Exception {
         final NotAllowedFeature feature = new NotAllowedFeature();
         when(resourceInfo.getResourceMethod()).thenReturn(AnnotatedResource.class.getMethod("doEvil"));
         feature.configure(resourceInfo, featureContext);
@@ -49,7 +49,7 @@ public class AnnotationDrivenDynamicFeatureTest {
     }
 
     @Test
-    public void methodWithoutAnnotationShouldNotBeProcessed() throws Exception {
+    void methodWithoutAnnotationShouldNotBeProcessed() throws Exception {
         final NotAllowedFeature feature = new NotAllowedFeature();
         when(resourceInfo.getResourceMethod()).thenReturn(AnnotatedResource.class.getMethod("doGood"));
         feature.configure(resourceInfo, featureContext);

@@ -17,12 +17,12 @@
 package org.jaxxy.logging.decorator;
 
 import org.jaxxy.logging.LoggingContext;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Answers;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public abstract class AbstractDecoratorTest {
 //----------------------------------------------------------------------------------------------------------------------
 // Fields
@@ -31,3 +31,4 @@ public abstract class AbstractDecoratorTest {
     @Mock(answer = Answers.RETURNS_DEEP_STUBS)
     protected LoggingContext loggingContext;
 }
+

@@ -24,8 +24,8 @@ import org.jaxxy.test.fixture.JaxrsServiceFixture;
 import org.jaxxy.test.fixture.JaxrsServiceFixtureFactory;
 import org.jaxxy.test.fixture.JaxrsServiceFixtures;
 import org.jaxxy.util.reflect.Types;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
 @Slf4j
 public abstract class JaxrsTestCase<I> {
@@ -59,13 +59,13 @@ public abstract class JaxrsTestCase<I> {
         return Types.typeParamFromClass(getClass(), JaxrsTestCase.class, 0);
     }
 
-    @Before
+    @BeforeEach
     public void startServer() {
         this.fixture = createJaxrsFixtureFactory()
                 .build(serviceInterface(), createServiceObject());
     }
 
-    @After
+    @AfterEach
     public void stopServer() throws Exception {
         fixture.close();
     }

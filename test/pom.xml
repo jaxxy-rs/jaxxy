@@ -34,11 +34,13 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
+
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
             <scope>compile</scope>
         </dependency>
+
         <dependency>
             <groupId>org.jaxxy</groupId>
             <artifactId>jaxxy-util</artifactId>

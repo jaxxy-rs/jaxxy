@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 
 import javax.ws.rs.HttpMethod;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 

@@ -25,7 +25,7 @@ import org.jaxxy.test.JaxrsTestCase;
 import org.jaxxy.test.echo.DefaultEchoHeaderResource;
 import org.jaxxy.test.echo.EchoHeaderResource;
 import org.jaxxy.test.fixture.JaxrsServiceFixtureFactory;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

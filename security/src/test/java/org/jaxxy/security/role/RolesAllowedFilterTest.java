@@ -27,7 +27,7 @@ import org.jaxxy.security.token.ContainerTokenAuthFilter;
 import org.jaxxy.test.JaxrsTestCase;
 import org.jaxxy.test.fixture.JaxrsServiceFixtureFactory;
 import org.jaxxy.test.hello.HelloResource;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

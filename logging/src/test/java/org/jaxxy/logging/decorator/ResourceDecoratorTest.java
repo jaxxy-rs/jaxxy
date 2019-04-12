@@ -20,7 +20,7 @@ package org.jaxxy.logging.decorator;
 import java.lang.reflect.Method;
 
 import org.jaxxy.test.hello.DefaultHelloResource;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;

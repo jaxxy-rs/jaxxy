@@ -6,16 +6,16 @@ import com.google.common.util.concurrent.ListenableFuture;
 import org.jaxxy.test.JaxrsTestCase;
 import org.jaxxy.test.fixture.JaxrsServiceFixtureFactory;
 import org.jaxxy.test.hello.HelloResource;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static com.google.common.util.concurrent.Futures.getUnchecked;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class ListenableFutureInvokerProviderTest extends JaxrsTestCase<HelloResource> {
 //----------------------------------------------------------------------------------------------------------------------
 // Fields

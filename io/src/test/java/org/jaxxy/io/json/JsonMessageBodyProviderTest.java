@@ -35,15 +35,16 @@ import org.apache.commons.io.FileUtils;
 import org.apache.cxf.jaxrs.ext.multipart.InputStreamDataSource;
 import org.jaxxy.test.JaxrsTestCase;
 import org.jaxxy.test.fixture.JaxrsServiceFixtureFactory;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class JsonMessageBodyProviderTest extends JaxrsTestCase<JsonLocalDateResource> {
 //----------------------------------------------------------------------------------------------------------------------
 // Fields
@@ -123,10 +124,11 @@ public class JsonMessageBodyProviderTest extends JaxrsTestCase<JsonLocalDateReso
         assertIgnored(this::toJsonString);
     }
 
-    @Test(expected = WebApplicationException.class)
+    @Test
     public void shouldIgnoreUnsupportedTypes() {
         when(resource.unsupported()).thenReturn(new Date());
-        clientProxy().unsupported();
+        assertThatThrownBy(() -> clientProxy().unsupported())
+                .isInstanceOf(WebApplicationException.class);
     }
 
     @Test
