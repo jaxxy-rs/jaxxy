@@ -16,8 +16,6 @@
 
 package org.jaxxy.example.config;
 
-import java.util.List;
-
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.fasterxml.jackson.jaxrs.smile.JacksonSmileProvider;
 import com.fasterxml.jackson.jaxrs.yaml.JacksonYAMLProvider;
@@ -32,11 +30,14 @@ import org.jaxxy.example.service.DefaultHelloService;
 import org.jaxxy.example.service.HelloService;
 import org.jaxxy.gson.GsonMessageBodyProvider;
 import org.jaxxy.jsonb.JsonbMessageBodyProvider;
-import org.jaxxy.logging.LoggingContextDecorator;
-import org.jaxxy.logging.LoggingContextFilter;
 import org.jaxxy.logging.RequestLogFilter;
-import org.jaxxy.logging.decorator.HeadersDecorator;
-import org.jaxxy.logging.decorator.ResourceDecorator;
+import org.jaxxy.logging.mdc.DefaultRichMdc;
+import org.jaxxy.logging.mdc.MdcCleanupFilter;
+import org.jaxxy.logging.mdc.MdcHeadersFilter;
+import org.jaxxy.logging.mdc.MdcResourceInfoFilter;
+import org.jaxxy.logging.mdc.MdcUriInfoFilter;
+import org.jaxxy.logging.mdc.MdcValueEncoder;
+import org.jaxxy.logging.mdc.RichMdc;
 import org.jaxxy.protobuf.ProtobufMessageBodyProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -50,15 +51,15 @@ public class JaxxyExampleConfiguration {
 //----------------------------------------------------------------------------------------------------------------------
 
     @Bean
-    @ConditionalOnMissingBean
-    public ResourceSharingPolicy resourceSharingPolicy() {
-        return ResourceSharingPolicy.defaultPolicy();
-    }
-
-    @Bean
     @ConditionalOnProperty(name = "jaxxy.cors.enabled", matchIfMissing = true, havingValue = "true")
     public CorsFilter corsFilter(ResourceSharingPolicy policy) {
         return new CorsFilter(policy);
+    }
+
+    @Bean
+    @ConditionalOnProperty(name = "jaxxy.json.provider", matchIfMissing = true, havingValue = "gson")
+    public GsonMessageBodyProvider gsonMessageBodyProvider(Gson gson) {
+        return new GsonMessageBodyProvider(gson);
     }
 
     @Bean
@@ -68,14 +69,14 @@ public class JaxxyExampleConfiguration {
     }
 
     @Bean
-    @ConditionalOnProperty(name = "jaxxy.loggingContext.headers.enabled", matchIfMissing = true, havingValue = "true")
-    public HeadersDecorator headersDecorator() {
-        return new HeadersDecorator();
+    public HelloService helloService() {
+        return new DefaultHelloService();
     }
 
     @Bean
-    public ProtobufMessageBodyProvider protobufMessageBodyProvider() {
-        return new ProtobufMessageBodyProvider();
+    @ConditionalOnProperty(name = "jaxxy.json.provider", havingValue = "jackson")
+    public JacksonJsonProvider jacksonJsonProvider() {
+        return new JacksonJsonProvider();
     }
 
     @Bean
@@ -89,32 +90,9 @@ public class JaxxyExampleConfiguration {
     }
 
     @Bean
-    public HelloService helloService() {
-        return new DefaultHelloService();
-    }
-
-    @Bean
     @ConditionalOnProperty(name = "jaxxy.json.provider", havingValue = "jsonb")
     public JsonbMessageBodyProvider jsonbMessageBodyProvider() {
         return new JsonbMessageBodyProvider();
-    }
-
-    @Bean
-    @ConditionalOnProperty(name = "jaxxy.json.provider", matchIfMissing = true, havingValue = "gson")
-    public GsonMessageBodyProvider gsonMessageBodyProvider(Gson gson) {
-        return new GsonMessageBodyProvider(gson);
-    }
-
-    @Bean
-    @ConditionalOnProperty(name = "jaxxy.json.provider", havingValue = "jackson")
-    public JacksonJsonProvider jacksonJsonProvider() {
-        return new JacksonJsonProvider();
-    }
-
-    @Bean
-    @ConditionalOnProperty(name = "jaxxy.loggingContext.enabled", matchIfMissing = true, havingValue = "true")
-    public LoggingContextFilter loggingContextFilter(List<LoggingContextDecorator> decorators) {
-        return new LoggingContextFilter(decorators);
     }
 
     @Bean
@@ -124,15 +102,61 @@ public class JaxxyExampleConfiguration {
     }
 
     @Bean
-    @ConditionalOnProperty(name = "jaxxy.requestLog.enabled", matchIfMissing = true, havingValue = "true")
-    public RequestLogFilter requestLogFilter() {
-        return RequestLogFilter.builder().build();
+    public MdcCleanupFilter mdcCleanupFilter() {
+        return new MdcCleanupFilter();
     }
 
     @Bean
-    @ConditionalOnProperty(name = "jaxxy.loggingContext.resource.enabled", matchIfMissing = true, havingValue = "true")
-    public ResourceDecorator resourceDecorator() {
-        return new ResourceDecorator();
+    @ConditionalOnProperty(name = "jaxxy.mdc.headers.enabled", matchIfMissing = true, havingValue = "true")
+    public MdcHeadersFilter mdcHeadersFilter(RichMdc mdc) {
+        return new MdcHeadersFilter(mdc);
+    }
+
+    @Bean
+    @ConditionalOnProperty(name = "jaxxy.mdc.resourceInfo.enabled", matchIfMissing = true, havingValue = "true")
+    public MdcResourceInfoFilter mdcResourceInfoFilter(RichMdc mdc) {
+        return new MdcResourceInfoFilter(mdc);
+    }
+
+    @Bean
+    @ConditionalOnProperty(name = "jaxxy.mdc.uriInfo.enabled", matchIfMissing = true, havingValue = "true")
+    public MdcUriInfoFilter mdcUriInfoFilter(RichMdc mdc) {
+        return new MdcUriInfoFilter(mdc);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public MdcValueEncoder mdcValueEncoder(Gson gson) {
+        return gson::toJson;
+    }
+
+    @Bean
+    @ConditionalOnProperty(name = "jaxxy.openapi.enabled", matchIfMissing = true, havingValue = "true")
+    public OpenApiFeature openApiFeature() {
+        return new OpenApiFeature();
+    }
+
+    @Bean
+    public ProtobufMessageBodyProvider protobufMessageBodyProvider() {
+        return new ProtobufMessageBodyProvider();
+    }
+
+    @Bean
+    @ConditionalOnProperty(name = "jaxxy.requestLog.enabled", matchIfMissing = true, havingValue = "true")
+    public RequestLogFilter requestLogFilter() {
+        return RequestLogFilter.builder()
+                .build();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public ResourceSharingPolicy resourceSharingPolicy() {
+        return ResourceSharingPolicy.defaultPolicy();
+    }
+
+    @Bean
+    public RichMdc richMdc(MdcValueEncoder encoder) {
+        return new DefaultRichMdc(encoder);
     }
 
     @Bean
@@ -141,11 +165,5 @@ public class JaxxyExampleConfiguration {
         final Swagger2Feature feature = new Swagger2Feature();
         feature.setScanAllResources(true);
         return feature;
-    }
-
-    @Bean
-    @ConditionalOnProperty(name = "jaxxy.openapi.enabled", matchIfMissing = true, havingValue = "true")
-    public OpenApiFeature openApiFeature() {
-        return new OpenApiFeature();
     }
 }

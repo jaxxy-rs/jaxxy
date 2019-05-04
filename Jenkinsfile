@@ -15,15 +15,15 @@
  */
 
 pipeline {
-    agent any
-    tools {
-        maven 'Maven 3.6'
-        jdk 'JDK8'
+    agent {
+        docker {
+            image 'maven:3.6.1'
+        }
     }
     stages {
         stage ('Build') {
             steps {
-                sh 'mvn clean deploy'
+                sh 'mvn clean install'
             }
             post {
                 always {
