@@ -36,6 +36,7 @@ public class ClientBasicAuthFilter implements ClientRequestFilter {
 //----------------------------------------------------------------------------------------------------------------------
 
     private static final String HEADER_FORMAT = "Basic %s";
+    private static final String ENCODED_VALUE_FORMAT = "%s:%s";
     private final String headerValue;
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -61,7 +62,7 @@ public class ClientBasicAuthFilter implements ClientRequestFilter {
      * @param charset  the charset
      */
     public ClientBasicAuthFilter(String username, String password, Charset charset) {
-        this.headerValue = String.format(HEADER_FORMAT, Base64.getEncoder().encodeToString(String.format("%s:%s", username, password).getBytes(charset)));
+        this.headerValue = String.format(HEADER_FORMAT, Base64.getEncoder().encodeToString(String.format(ENCODED_VALUE_FORMAT, username, password).getBytes(charset)));
     }
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -69,7 +70,7 @@ public class ClientBasicAuthFilter implements ClientRequestFilter {
 //----------------------------------------------------------------------------------------------------------------------
 
     @Override
-    public void filter(ClientRequestContext request) throws IOException {
+    public void filter(ClientRequestContext request) {
         request.getHeaders().putSingle(HttpHeaders.AUTHORIZATION, headerValue);
     }
 }
