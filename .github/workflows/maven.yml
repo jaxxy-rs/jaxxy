@@ -7,8 +7,12 @@ jobs:
     runs-on: ubuntu-latest
     name: Build Maven project
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/cache@v1
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Cache local Maven repository
+        uses: actions/cache@v2
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
@@ -18,7 +22,7 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
-      - name: Build and test project
+      - name: Maven Build
         run: mvn clean verify sonar:sonar -Pcoverage -Dsonar.organization=jaxxy-rs -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
