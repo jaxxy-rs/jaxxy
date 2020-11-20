@@ -19,7 +19,7 @@ jobs:
         with:
           java-version: 11
       - name: Build and test project
-        run: mvn clean verify
+        run: mvn clean verify sonar:sonar -Pcoverage
 #      - name: Upload Maven build artifact
 #        uses: actions/upload-artifact@v1
 #        with:
