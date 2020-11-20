@@ -19,7 +19,10 @@ jobs:
         with:
           java-version: 11
       - name: Build and test project
-        run: mvn clean verify sonar:sonar -Pcoverage
+        run: mvn clean verify sonar:sonar -Pcoverage -Dsonar.organization=jaxxy-rs -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=$SONAR_TOKEN
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 #      - name: Upload Maven build artifact
 #        uses: actions/upload-artifact@v1
 #        with:
