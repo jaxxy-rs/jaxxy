@@ -69,8 +69,6 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
 
-        <sonar.exclusions>/src/main/java/org/jaxxy/test/**/*,src/main/java/org/jaxxy/example/**/*</sonar.exclusions>
-
         <!--
         Maven Plugins
         -->
@@ -548,6 +546,7 @@
             <id>coverage</id>
             <properties>
                 <sonar.projectKey>org.jaxxy:jaxxy</sonar.projectKey>
+                <sonar.exclusions>test/src/main/**/*,example/src/main/java/**/*</sonar.exclusions>
             </properties>
             <build>
                 <plugins>
