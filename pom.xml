@@ -545,7 +545,6 @@
         <profile>
             <id>coverage</id>
             <properties>
-                <sonar.projectKey>org.jaxxy:jaxxy</sonar.projectKey>
                 <sonar.exclusions>test/src/main/**/*,example/src/main/java/**/*</sonar.exclusions>
             </properties>
             <build>
