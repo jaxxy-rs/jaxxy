@@ -1,8 +1,6 @@
 package org.jaxxy.logging.mdc;
 
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ClassUtils;
 import org.apache.commons.lang3.reflect.MethodUtils;
@@ -14,7 +12,6 @@ import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
 import javax.ws.rs.container.ResourceInfo;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.Provider;
@@ -30,6 +27,7 @@ import java.util.concurrent.ConcurrentMap;
 @RequiredArgsConstructor
 @Slf4j
 public class MdcUriInfoFilter implements ContainerRequestFilter {
+
 //----------------------------------------------------------------------------------------------------------------------
 // Fields
 //----------------------------------------------------------------------------------------------------------------------
@@ -47,7 +45,6 @@ public class MdcUriInfoFilter implements ContainerRequestFilter {
 //----------------------------------------------------------------------------------------------------------------------
 // ContainerRequestFilter Implementation
 //----------------------------------------------------------------------------------------------------------------------
-
 
     @Override
     public void filter(ContainerRequestContext request) {
@@ -73,22 +70,5 @@ public class MdcUriInfoFilter implements ContainerRequestFilter {
                     .map(annot -> UriBuilder.fromMethod(annotated.getDeclaringClass(), annotated.getName()).toTemplate())
                     .orElseGet(() -> UriBuilder.fromResource(annotated.getDeclaringClass()).toTemplate());
         });
-    }
-
-//----------------------------------------------------------------------------------------------------------------------
-// Inner Classes
-//----------------------------------------------------------------------------------------------------------------------
-
-    @Builder
-    @Value
-    private static class UriProps {
-//----------------------------------------------------------------------------------------------------------------------
-// Fields
-//----------------------------------------------------------------------------------------------------------------------
-
-        private final String path;
-        private final String template;
-        private final MultivaluedMap<String, String> pathParams;
-        private final MultivaluedMap<String, String> queryParams;
     }
 }
