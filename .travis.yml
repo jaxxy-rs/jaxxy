@@ -1,6 +1,6 @@
 language: java
-dist: bionic
-jdk:
+dist: focal
+jdk: 
   - openjdk11
 git:
   depth: false
@@ -10,7 +10,7 @@ addons:
     token:
       secure: "iQw3rAvW4IFEfmmhYg3AUVNwmjpd/5yyGS7WHS+u3JTRkFqvV/rh0D+DJvCJkt9ubRQhWlyykafOzx4qVK+oHz98Q7h0KeeGHaPtMWKk+p6XJ4xlsPl/8OriJOY+RJAbZv/wG0eyRgrX29nyPWpTwIcZTwEAovvqxwshRABUsDyLI5NbAZfUYkCV4umfSmmMQgXB/0siXoy0gkTOgfuS01u9q4HQSh+yWoJ7MpnDpgMEk2HjwTsKqXizKj/JkO7sAc7RnkRlFCx8PYzhsAHqWkUahVmpez0LBc/E9qIpbxBH2AUxSK9RIdPyve+g1gtdKvrYrhz4lO/adBge6yFdJHOsog9Ak0AqhhMyiy0cL9pJrBr11WrVrMYNjZvXRvOqvk03tnC6VII9R8vX4ff0T1+i42rOImOBP1N0ZhIoHLDgivTaeD10UbMnTxmA/kn3REmfibszC2dxmDDNYX2yzgO4hi8cefHMMnUsBDXLXv47rtS7/p/v07MPiZW20//wk3cmogQDxl5E0M242C/YakAp04s6lQkHczIO/tpyJoFqC/0ZqMql05ZJXMkbDxR6SXVw3wQNEsTXTJ//mfN8bKuZMG6KwizHYt8dnmNTHp1McZ3rR5U0Q4F5llyODX/oOdp2qf1VCTuaB5Ouu34mBiYZ6oAvjIDAE8/udDYyPDM="
 script:
-  - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
+  - mvn clean verify sonar:sonar -Pcoverage
 cache:
   directories:
     - '$HOME/.m2/repository'
