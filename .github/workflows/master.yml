@@ -1,4 +1,4 @@
-name: Run Maven Build
+name: Master Build
 on:
   push:
     branches:
@@ -33,8 +33,3 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           NEXUS_OSS_USERNAME: ${{ secrets.NEXUS_OSS_USERNAME }}
           NEXUS_OSS_PASSWORD: ${{ secrets.NEXUS_OSS_PASSWORD }}
-#      - name: Upload Maven build artifact
-#        uses: actions/upload-artifact@v1
-#        with:
-#          name: artifact
-#          path: github-actions-java-maven/target/github-actions-java-maven.jar
