@@ -38,7 +38,8 @@ class MdcResourceInfoFilterTest extends AbstractMdcTest {
     @Test
     void checkResourceInfo() {
         final Map<String, String> mdc = clientProxy().echoMdc();
-        assertThat(mdc).containsEntry("resourceMethod", "\"echoMdc\"");
-        assertThat(mdc).containsEntry("resourceType", String.format("\"%s\"", DefaultEchoMdcResource.class.getCanonicalName()));
+        assertThat(mdc)
+                .containsEntry("resourceMethod", "\"echoMdc\"")
+                .containsEntry("resourceType", String.format("\"%s\"", DefaultEchoMdcResource.class.getCanonicalName()));
     }
 }
