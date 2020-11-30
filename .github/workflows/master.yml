@@ -7,6 +7,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     name: Maven Build
+    if: "!contains(github.event.head_commit.message, '[maven-release-plugin] prepare release')"
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
