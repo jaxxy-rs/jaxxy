@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.jaxxy</groupId>
         <artifactId>jaxxy</artifactId>
-        <version>0.4.1-SNAPSHOT</version>
+        <version>0.4.1</version>
     </parent>
 
     <artifactId>jaxxy-cache</artifactId>
@@ -41,7 +41,7 @@
         <dependency>
             <groupId>org.jaxxy</groupId>
             <artifactId>jaxxy-test</artifactId>
-            <version>0.4.1-SNAPSHOT</version>
+            <version>0.4.1</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
