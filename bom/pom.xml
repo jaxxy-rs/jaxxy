@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.jaxxy</groupId>
         <artifactId>jaxxy</artifactId>
-        <version>0.4.0-SNAPSHOT</version>
+        <version>0.4.0</version>
     </parent>
 
     <artifactId>jaxxy-bom</artifactId>
@@ -35,73 +35,73 @@
             <dependency>
                 <groupId>org.jaxxy</groupId>
                 <artifactId>jaxxy-cache</artifactId>
-                <version>0.4.0-SNAPSHOT</version>
+                <version>0.4.0</version>
             </dependency>
             <dependency>
                 <groupId>org.jaxxy</groupId>
                 <artifactId>jaxxy-cors</artifactId>
-                <version>0.4.0-SNAPSHOT</version>
+                <version>0.4.0</version>
             </dependency>
             <dependency>
                 <groupId>org.jaxxy</groupId>
                 <artifactId>jaxxy-gson</artifactId>
-                <version>0.4.0-SNAPSHOT</version>
+                <version>0.4.0</version>
             </dependency>
             <dependency>
                 <groupId>org.jaxxy</groupId>
                 <artifactId>jaxxy-guava</artifactId>
-                <version>0.4.0-SNAPSHOT</version>
+                <version>0.4.0</version>
             </dependency>
             <dependency>
                 <groupId>org.jaxxy</groupId>
                 <artifactId>jaxxy-io</artifactId>
-                <version>0.4.0-SNAPSHOT</version>
+                <version>0.4.0</version>
             </dependency>
             <dependency>
                 <groupId>org.jaxxy</groupId>
                 <artifactId>jaxxy-jsonb</artifactId>
-                <version>0.4.0-SNAPSHOT</version>
+                <version>0.4.0</version>
             </dependency>
             <dependency>
                 <groupId>org.jaxxy</groupId>
                 <artifactId>jaxxy-logging</artifactId>
-                <version>0.4.0-SNAPSHOT</version>
+                <version>0.4.0</version>
             </dependency>
             <dependency>
                 <groupId>org.jaxxy</groupId>
                 <artifactId>jaxxy-protobuf</artifactId>
-                <version>0.4.0-SNAPSHOT</version>
+                <version>0.4.0</version>
             </dependency>
             <dependency>
                 <groupId>org.jaxxy</groupId>
                 <artifactId>jaxxy-reactor</artifactId>
-                <version>0.4.0-SNAPSHOT</version>
+                <version>0.4.0</version>
             </dependency>
             <dependency>
                 <groupId>org.jaxxy</groupId>
                 <artifactId>jaxxy-rx</artifactId>
-                <version>0.4.0-SNAPSHOT</version>
+                <version>0.4.0</version>
             </dependency>
             <dependency>
                 <groupId>org.jaxxy</groupId>
                 <artifactId>jaxxy-rxjava</artifactId>
-                <version>0.4.0-SNAPSHOT</version>
+                <version>0.4.0</version>
             </dependency>
             <dependency>
                 <groupId>org.jaxxy</groupId>
                 <artifactId>jaxxy-security</artifactId>
-                <version>0.4.0-SNAPSHOT</version>
+                <version>0.4.0</version>
             </dependency>
             <dependency>
                 <groupId>org.jaxxy</groupId>
                 <artifactId>jaxxy-test</artifactId>
-                <version>0.4.0-SNAPSHOT</version>
+                <version>0.4.0</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.jaxxy</groupId>
                 <artifactId>jaxxy-util</artifactId>
-                <version>0.4.0-SNAPSHOT</version>
+                <version>0.4.0</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
