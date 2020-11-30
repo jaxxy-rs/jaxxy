@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.jaxxy</groupId>
         <artifactId>jaxxy</artifactId>
-        <version>0.4.2</version>
+        <version>0.4.3-SNAPSHOT</version>
     </parent>
 
     <artifactId>jaxxy-guava</artifactId>
@@ -33,7 +33,7 @@
         <dependency>
             <groupId>org.jaxxy</groupId>
             <artifactId>jaxxy-rx</artifactId>
-            <version>0.4.2</version>
+            <version>0.4.3-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -48,7 +48,7 @@
         <dependency>
             <groupId>org.jaxxy</groupId>
             <artifactId>jaxxy-test</artifactId>
-            <version>0.4.2</version>
+            <version>0.4.3-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
