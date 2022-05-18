@@ -158,7 +158,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <protocArtifact>com.google.protobuf:protoc:3.6.1:exe:${os.detected.classifier}</protocArtifact>
+                    <protocArtifact>com.google.protobuf:protoc:3.20.1:exe:${os.detected.classifier}</protocArtifact>
                 </configuration>
             </plugin>
         </plugins>
