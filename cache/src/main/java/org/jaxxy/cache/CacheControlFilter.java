@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 The Jaxxy Authors.
+ * Copyright (c) 2018-2023 The Jaxxy Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,21 +16,21 @@
 
 package org.jaxxy.cache;
 
+import jakarta.ws.rs.container.ContainerRequestContext;
+import jakarta.ws.rs.container.ContainerResponseContext;
+import jakarta.ws.rs.container.ContainerResponseFilter;
+import jakarta.ws.rs.core.CacheControl;
+import jakarta.ws.rs.core.EntityTag;
+import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.ext.RuntimeDelegate;
+import lombok.RequiredArgsConstructor;
+
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.function.Function;
 import java.util.function.Supplier;
-
-import javax.ws.rs.container.ContainerRequestContext;
-import javax.ws.rs.container.ContainerResponseContext;
-import javax.ws.rs.container.ContainerResponseFilter;
-import javax.ws.rs.core.CacheControl;
-import javax.ws.rs.core.EntityTag;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Response;
-
-import lombok.RequiredArgsConstructor;
 
 import static java.util.Optional.ofNullable;
 
@@ -67,7 +67,8 @@ public class CacheControlFilter implements ContainerResponseFilter {
             setHeader(response, HttpHeaders.ETAG, (EntityTag)request.getProperty(ETAG_PROPERTY), etag -> quoted(etag.getValue()));
             setHeader(response, HttpHeaders.LAST_MODIFIED, (Instant)request.getProperty(LAST_MODIFIED_PROPERTY), CacheControlFilter::httpDateFormat);
         }
-        setHeader(response, HttpHeaders.CACHE_CONTROL, cacheControlSupplier.get(), CacheControl::toString);
+        RuntimeDelegate.HeaderDelegate<CacheControl> delegate = RuntimeDelegate.getInstance().createHeaderDelegate(CacheControl.class);
+        setHeader(response, HttpHeaders.CACHE_CONTROL, cacheControlSupplier.get(), delegate::toString);
     }
 
 //----------------------------------------------------------------------------------------------------------------------

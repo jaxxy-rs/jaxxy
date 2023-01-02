@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 The Jaxxy Authors.
+ * Copyright (c) 2018-2023 The Jaxxy Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,9 +16,9 @@
 
 package org.jaxxy.util.provider;
 
-import javax.ws.rs.container.ResourceInfo;
-import javax.ws.rs.core.FeatureContext;
-import javax.ws.rs.ext.Provider;
+import jakarta.ws.rs.container.ResourceInfo;
+import jakarta.ws.rs.core.FeatureContext;
+import jakarta.ws.rs.ext.Provider;
 
 @Provider
 public class NotAllowedFeature extends AnnotationDrivenDynamicFeature<NotAllowed> {

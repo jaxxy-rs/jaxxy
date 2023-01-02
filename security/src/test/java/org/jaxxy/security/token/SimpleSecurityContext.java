@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 The Jaxxy Authors.
+ * Copyright (c) 2018-2023 The Jaxxy Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,10 @@
 
 package org.jaxxy.security.token;
 
-import java.security.Principal;
-
-import javax.ws.rs.core.SecurityContext;
-
+import jakarta.ws.rs.core.SecurityContext;
 import lombok.RequiredArgsConstructor;
+
+import java.security.Principal;
 
 @RequiredArgsConstructor
 public class SimpleSecurityContext implements SecurityContext {

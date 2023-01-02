@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 The Jaxxy Authors.
+ * Copyright (c) 2018-2023 The Jaxxy Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,22 +16,21 @@
 
 package org.jaxxy.util.reflect;
 
+import jakarta.activation.DataSource;
+import jakarta.ws.rs.core.StreamingOutput;
+import org.junit.jupiter.api.Test;
+
 import java.io.File;
 import java.io.InputStream;
 import java.io.Reader;
 
-import javax.activation.DataSource;
-import javax.ws.rs.core.StreamingOutput;
-
-import org.junit.jupiter.api.Test;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class TypesTest {
+class TypesTest {
 
     @Test
-    public void predicateWithDefaultBlacklist() {
+    void predicateWithDefaultBlacklist() {
         final SupportedTypesPredicate predicate = Types.predicateWithDefaultBlacklist().build();
         assertThat(predicate.test(String.class)).isFalse();
         assertThat(predicate.test(byte[].class)).isFalse();
@@ -43,13 +42,13 @@ public class TypesTest {
     }
 
     @Test
-    public void shouldInstantiate() {
+    void shouldInstantiate() {
         final Instantiable obj = Types.instantiate(Instantiable.class);
         assertThat(obj).isNotNull();
     }
 
     @Test
-    public void shouldThrowReflectionExceptionWhenNotInstantiable() {
+    void shouldThrowReflectionExceptionWhenNotInstantiable() {
         assertThatThrownBy(() -> Types.instantiate(NotInstantiable.class))
                 .isInstanceOf(ReflectionException.class)
                 .hasMessage("Unable to instantiate object of type " + NotInstantiable.class.getCanonicalName() + ".");
@@ -57,7 +56,7 @@ public class TypesTest {
     }
 
     @Test
-    public void sholdRetrieveTypeParam() {
+    void sholdRetrieveTypeParam() {
         final Class<?> typeParam = Types.typeParamFromClass(ConcreteType.class, GenericSuperType.class, 0);
         assertThat(typeParam).isEqualTo(String.class);
     }

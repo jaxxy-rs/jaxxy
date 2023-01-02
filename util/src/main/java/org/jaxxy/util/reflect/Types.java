@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 The Jaxxy Authors.
+ * Copyright (c) 2018-2023 The Jaxxy Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,17 +16,16 @@
 
 package org.jaxxy.util.reflect;
 
+import jakarta.activation.DataSource;
+import jakarta.ws.rs.core.StreamingOutput;
+import org.apache.commons.lang3.reflect.TypeUtils;
+
 import java.io.File;
 import java.io.InputStream;
 import java.io.Reader;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.util.Map;
-
-import javax.activation.DataSource;
-import javax.ws.rs.core.StreamingOutput;
-
-import org.apache.commons.lang3.reflect.TypeUtils;
 
 public class Types {
 //----------------------------------------------------------------------------------------------------------------------
@@ -47,7 +46,7 @@ public class Types {
      * </ul>
      * <p>
      * Per the <a href="https://jcp.org/en/jsr/detail?id=370">JAX-RS 2.1 Specification</a> (section 4.2.4), the JAX-RS
-     * implementation must include entity providers for these types for the {@link javax.ws.rs.core.MediaType#WILDCARD}
+     * implementation must include entity providers for these types for the {@link jakarta.ws.rs.core.MediaType#WILDCARD}
      * media type.
      *
      * @return the builder

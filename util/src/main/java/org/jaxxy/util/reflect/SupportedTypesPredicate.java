@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 The Jaxxy Authors.
+ * Copyright (c) 2018-2023 The Jaxxy Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,12 +16,12 @@
 
 package org.jaxxy.util.reflect;
 
-import java.util.List;
-import java.util.function.Predicate;
-
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.Singular;
+
+import java.util.List;
+import java.util.function.Predicate;
 
 @Builder
 @RequiredArgsConstructor

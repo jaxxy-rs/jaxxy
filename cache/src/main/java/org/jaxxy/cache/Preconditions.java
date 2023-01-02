@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 The Jaxxy Authors.
+ * Copyright (c) 2018-2023 The Jaxxy Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,9 +16,9 @@
 
 package org.jaxxy.cache;
 
-import java.time.Instant;
+import jakarta.ws.rs.core.EntityTag;
 
-import javax.ws.rs.core.EntityTag;
+import java.time.Instant;
 
 public interface Preconditions {
 //----------------------------------------------------------------------------------------------------------------------

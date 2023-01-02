@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 The Jaxxy Authors.
+ * Copyright (c) 2018-2023 The Jaxxy Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,16 +16,15 @@
 
 package org.jaxxy.rxjava;
 
-import java.util.concurrent.ExecutorService;
-import java.util.function.Function;
-
-import javax.ws.rs.client.RxInvokerProvider;
-import javax.ws.rs.client.SyncInvoker;
-import javax.ws.rs.ext.Provider;
-
 import io.reactivex.Single;
+import jakarta.ws.rs.client.RxInvokerProvider;
+import jakarta.ws.rs.client.SyncInvoker;
+import jakarta.ws.rs.ext.Provider;
 import lombok.RequiredArgsConstructor;
 import org.jaxxy.rx.AbstractRxInvoker;
+
+import java.util.concurrent.ExecutorService;
+import java.util.function.Function;
 
 @Provider
 public class SingleInvokerProvider implements RxInvokerProvider<SingleInvoker> {

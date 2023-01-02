@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 The Jaxxy Authors.
+ * Copyright (c) 2018-2023 The Jaxxy Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,6 @@ import com.fasterxml.jackson.jaxrs.yaml.JacksonYAMLProvider;
 import com.google.gson.Gson;
 import org.apache.cxf.ext.logging.LoggingFeature;
 import org.apache.cxf.jaxrs.openapi.OpenApiFeature;
-import org.apache.cxf.jaxrs.swagger.Swagger2Feature;
 import org.apache.cxf.transport.common.gzip.GZIPFeature;
 import org.jaxxy.cors.CorsFilter;
 import org.jaxxy.cors.ResourceSharingPolicy;
@@ -157,13 +156,5 @@ public class JaxxyExampleConfiguration {
     @Bean
     public RichMdc richMdc(MdcValueEncoder encoder) {
         return new DefaultRichMdc(encoder);
-    }
-
-    @Bean
-    @ConditionalOnProperty(name = "jaxxy.swagger.enabled", matchIfMissing = true, havingValue = "true")
-    public Swagger2Feature swagger2Feature() {
-        final Swagger2Feature feature = new Swagger2Feature();
-        feature.setScanAllResources(true);
-        return feature;
     }
 }

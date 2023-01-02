@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 The Jaxxy Authors.
+ * Copyright (c) 2018-2023 The Jaxxy Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,15 +16,14 @@
 
 package org.jaxxy.security.role;
 
+import jakarta.annotation.security.RolesAllowed;
+import jakarta.ws.rs.container.ResourceInfo;
+import jakarta.ws.rs.core.FeatureContext;
+import jakarta.ws.rs.ext.Provider;
+import org.jaxxy.util.provider.AnnotationDrivenDynamicFeature;
+
 import java.util.Arrays;
 import java.util.HashSet;
-
-import javax.annotation.security.RolesAllowed;
-import javax.ws.rs.container.ResourceInfo;
-import javax.ws.rs.core.FeatureContext;
-import javax.ws.rs.ext.Provider;
-
-import org.jaxxy.util.provider.AnnotationDrivenDynamicFeature;
 
 @Provider
 public class RolesAllowedDynamicFeature extends AnnotationDrivenDynamicFeature<RolesAllowed> {

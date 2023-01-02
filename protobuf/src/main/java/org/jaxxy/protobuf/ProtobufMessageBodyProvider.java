@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 The Jaxxy Authors.
+ * Copyright (c) 2018-2023 The Jaxxy Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,21 +16,20 @@
 
 package org.jaxxy.protobuf;
 
+import com.google.protobuf.Message;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MultivaluedMap;
+import org.jaxxy.io.MessageBodyProvider;
+import org.jaxxy.util.reflect.Methods;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
-
-import javax.ws.rs.Consumes;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
-
-import com.google.protobuf.Message;
-import org.jaxxy.io.MessageBodyProvider;
-import org.jaxxy.util.reflect.Methods;
 
 @Produces({"application/protobuf", "application/vnd.google.protobuf"})
 @Consumes({"application/protobuf", "application/vnd.google.protobuf"})

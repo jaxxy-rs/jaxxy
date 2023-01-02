@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 The Jaxxy Authors.
+ * Copyright (c) 2018-2023 The Jaxxy Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,10 +18,10 @@ package org.jaxxy.logging.mdc;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
+import jakarta.ws.rs.core.HttpHeaders;
 import org.jaxxy.test.fixture.JaxrsServiceFixtureFactory;
 import org.junit.jupiter.api.Test;
 
-import javax.ws.rs.core.HttpHeaders;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;

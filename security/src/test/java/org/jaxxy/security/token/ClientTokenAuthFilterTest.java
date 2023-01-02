@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 The Jaxxy Authors.
+ * Copyright (c) 2018-2023 The Jaxxy Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,7 @@
 
 package org.jaxxy.security.token;
 
-import javax.ws.rs.core.HttpHeaders;
-
+import jakarta.ws.rs.core.HttpHeaders;
 import org.jaxxy.test.JaxrsTestCase;
 import org.jaxxy.test.echo.DefaultEchoHeaderResource;
 import org.jaxxy.test.echo.EchoHeaderResource;
@@ -26,7 +25,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ClientTokenAuthFilterTest extends JaxrsTestCase<EchoHeaderResource> {
+class ClientTokenAuthFilterTest extends JaxrsTestCase<EchoHeaderResource> {
 //----------------------------------------------------------------------------------------------------------------------
 // Other Methods
 //----------------------------------------------------------------------------------------------------------------------
@@ -46,7 +45,7 @@ public class ClientTokenAuthFilterTest extends JaxrsTestCase<EchoHeaderResource>
     }
 
     @Test
-    public void testFilter() {
+    void testFilter() {
         assertThat(clientProxy().echo()).isEqualTo("Bearer FooBarBaz");
     }
 }

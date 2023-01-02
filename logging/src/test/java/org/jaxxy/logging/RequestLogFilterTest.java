@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 The Jaxxy Authors.
+ * Copyright (c) 2018-2023 The Jaxxy Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,11 +16,8 @@
 
 package org.jaxxy.logging;
 
-import java.util.concurrent.TimeUnit;
-
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import org.jaxxy.test.JaxrsTestCase;
 import org.jaxxy.test.fixture.JaxrsServiceFixtureFactory;
 import org.jaxxy.test.hello.DefaultHelloResource;
@@ -33,6 +30,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.slf4j.Logger;
 
+import java.util.concurrent.TimeUnit;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
@@ -41,7 +40,7 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class RequestLogFilterTest extends JaxrsTestCase<HelloResource> {
+class RequestLogFilterTest extends JaxrsTestCase<HelloResource> {
 //----------------------------------------------------------------------------------------------------------------------
 // Fields
 //----------------------------------------------------------------------------------------------------------------------
@@ -71,13 +70,13 @@ public class RequestLogFilterTest extends JaxrsTestCase<HelloResource> {
     }
 
     @Test
-    public void testElapsedTimeHeader() {
+    void testElapsedTimeHeader() {
         final Response response = webTarget().path("hello").path("Jaxxy").request(MediaType.TEXT_PLAIN_TYPE).get();
         assertThat(response.getHeaderString("X-Elapsed-Time")).isNotNull();
     }
 
     @Test
-    public void testLoggingWhenDisabled() {
+    void testLoggingWhenDisabled() {
         when(log.isInfoEnabled()).thenReturn(false);
         clientProxy().sayHello("Jaxxy");
         verify(log, times(2)).isInfoEnabled();
@@ -85,7 +84,7 @@ public class RequestLogFilterTest extends JaxrsTestCase<HelloResource> {
     }
 
     @Test
-    public void testLoggingWhenEnabled() {
+    void testLoggingWhenEnabled() {
         when(log.isInfoEnabled()).thenReturn(true);
         clientProxy().sayHello("Jaxxy");
         verify(log, times(2)).isInfoEnabled();

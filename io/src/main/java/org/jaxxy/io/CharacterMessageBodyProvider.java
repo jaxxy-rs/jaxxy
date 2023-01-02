@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 The Jaxxy Authors.
+ * Copyright (c) 2018-2023 The Jaxxy Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,9 @@
 
 package org.jaxxy.io;
 
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.MultivaluedMap;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -30,9 +33,6 @@ import java.lang.reflect.Type;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.MultivaluedMap;
-
 /**
  * A character stream-based message body provider.  This provider takes care of creating
  * {@link Reader}s and {@link Writer}s with the proper charset.
@@ -46,7 +46,7 @@ public abstract class CharacterMessageBodyProvider<T> extends MessageBodyProvide
 
     /**
      * Reads the HTTP entity from a {@link Reader}.  This is the character stream equivalent to
-     * {@link javax.ws.rs.ext.MessageBodyReader#readFrom(Class, Type, Annotation[], MediaType, MultivaluedMap, InputStream)}.
+     * {@link jakarta.ws.rs.ext.MessageBodyReader#readFrom(Class, Type, Annotation[], MediaType, MultivaluedMap, InputStream)}.
      *
      * @param type        the type that is to be read.
      * @param genericType the type of instance to be produced.
@@ -56,13 +56,13 @@ public abstract class CharacterMessageBodyProvider<T> extends MessageBodyProvide
      * @param httpHeaders the read-only HTTP headers associated with HTTP entity.
      * @param reader      the {@link Reader} for the HTTP entity.  The implementation should <em>NOT</em> close this reader!
      * @return the entity
-     * @see javax.ws.rs.ext.MessageBodyReader#readFrom(Class, Type, Annotation[], MediaType, MultivaluedMap, InputStream)
+     * @see jakarta.ws.rs.ext.MessageBodyReader#readFrom(Class, Type, Annotation[], MediaType, MultivaluedMap, InputStream)
      */
     protected abstract T readFrom(Class<T> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, String> httpHeaders, Reader reader) throws IOException;
 
     /**
      * Writes the HTTP entity to a {@link Writer}.  This is the character stream equivalent to
-     * {@link javax.ws.rs.ext.MessageBodyWriter#writeTo(Object, Class, Type, Annotation[], MediaType, MultivaluedMap, OutputStream)}.
+     * {@link jakarta.ws.rs.ext.MessageBodyWriter#writeTo(Object, Class, Type, Annotation[], MediaType, MultivaluedMap, OutputStream)}.
      *
      * @param t           the instance to write.
      * @param type        the class of instance that is to be written.
@@ -71,7 +71,7 @@ public abstract class CharacterMessageBodyProvider<T> extends MessageBodyProvide
      * @param mediaType   the media type of the HTTP entity.
      * @param httpHeaders a mutable map of the HTTP message headers.
      * @param writer      the {@link Writer} for the HTTP entity. The implementation should <em>NOT</em> close this writer!
-     * @see javax.ws.rs.ext.MessageBodyWriter#writeTo(Object, Class, Type, Annotation[], MediaType, MultivaluedMap, OutputStream)
+     * @see jakarta.ws.rs.ext.MessageBodyWriter#writeTo(Object, Class, Type, Annotation[], MediaType, MultivaluedMap, OutputStream)
      */
     protected abstract void writeTo(T t, Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType, MultivaluedMap<String, Object> httpHeaders, Writer writer) throws IOException;
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 The Jaxxy Authors.
+ * Copyright (c) 2018-2023 The Jaxxy Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,12 +16,11 @@
 
 package org.jaxxy.cors;
 
-import javax.ws.rs.HttpMethod;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
+import jakarta.ws.rs.HttpMethod;
+import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import org.jaxxy.test.JaxrsTestCase;
 import org.jaxxy.test.fixture.JaxrsServiceFixtureFactory;
 import org.jaxxy.test.hello.DefaultHelloResource;
@@ -37,7 +36,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 @ExtendWith(MockitoExtension.class)
-public class CorsFilterTest extends JaxrsTestCase<HelloResource> {
+class CorsFilterTest extends JaxrsTestCase<HelloResource> {
 //----------------------------------------------------------------------------------------------------------------------
 // Fields
 //----------------------------------------------------------------------------------------------------------------------
@@ -67,7 +66,7 @@ public class CorsFilterTest extends JaxrsTestCase<HelloResource> {
     }
 
     @Test
-    public void testPreflightCorsRequest() {
+    void testPreflightCorsRequest() {
         final WebTarget target = webTarget();
         final Response response = target.path("hello").path("Jaxxy")
                 .request(MediaType.TEXT_PLAIN)
@@ -82,7 +81,7 @@ public class CorsFilterTest extends JaxrsTestCase<HelloResource> {
     }
 
     @Test
-    public void testPreflightCorsRequestWithSimpleHeader() {
+    void testPreflightCorsRequestWithSimpleHeader() {
         final WebTarget target = webTarget();
         final Response response = target.path("hello").path("Jaxxy")
                 .request(MediaType.TEXT_PLAIN)
@@ -96,7 +95,7 @@ public class CorsFilterTest extends JaxrsTestCase<HelloResource> {
     }
 
     @Test
-    public void testPreflightCorsRequestWithInvalidHeader() {
+    void testPreflightCorsRequestWithInvalidHeader() {
         final WebTarget target = webTarget();
         final Response response = target.path("hello").path("Jaxxy")
                 .request(MediaType.TEXT_PLAIN)
@@ -110,7 +109,7 @@ public class CorsFilterTest extends JaxrsTestCase<HelloResource> {
     }
 
     @Test
-    public void testPreflightCorsRequestWithInvalidMethod() {
+    void testPreflightCorsRequestWithInvalidMethod() {
         final WebTarget target = webTarget();
         final Response response = target.path("hello").path("Jaxxy")
                 .request(MediaType.TEXT_PLAIN)
@@ -122,7 +121,7 @@ public class CorsFilterTest extends JaxrsTestCase<HelloResource> {
     }
 
     @Test
-    public void testPreflightCorsRequestWithInvalidOrigin() {
+    void testPreflightCorsRequestWithInvalidOrigin() {
         final WebTarget target = webTarget();
         final Response response = target.path("hello").path("Jaxxy")
                 .request(MediaType.TEXT_PLAIN)
@@ -134,7 +133,7 @@ public class CorsFilterTest extends JaxrsTestCase<HelloResource> {
     }
 
     @Test
-    public void testPreflightCorsRequestWithNoOrigin() {
+    void testPreflightCorsRequestWithNoOrigin() {
         final WebTarget target = webTarget();
         final Response response = target.path("hello").path("Jaxxy")
                 .request(MediaType.TEXT_PLAIN)
@@ -145,7 +144,7 @@ public class CorsFilterTest extends JaxrsTestCase<HelloResource> {
     }
 
     @Test
-    public void testSimpleCorsRequest() {
+    void testSimpleCorsRequest() {
         final WebTarget target = webTarget();
         final Response response = target.path("hello").path("Jaxxy")
                 .request(MediaType.TEXT_PLAIN)
@@ -157,7 +156,7 @@ public class CorsFilterTest extends JaxrsTestCase<HelloResource> {
     }
 
     @Test
-    public void testSimpleCorsRequestWithAllowsCredentials() {
+    void testSimpleCorsRequestWithAllowsCredentials() {
         policy.allowCredentials();
         final WebTarget target = webTarget();
         final Response response = target.path("hello").path("Jaxxy")
@@ -171,7 +170,7 @@ public class CorsFilterTest extends JaxrsTestCase<HelloResource> {
     }
 
     @Test
-    public void testPreflightCorsRequestWithAllowsCredentials() {
+    void testPreflightCorsRequestWithAllowsCredentials() {
         policy.allowCredentials();
         final WebTarget target = webTarget();
         final Response response = target.path("hello").path("Jaxxy")

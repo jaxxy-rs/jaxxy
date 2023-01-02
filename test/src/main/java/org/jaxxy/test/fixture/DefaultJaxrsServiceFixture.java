@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 The Jaxxy Authors.
+ * Copyright (c) 2018-2023 The Jaxxy Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,19 +16,18 @@
 
 package org.jaxxy.test.fixture;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.List;
-
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.Configurable;
-
+import jakarta.ws.rs.client.ClientBuilder;
+import jakarta.ws.rs.client.WebTarget;
+import jakarta.ws.rs.core.Configurable;
 import lombok.RequiredArgsConstructor;
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.feature.Feature;
 import org.apache.cxf.transport.http.asyncclient.AsyncHTTPConduit;
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.List;
 
 import static org.jaxxy.test.fixture.DefaultJaxrsServiceFixtureFactory.SPLIT_HEADERS_PROP;
 
@@ -68,7 +67,7 @@ class DefaultJaxrsServiceFixture<T> implements JaxrsServiceFixture<T> {
                     .baseUrl(new URL(baseUrl()))
                     .build(serviceInterface);
         } catch (MalformedURLException e) {
-            throw new RuntimeException("Bad base URL.", e);
+            throw new IllegalArgumentException("Bad base URL.", e);
         }
     }
 

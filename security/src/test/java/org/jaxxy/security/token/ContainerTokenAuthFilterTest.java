@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 The Jaxxy Authors.
+ * Copyright (c) 2018-2023 The Jaxxy Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,9 +16,8 @@
 
 package org.jaxxy.security.token;
 
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import org.jaxxy.security.basic.ClientBasicAuthFilter;
 import org.jaxxy.test.JaxrsTestCase;
 import org.jaxxy.test.fixture.JaxrsServiceFixtureFactory;
@@ -28,7 +27,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ContainerTokenAuthFilterTest extends JaxrsTestCase<HelloResource> {
+class ContainerTokenAuthFilterTest extends JaxrsTestCase<HelloResource> {
     @Override
     protected HelloResource createServiceObject() {
         return new DefaultHelloResource();
@@ -49,7 +48,7 @@ public class ContainerTokenAuthFilterTest extends JaxrsTestCase<HelloResource> {
     }
 
     @Test
-    public void should200WhenValidToken() {
+    void should200WhenValidToken() {
         final Response response = webTarget().path("hello").path("Jaxxy")
                 .register(new ClientTokenAuthFilter(() -> "ABC123"))
                 .request(MediaType.TEXT_PLAIN)
@@ -59,7 +58,7 @@ public class ContainerTokenAuthFilterTest extends JaxrsTestCase<HelloResource> {
     }
 
     @Test
-    public void should401WhenAuthenticationHeaderMissing() {
+    void should401WhenAuthenticationHeaderMissing() {
         final Response response = webTarget().path("hello").path("Jaxxy")
                 .request(MediaType.TEXT_PLAIN)
                 .get();
@@ -68,7 +67,7 @@ public class ContainerTokenAuthFilterTest extends JaxrsTestCase<HelloResource> {
     }
 
     @Test
-    public void should401WhenWrongAuthenticationType() {
+    void should401WhenWrongAuthenticationType() {
         final Response response = webTarget().path("hello").path("Jaxxy")
                 .register(new ClientBasicAuthFilter("user1", "password1"))
                 .request(MediaType.TEXT_PLAIN)
@@ -78,7 +77,7 @@ public class ContainerTokenAuthFilterTest extends JaxrsTestCase<HelloResource> {
     }
 
     @Test
-    public void should401WhenInvalidToken() {
+    void should401WhenInvalidToken() {
         final Response response = webTarget().path("hello").path("Jaxxy")
                 .register(new ClientTokenAuthFilter(() -> "BADTOKEN"))
                 .request(MediaType.TEXT_PLAIN)

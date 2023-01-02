@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 The Jaxxy Authors.
+ * Copyright (c) 2018-2023 The Jaxxy Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,15 +16,11 @@
 
 package org.jaxxy.rx;
 
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-
-import javax.ws.rs.HttpMethod;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-
+import jakarta.ws.rs.HttpMethod;
+import jakarta.ws.rs.client.Entity;
+import jakarta.ws.rs.core.GenericType;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
 import org.jaxxy.test.JaxrsTestCase;
 import org.jaxxy.test.fixture.JaxrsServiceFixtureFactory;
 import org.jaxxy.test.str.StringResource;
@@ -33,11 +29,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class FutureInvokerProviderTest extends JaxrsTestCase<StringResource> {
+class FutureInvokerProviderTest extends JaxrsTestCase<StringResource> {
 //----------------------------------------------------------------------------------------------------------------------
 // Fields
 //----------------------------------------------------------------------------------------------------------------------
@@ -74,49 +73,49 @@ public class FutureInvokerProviderTest extends JaxrsTestCase<StringResource> {
     }
 
     @Test
-    public void delete() {
+    void delete() {
         when(resource.delete()).thenReturn("Hello, RX!");
         final Future<Response> future = invoker().delete();
         assertThat(get(future).readEntity(String.class)).isEqualTo("Hello, RX!");
     }
 
     @Test
-    public void deleteWithGenericResponseType() {
+    void deleteWithGenericResponseType() {
         when(resource.delete()).thenReturn("Hello, RX!");
         final Future<String> future = invoker().delete(new GenericType<>(String.class));
         assertThat(get(future)).isEqualTo("Hello, RX!");
     }
 
     @Test
-    public void deleteWithResponseType() {
+    void deleteWithResponseType() {
         when(resource.delete()).thenReturn("Hello, RX!");
         final Future<String> future = invoker().delete(String.class);
         assertThat(get(future)).isEqualTo("Hello, RX!");
     }
 
     @Test
-    public void get() {
+    void get() {
         when(resource.get()).thenReturn("Hello, RX!");
         final Future<Response> future = invoker().get();
         assertThat(get(future).readEntity(String.class)).isEqualTo("Hello, RX!");
     }
 
     @Test
-    public void getWithGenericResponseType() {
+    void getWithGenericResponseType() {
         when(resource.get()).thenReturn("Hello, RX!");
         final Future<String> future = invoker().get(new GenericType<>(String.class));
         assertThat(get(future)).isEqualTo("Hello, RX!");
     }
 
     @Test
-    public void getWithResponseType() {
+    void getWithResponseType() {
         when(resource.get()).thenReturn("Hello, RX!");
         final Future<String> future = invoker().get(String.class);
         assertThat(get(future)).isEqualTo("Hello, RX!");
     }
 
     @Test
-    public void head() {
+    void head() {
         final Future<Response> future = invoker().head();
         assertThat(get(future).getStatus()).isEqualTo(204);
     }
@@ -128,105 +127,105 @@ public class FutureInvokerProviderTest extends JaxrsTestCase<StringResource> {
     }
 
     @Test
-    public void method() {
+    void method() {
         when(resource.get()).thenReturn("Hello, RX!");
         final Future<Response> future = invoker().method(HttpMethod.GET);
         assertThat(get(future).readEntity(String.class)).isEqualTo("Hello, RX!");
     }
 
     @Test
-    public void methodWithEntity() {
+    void methodWithEntity() {
         when(resource.put("RX")).thenReturn("Hello, RX!");
         final Future<Response> future = invoker().method(HttpMethod.PUT, Entity.text("RX"));
         assertThat(get(future).readEntity(String.class)).isEqualTo("Hello, RX!");
     }
 
     @Test
-    public void methodWithEntityAndGenericResponseType() {
+    void methodWithEntityAndGenericResponseType() {
         when(resource.put("RX")).thenReturn("Hello, RX!");
         final Future<String> future = invoker().method(HttpMethod.PUT, Entity.text("RX"), new GenericType<>(String.class));
         assertThat(get(future)).isEqualTo("Hello, RX!");
     }
 
     @Test
-    public void methodWithEntityAndResponseType() {
+    void methodWithEntityAndResponseType() {
         when(resource.put("RX")).thenReturn("Hello, RX!");
         final Future<String> future = invoker().method(HttpMethod.PUT, Entity.text("RX"), String.class);
         assertThat(get(future)).isEqualTo("Hello, RX!");
     }
 
     @Test
-    public void methodWithGenericResponseType() {
+    void methodWithGenericResponseType() {
         when(resource.get()).thenReturn("Hello, RX!");
         final Future<String> future = invoker().method(HttpMethod.GET, new GenericType<>(String.class));
         assertThat(get(future)).isEqualTo("Hello, RX!");
     }
 
     @Test
-    public void methodWithResponseType() {
+    void methodWithResponseType() {
         when(resource.get()).thenReturn("Hello, RX!");
         final Future<String> future = invoker().method(HttpMethod.GET, String.class);
         assertThat(get(future)).isEqualTo("Hello, RX!");
     }
 
     @Test
-    public void options() {
+    void options() {
         when(resource.options()).thenReturn("Hello, RX!");
         final Future<Response> future = invoker().options();
         assertThat(get(future).readEntity(String.class)).isEqualTo("Hello, RX!");
     }
 
     @Test
-    public void optionsWithGenericResponseType() {
+    void optionsWithGenericResponseType() {
         when(resource.options()).thenReturn("Hello, RX!");
         final Future<String> future = invoker().options(new GenericType<>(String.class));
         assertThat(get(future)).isEqualTo("Hello, RX!");
     }
 
     @Test
-    public void optionsWithResponseType() {
+    void optionsWithResponseType() {
         when(resource.options()).thenReturn("Hello, RX!");
         final Future<String> future = invoker().options(String.class);
         assertThat(get(future)).isEqualTo("Hello, RX!");
     }
 
     @Test
-    public void post() {
+    void post() {
         when(resource.post("RX")).thenReturn("Hello, RX!");
         final Future<Response> future = invoker().post(Entity.text("RX"));
         assertThat(get(future).readEntity(String.class)).isEqualTo("Hello, RX!");
     }
 
     @Test
-    public void postWithGenericResponseType() {
+    void postWithGenericResponseType() {
         when(resource.post("RX")).thenReturn("Hello, RX!");
         final Future<String> future = invoker().post(Entity.text("RX"), new GenericType<>(String.class));
         assertThat(get(future)).isEqualTo("Hello, RX!");
     }
 
     @Test
-    public void postWithResponseType() {
+    void postWithResponseType() {
         when(resource.post("RX")).thenReturn("Hello, RX!");
         final Future<String> future = invoker().post(Entity.text("RX"), String.class);
         assertThat(get(future)).isEqualTo("Hello, RX!");
     }
 
     @Test
-    public void put() {
+    void put() {
         when(resource.put("RX")).thenReturn("Hello, RX!");
         final Future<Response> future = invoker().put(Entity.text("RX"));
         assertThat(get(future).readEntity(String.class)).isEqualTo("Hello, RX!");
     }
 
     @Test
-    public void putWithGenericResponseType() {
+    void putWithGenericResponseType() {
         when(resource.put("RX")).thenReturn("Hello, RX!");
         final Future<String> future = invoker().put(Entity.text("RX"), new GenericType<>(String.class));
         assertThat(get(future)).isEqualTo("Hello, RX!");
     }
 
     @Test
-    public void putWithResponseType() {
+    void putWithResponseType() {
         when(resource.put("RX")).thenReturn("Hello, RX!");
         final Future<String> future = invoker().put(Entity.text("RX"), String.class);
         assertThat(get(future)).isEqualTo("Hello, RX!");

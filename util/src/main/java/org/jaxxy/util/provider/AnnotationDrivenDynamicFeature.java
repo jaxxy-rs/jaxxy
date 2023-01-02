@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 The Jaxxy Authors.
+ * Copyright (c) 2018-2023 The Jaxxy Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,13 +16,12 @@
 
 package org.jaxxy.util.provider;
 
-import java.lang.annotation.Annotation;
-
-import javax.ws.rs.container.DynamicFeature;
-import javax.ws.rs.container.ResourceInfo;
-import javax.ws.rs.core.FeatureContext;
-
+import jakarta.ws.rs.container.DynamicFeature;
+import jakarta.ws.rs.container.ResourceInfo;
+import jakarta.ws.rs.core.FeatureContext;
 import org.jaxxy.util.reflect.Types;
+
+import java.lang.annotation.Annotation;
 
 import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang3.reflect.MethodUtils.getAnnotation;

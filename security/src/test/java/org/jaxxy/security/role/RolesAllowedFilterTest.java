@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 The Jaxxy Authors.
+ * Copyright (c) 2018-2023 The Jaxxy Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,12 +16,9 @@
 
 package org.jaxxy.security.role;
 
-import java.security.Principal;
-
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
-
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.SecurityContext;
 import org.jaxxy.security.token.ClientTokenAuthFilter;
 import org.jaxxy.security.token.ContainerTokenAuthFilter;
 import org.jaxxy.test.JaxrsTestCase;
@@ -29,9 +26,11 @@ import org.jaxxy.test.fixture.JaxrsServiceFixtureFactory;
 import org.jaxxy.test.hello.HelloResource;
 import org.junit.jupiter.api.Test;
 
+import java.security.Principal;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class RolesAllowedFilterTest extends JaxrsTestCase<HelloResource> {
+class RolesAllowedFilterTest extends JaxrsTestCase<HelloResource> {
 //----------------------------------------------------------------------------------------------------------------------
 // Other Methods
 //----------------------------------------------------------------------------------------------------------------------
@@ -69,7 +68,7 @@ public class RolesAllowedFilterTest extends JaxrsTestCase<HelloResource> {
     }
 
     @Test
-    public void should403WhenNotInRole() {
+    void should403WhenNotInRole() {
         final Response response = webTarget()
                 .register(new ClientTokenAuthFilter(() -> "notarole"))
                 .path("hello").path("Jaxxy")
@@ -79,7 +78,7 @@ public class RolesAllowedFilterTest extends JaxrsTestCase<HelloResource> {
     }
 
     @Test
-    public void shouldSucceedWhenInFirstRole() {
+    void shouldSucceedWhenInFirstRole() {
         final Response response = webTarget()
                 .register(new ClientTokenAuthFilter(() -> "foo"))
                 .path("hello").path("Jaxxy")
@@ -89,7 +88,7 @@ public class RolesAllowedFilterTest extends JaxrsTestCase<HelloResource> {
     }
 
     @Test
-    public void shouldSucceedWhenInLastRole() {
+    void shouldSucceedWhenInLastRole() {
         final Response response = webTarget()
                 .register(new ClientTokenAuthFilter(() -> "baz"))
                 .path("hello").path("Jaxxy")

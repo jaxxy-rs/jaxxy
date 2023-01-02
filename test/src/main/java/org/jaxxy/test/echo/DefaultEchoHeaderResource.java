@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 The Jaxxy Authors.
+ * Copyright (c) 2018-2023 The Jaxxy Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +16,11 @@
 
 package org.jaxxy.test.echo;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.core.Context;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.ws.rs.core.Context;
 import lombok.RequiredArgsConstructor;
+
 
 @RequiredArgsConstructor
 public class DefaultEchoHeaderResource implements EchoHeaderResource {

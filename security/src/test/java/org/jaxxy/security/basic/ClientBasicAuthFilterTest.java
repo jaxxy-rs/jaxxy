@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 The Jaxxy Authors.
+ * Copyright (c) 2018-2023 The Jaxxy Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,20 +16,19 @@
 
 package org.jaxxy.security.basic;
 
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
-
-import javax.ws.rs.core.HttpHeaders;
-
+import jakarta.ws.rs.core.HttpHeaders;
 import org.jaxxy.test.JaxrsTestCase;
 import org.jaxxy.test.echo.DefaultEchoHeaderResource;
 import org.jaxxy.test.echo.EchoHeaderResource;
 import org.jaxxy.test.fixture.JaxrsServiceFixtureFactory;
 import org.junit.jupiter.api.Test;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ClientBasicAuthFilterTest extends JaxrsTestCase<EchoHeaderResource> {
+class ClientBasicAuthFilterTest extends JaxrsTestCase<EchoHeaderResource> {
 //----------------------------------------------------------------------------------------------------------------------
 // Other Methods
 //----------------------------------------------------------------------------------------------------------------------
@@ -46,7 +45,7 @@ public class ClientBasicAuthFilterTest extends JaxrsTestCase<EchoHeaderResource>
     }
 
     @Test
-    public void shouldSendBasicAuthenticationHeader() {
+    void shouldSendBasicAuthenticationHeader() {
         assertThat(clientProxy().echo()).isEqualTo("Basic " + Base64.getEncoder().encodeToString("user1:pass1".getBytes(StandardCharsets.UTF_8)));
     }
 }

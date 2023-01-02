@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 The Jaxxy Authors.
+ * Copyright (c) 2018-2023 The Jaxxy Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,9 +16,8 @@
 
 package org.jaxxy.rxjava;
 
-import javax.ws.rs.core.MediaType;
-
 import io.reactivex.Single;
+import jakarta.ws.rs.core.MediaType;
 import org.jaxxy.test.JaxrsTestCase;
 import org.jaxxy.test.fixture.JaxrsServiceFixtureFactory;
 import org.jaxxy.test.hello.HelloResource;
@@ -31,7 +30,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class SingleInvokerProviderTest extends JaxrsTestCase<HelloResource> {
+class SingleInvokerProviderTest extends JaxrsTestCase<HelloResource> {
 //----------------------------------------------------------------------------------------------------------------------
 // Fields
 //----------------------------------------------------------------------------------------------------------------------
@@ -55,7 +54,7 @@ public class SingleInvokerProviderTest extends JaxrsTestCase<HelloResource> {
     }
 
     @Test
-    public void get() {
+    void get() {
         when(resource.sayHello("RX")).thenReturn("Hello, RX!");
         final Single<String> response = webTarget()
                 .path("hello").path("RX")

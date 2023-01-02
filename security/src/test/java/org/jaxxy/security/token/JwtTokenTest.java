@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 The Jaxxy Authors.
+ * Copyright (c) 2018-2023 The Jaxxy Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,15 +16,12 @@
 
 package org.jaxxy.security.token;
 
-import java.security.Principal;
-
-import javax.ws.rs.core.SecurityContext;
-
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import jakarta.ws.rs.core.SecurityContext;
 import lombok.RequiredArgsConstructor;
 import org.jaxxy.test.JaxrsTestCase;
 import org.jaxxy.test.fixture.JaxrsServiceFixtureFactory;
@@ -32,9 +29,11 @@ import org.jaxxy.test.hello.DefaultHelloResource;
 import org.jaxxy.test.hello.HelloResource;
 import org.junit.jupiter.api.Test;
 
+import java.security.Principal;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class JwtTokenTest extends JaxrsTestCase<HelloResource> {
+class JwtTokenTest extends JaxrsTestCase<HelloResource> {
 //----------------------------------------------------------------------------------------------------------------------
 // Fields
 //----------------------------------------------------------------------------------------------------------------------
@@ -63,7 +62,7 @@ public class JwtTokenTest extends JaxrsTestCase<HelloResource> {
     }
 
     @Test
-    public void testWithSignedJwtToken() {
+    void testWithSignedJwtToken() {
         assertThat(clientProxy().sayHello("JWT")).isEqualTo("Hello, JWT!");
     }
 

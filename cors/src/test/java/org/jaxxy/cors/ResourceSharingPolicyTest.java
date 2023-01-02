@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020 The Jaxxy Authors.
+ * Copyright (c) 2018-2023 The Jaxxy Authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,20 +16,19 @@
 
 package org.jaxxy.cors;
 
+import jakarta.ws.rs.HttpMethod;
+import org.junit.jupiter.api.Test;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
-import javax.ws.rs.HttpMethod;
-
-import org.junit.jupiter.api.Test;
-
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
-public class ResourceSharingPolicyTest {
+class ResourceSharingPolicyTest {
 
     @Test
-    public void testDefaultPolicy() {
+    void testDefaultPolicy() {
         final ResourceSharingPolicy policy = ResourceSharingPolicy.defaultPolicy();
         assertThat(policy.allowsAllHeaders()).isTrue();
         assertThat(policy.getAllowedMethods()).hasSize(5)
@@ -45,7 +44,7 @@ public class ResourceSharingPolicyTest {
     }
 
     @Test
-    public void shouldExposeHeaders() {
+    void shouldExposeHeaders() {
         final ResourceSharingPolicy policy = new ResourceSharingPolicy();
         assertThat(policy.getExposedHeaders()).isEmpty();
         policy.exposeHeaders("Foo", "Bar");
@@ -53,7 +52,7 @@ public class ResourceSharingPolicyTest {
     }
 
     @Test
-    public void shouldAllowCredentials() {
+    void shouldAllowCredentials() {
         final ResourceSharingPolicy policy = new ResourceSharingPolicy();
         assertThat(policy.isAllowCredentials()).isFalse();
         policy.allowCredentials();
@@ -61,7 +60,7 @@ public class ResourceSharingPolicyTest {
     }
 
     @Test
-    public void shouldAllowMethod() {
+    void shouldAllowMethod() {
         final ResourceSharingPolicy policy = new ResourceSharingPolicy();
         assertThat(policy.isAllowedMethod("GET")).isFalse();
         policy.allowMethods("GET");
@@ -69,14 +68,14 @@ public class ResourceSharingPolicyTest {
     }
 
     @Test
-    public void nullValuesShouldNeverBeWhitelisted() {
+    void nullValuesShouldNeverBeWhitelisted() {
         final ResourceSharingPolicy policy = new ResourceSharingPolicy()
                 .allowAllOrigins();
         assertThat(policy.isAllowedOrigin(null)).isFalse();
     }
 
     @Test
-    public void headersAllowedShouldBeTrueForSublists() {
+    void headersAllowedShouldBeTrueForSublists() {
         final ResourceSharingPolicy policy = new ResourceSharingPolicy();
 
         policy.allowHeaders("Foo", "Bar", "Baz");
@@ -89,7 +88,7 @@ public class ResourceSharingPolicyTest {
     }
 
     @Test
-    public void allowedHeadersIsCaseInsensitive() {
+    void allowedHeadersIsCaseInsensitive() {
         final ResourceSharingPolicy policy = new ResourceSharingPolicy();
 
         policy.allowHeaders("Foo", "Bar", "Baz");
@@ -97,13 +96,13 @@ public class ResourceSharingPolicyTest {
     }
 
     @Test
-    public void headersAllowedShouldBeTrueForEmptyListWhenEmpty() {
+    void headersAllowedShouldBeTrueForEmptyListWhenEmpty() {
         final ResourceSharingPolicy policy = new ResourceSharingPolicy();
         assertThat(policy.headersAllowed(Collections.emptyList())).isTrue();
     }
 
     @Test
-    public void shouldAllowAllHeaders() {
+    void shouldAllowAllHeaders() {
         final ResourceSharingPolicy policy = new ResourceSharingPolicy();
         assertThat(policy.allowsAllHeaders()).isFalse();
         policy.allowCredentials();
@@ -111,7 +110,7 @@ public class ResourceSharingPolicyTest {
     }
 
     @Test
-    public void shouldAllowAllOrigins() {
+    void shouldAllowAllOrigins() {
         final ResourceSharingPolicy policy = new ResourceSharingPolicy();
         assertThat(policy.allowsAllOrigins()).isFalse();
         policy.allowAllOrigins();
@@ -121,7 +120,7 @@ public class ResourceSharingPolicyTest {
     }
 
     @Test
-    public void shouldAllowOrigins() {
+    void shouldAllowOrigins() {
         final ResourceSharingPolicy policy = new ResourceSharingPolicy();
         assertThat(policy.isAllowedOrigin("foo")).isFalse();
         policy.allowOrigins("foo");
@@ -129,7 +128,7 @@ public class ResourceSharingPolicyTest {
     }
 
     @Test
-    public void shoulNotAllowNullOrigin() {
+    void shoulNotAllowNullOrigin() {
         final ResourceSharingPolicy policy = new ResourceSharingPolicy();
         assertThat(policy.isAllowedOrigin(null)).isFalse();
         policy.allowOrigins("foo");
@@ -139,7 +138,7 @@ public class ResourceSharingPolicyTest {
     }
 
     @Test
-    public void allowedOriginShouldBeCaseSensitive() {
+    void allowedOriginShouldBeCaseSensitive() {
         final ResourceSharingPolicy policy = new ResourceSharingPolicy()
                 .allowOrigins("foo");
         assertThat(policy.isAllowedOrigin("foo")).isTrue();
@@ -148,7 +147,7 @@ public class ResourceSharingPolicyTest {
     }
 
     @Test
-    public void allowedMethodShouldBeCaseSensitive() {
+    void allowedMethodShouldBeCaseSensitive() {
         final ResourceSharingPolicy policy = new ResourceSharingPolicy()
                 .allowMethods(HttpMethod.GET);
         assertThat(policy.isAllowedMethod("GET")).isTrue();
@@ -157,7 +156,7 @@ public class ResourceSharingPolicyTest {
     }
 
     @Test
-    public void specificValuesShouldBeWhitelisted() {
+    void specificValuesShouldBeWhitelisted() {
         final ResourceSharingPolicy policy = new ResourceSharingPolicy()
                 .allowOrigins("foo", "bar");
 
