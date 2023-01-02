@@ -175,13 +175,6 @@
         <dependencies>
 
             <dependency>
-                <groupId>org.apache.cxf</groupId>
-                <artifactId>cxf-bom</artifactId>
-                <version>${cxf.version}</version>
-                <scope>import</scope>
-                <type>pom</type>
-            </dependency>
-            <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
                 <version>${slf4j.version}</version>
