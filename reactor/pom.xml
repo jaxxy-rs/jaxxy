@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.jaxxy</groupId>
         <artifactId>jaxxy</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
+        <version>1.0.0</version>
     </parent>
 
     <artifactId>jaxxy-reactor</artifactId>
@@ -33,7 +33,7 @@
         <dependency>
             <groupId>org.jaxxy</groupId>
             <artifactId>jaxxy-rx</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
+            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>io.projectreactor</groupId>
@@ -49,7 +49,7 @@
         <dependency>
             <groupId>org.jaxxy</groupId>
             <artifactId>jaxxy-test</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
+            <version>1.0.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
