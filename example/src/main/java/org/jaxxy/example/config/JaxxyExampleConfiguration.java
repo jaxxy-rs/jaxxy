@@ -16,9 +16,10 @@
 
 package org.jaxxy.example.config;
 
-import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
-import com.fasterxml.jackson.jaxrs.smile.JacksonSmileProvider;
-import com.fasterxml.jackson.jaxrs.yaml.JacksonYAMLProvider;
+import com.fasterxml.jackson.jakarta.rs.cbor.JacksonCBORProvider;
+import com.fasterxml.jackson.jakarta.rs.json.JacksonJsonProvider;
+import com.fasterxml.jackson.jakarta.rs.smile.JacksonSmileProvider;
+import com.fasterxml.jackson.jakarta.rs.yaml.JacksonYAMLProvider;
 import com.google.gson.Gson;
 import org.apache.cxf.ext.logging.LoggingFeature;
 import org.apache.cxf.jaxrs.openapi.OpenApiFeature;
@@ -76,6 +77,11 @@ public class JaxxyExampleConfiguration {
     @ConditionalOnProperty(name = "jaxxy.json.provider", havingValue = "jackson")
     public JacksonJsonProvider jacksonJsonProvider() {
         return new JacksonJsonProvider();
+    }
+
+    @Bean
+    public JacksonCBORProvider jacksonCborProvider() {
+        return new JacksonCBORProvider();
     }
 
     @Bean

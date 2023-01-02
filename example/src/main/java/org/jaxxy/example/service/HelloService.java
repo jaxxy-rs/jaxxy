@@ -26,7 +26,7 @@ import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import org.jaxxy.example.HelloProtos;
 
-import static com.fasterxml.jackson.jaxrs.smile.SmileMediaTypes.APPLICATION_JACKSON_SMILE;
+import static com.fasterxml.jackson.jakarta.rs.smile.SmileMediaTypes.APPLICATION_JACKSON_SMILE;
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
 
 @OpenAPIDefinition(
