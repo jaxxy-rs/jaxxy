@@ -23,23 +23,23 @@ import java.lang.reflect.Method;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-public class MethodsTest {
+class MethodsTest {
 
 
     @Test
-    public void shouldGetMethod() throws Exception {
+    void shouldGetMethod() throws Exception {
         final Method actual = Methods.getMethod(Reflector.class, "reflect", String.class);
         assertThat(actual).isEqualTo(Reflector.class.getMethod("reflect", String.class));
     }
 
     @Test
-    public void shouldThrowReflectionExceptionIfMethodNotFound() {
+    void shouldThrowReflectionExceptionIfMethodNotFound() {
         assertThatThrownBy(() -> Methods.getMethod(Reflector.class, "someBogusMethod", String.class))
                 .isInstanceOf(ReflectionException.class);
     }
 
     @Test
-    public void shouldInvoke() {
+    void shouldInvoke() {
         final Reflector reflector = new Reflector();
         final Method method = Methods.getMethod(Reflector.class, "reflect", String.class);
         String actual = Methods.softenedInvoke(method, reflector, "Hello");
@@ -47,7 +47,7 @@ public class MethodsTest {
     }
 
     @Test
-    public void shouldThrowReflectionExceptionIfMethodThrowsException() {
+    void shouldThrowReflectionExceptionIfMethodThrowsException() {
         final Reflector reflector = new Reflector();
         final Method method = Methods.getMethod(Reflector.class, "reflect");
         assertThatThrownBy(() -> Methods.softenedInvoke(method, reflector))
@@ -55,7 +55,7 @@ public class MethodsTest {
     }
 
     @Test
-    public void shouldInvokeStatic() {
+    void shouldInvokeStatic() {
         final Method method = Methods.getMethod(Reflector.class, "instantiate");
         final Reflector actual = Methods.softenedInvokeStatic(method);
         assertThat(actual).isNotNull();

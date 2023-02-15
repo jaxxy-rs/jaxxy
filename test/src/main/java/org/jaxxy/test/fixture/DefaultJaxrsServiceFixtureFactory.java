@@ -16,7 +16,6 @@
 
 package org.jaxxy.test.fixture;
 
-import com.google.common.collect.ImmutableList;
 import lombok.Builder;
 import lombok.Value;
 import org.apache.cxf.BusFactory;
@@ -25,7 +24,9 @@ import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;
 import org.apache.cxf.jaxrs.lifecycle.SingletonResourceProvider;
 import org.apache.cxf.testutil.common.TestUtil;
 
-import static com.google.common.collect.ImmutableList.of;
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Builder(toBuilder = true)
 @Value
@@ -36,23 +37,22 @@ class DefaultJaxrsServiceFixtureFactory implements JaxrsServiceFixtureFactory {
 
     public static final String SPLIT_HEADERS_PROP = "org.apache.cxf.http.header.split";
     @Builder.Default
-    private final ImmutableList<Object> containerProviders = of();
+    List<Object> containerProviders = List.of();
     @Builder.Default
-    private final ImmutableList<Object> clientProviders = of();
+    List<Object> clientProviders = List.of();
     @Builder.Default
-    private final ImmutableList<Feature> containerFeatures = of();
+    List<Feature> containerFeatures = List.of();
     @Builder.Default
-    private final ImmutableList<Feature> clientFeatures = of();
+    List<Feature> clientFeatures = List.of();
 
 //----------------------------------------------------------------------------------------------------------------------
 // Static Methods
 //----------------------------------------------------------------------------------------------------------------------
 
-    private static <T> ImmutableList<T> extend(ImmutableList<T> list, T object) {
-        return ImmutableList.<T>builder()
-                .addAll(list)
-                .add(object)
-                .build();
+    private static <T> List<T> extend(List<T> original, T object) {
+        final List<T> extended = new ArrayList<>(original);
+        extended.add(object);
+        return extended;
     }
 
 //----------------------------------------------------------------------------------------------------------------------

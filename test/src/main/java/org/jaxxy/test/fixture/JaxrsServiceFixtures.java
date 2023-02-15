@@ -16,6 +16,9 @@
 
 package org.jaxxy.test.fixture;
 
+import lombok.experimental.UtilityClass;
+
+@UtilityClass
 public class JaxrsServiceFixtures {
 //----------------------------------------------------------------------------------------------------------------------
 // Static Methods

@@ -20,15 +20,15 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class FormattedExceptionTest {
+class FormattedExceptionTest {
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         final MyException e = new MyException("Hello %s %d", "foo", 12);
         assertThat(e.getMessage()).isEqualTo("Hello foo 12");
     }
 
     @Test
-    public void testConstructorWithCause() {
+    void testConstructorWithCause() {
         final RuntimeException cause = new RuntimeException("Oops!");
         final MyException e = new MyException(cause, "Hello %s %d", "foo", 12);
         assertThat(e.getMessage()).isEqualTo("Hello foo 12");

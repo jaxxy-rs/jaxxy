@@ -126,7 +126,8 @@ class JsonMessageBodyProviderTest extends JaxrsTestCase<JsonLocalDateResource> {
     @Test
     void shouldIgnoreUnsupportedTypes() {
         when(resource.unsupported()).thenReturn(new Date());
-        assertThatThrownBy(() -> clientProxy().unsupported())
+        JsonLocalDateResource proxy = clientProxy();
+        assertThatThrownBy(() -> proxy.unsupported())
                 .isInstanceOf(WebApplicationException.class);
     }
 

@@ -40,7 +40,7 @@ public abstract class MessageBodyProvider<T> implements MessageBodyReader<T>, Me
 // Constructors
 //----------------------------------------------------------------------------------------------------------------------
 
-    public MessageBodyProvider() {
+    protected MessageBodyProvider() {
         this.supportedTypePredicate = Types.predicateWithDefaultBlacklist()
                 .whitelist(Types.typeParamFromClass(getClass(), MessageBodyProvider.class, 0))
                 .build();

@@ -33,7 +33,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class GsonMessageBodyProviderTest extends JaxrsTestCase<PersonResource> {
+class GsonMessageBodyProviderTest extends JaxrsTestCase<PersonResource> {
 
     @Mock
     private PersonResource resource;
@@ -54,7 +54,7 @@ public class GsonMessageBodyProviderTest extends JaxrsTestCase<PersonResource> {
     }
 
     @Test
-    public void serializeOne() {
+    void serializeOne() {
         final Person expected = Person.builder()
                 .id("1")
                 .firstName("Slappy")
@@ -68,7 +68,7 @@ public class GsonMessageBodyProviderTest extends JaxrsTestCase<PersonResource> {
     }
 
     @Test
-    public void serializeList() {
+    void serializeList() {
         final Person person1 = Person.builder()
                 .id("1")
                 .firstName("Slappy")
@@ -88,7 +88,7 @@ public class GsonMessageBodyProviderTest extends JaxrsTestCase<PersonResource> {
     }
 
     @Test
-    public void postOne() {
+    void postOne() {
         final Person expected = Person.builder()
                 .id("1")
                 .firstName("Slappy")

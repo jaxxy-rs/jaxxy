@@ -27,7 +27,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class ProtobufMessageBodyProviderTest extends JaxrsTestCase<PersonResource> {
+class ProtobufMessageBodyProviderTest extends JaxrsTestCase<PersonResource> {
 //----------------------------------------------------------------------------------------------------------------------
 // Fields
 //----------------------------------------------------------------------------------------------------------------------
@@ -52,7 +52,7 @@ public class ProtobufMessageBodyProviderTest extends JaxrsTestCase<PersonResourc
     }
 
     @Test
-    public void shouldWrite() {
+    void shouldWrite() {
         final PersonProtos.Person expected = PersonProtos.Person.newBuilder()
                 .setFirstName("Slappy")
                 .setLastName("White")

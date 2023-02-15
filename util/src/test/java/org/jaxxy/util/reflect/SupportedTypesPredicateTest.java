@@ -23,17 +23,17 @@ import java.util.Date;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-public class SupportedTypesPredicateTest {
+class SupportedTypesPredicateTest {
 
     @Test
-    public void emptyShouldAccept() {
+    void emptyShouldAccept() {
         final SupportedTypesPredicate predicate = SupportedTypesPredicate.builder().build();
         assertThat(predicate.test(String.class)).isTrue();
         assertThat(predicate.test(Object.class)).isTrue();
     }
 
     @Test
-    public void singleWhitelistExactMatch() {
+    void singleWhitelistExactMatch() {
         final SupportedTypesPredicate predicate = SupportedTypesPredicate.builder()
                 .whitelist(String.class)
                 .build();
@@ -42,7 +42,7 @@ public class SupportedTypesPredicateTest {
     }
 
     @Test
-    public void singleWhitelistSubtypeMatch() {
+    void singleWhitelistSubtypeMatch() {
         final SupportedTypesPredicate predicate = SupportedTypesPredicate.builder()
                 .whitelist(Serializable.class)
                 .build();
@@ -51,7 +51,7 @@ public class SupportedTypesPredicateTest {
     }
 
     @Test
-    public void singleBlacklistExactMatch() {
+    void singleBlacklistExactMatch() {
         final SupportedTypesPredicate predicate = SupportedTypesPredicate.builder()
                 .blacklist(String.class)
                 .build();
@@ -60,7 +60,7 @@ public class SupportedTypesPredicateTest {
     }
 
     @Test
-    public void singleBlacklistSubtypeMatch() {
+    void singleBlacklistSubtypeMatch() {
         final SupportedTypesPredicate predicate = SupportedTypesPredicate.builder()
                 .blacklist(Serializable.class)
                 .build();
@@ -69,7 +69,7 @@ public class SupportedTypesPredicateTest {
     }
 
     @Test
-    public void whitelistedAndBlacklisted() {
+    void whitelistedAndBlacklisted() {
         final SupportedTypesPredicate predicate = SupportedTypesPredicate.builder()
                 .whitelist(Object.class)
                 .blacklist(String.class)
@@ -79,7 +79,7 @@ public class SupportedTypesPredicateTest {
     }
 
     @Test
-    public void whitelistedAndNotBlacklisted() {
+    void whitelistedAndNotBlacklisted() {
         final SupportedTypesPredicate predicate = SupportedTypesPredicate.builder()
                 .whitelist(Object.class)
                 .blacklist(Date.class)
@@ -89,7 +89,7 @@ public class SupportedTypesPredicateTest {
     }
 
     @Test
-    public void notWhitelisted() {
+    void notWhitelisted() {
         final SupportedTypesPredicate predicate = SupportedTypesPredicate.builder()
                 .whitelist(String.class)
                 .build();

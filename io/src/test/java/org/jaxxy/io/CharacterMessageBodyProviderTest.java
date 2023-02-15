@@ -29,7 +29,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class CharacterMessageBodyProviderTest extends JaxrsTestCase<LocalDateResource> {
+class CharacterMessageBodyProviderTest extends JaxrsTestCase<LocalDateResource> {
 //----------------------------------------------------------------------------------------------------------------------
 // Fields
 //----------------------------------------------------------------------------------------------------------------------
@@ -55,7 +55,7 @@ public class CharacterMessageBodyProviderTest extends JaxrsTestCase<LocalDateRes
     }
 
     @Test
-    public void shouldSerializeSuccessfully() {
+    void shouldSerializeSuccessfully() {
         final LocalDate expected = LocalDate.now();
         when(resource.now()).thenReturn(expected);
         final LocalDate actual = clientProxy().now();
@@ -63,7 +63,7 @@ public class CharacterMessageBodyProviderTest extends JaxrsTestCase<LocalDateRes
     }
 
     @Test
-    public void shouldSerializeNullsSuccessfully() {
+    void shouldSerializeNullsSuccessfully() {
         final LocalDate actual = clientProxy().now();
         assertThat(actual).isNull();
     }

@@ -27,7 +27,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class JsonbMessageBodyProviderTest extends JaxrsTestCase<PersonsResource> {
+class JsonbMessageBodyProviderTest extends JaxrsTestCase<PersonsResource> {
 
     @Mock
     private PersonsResource resource;
@@ -45,7 +45,7 @@ public class JsonbMessageBodyProviderTest extends JaxrsTestCase<PersonsResource>
     }
 
     @Test
-    public void testWrite() {
+    void testWrite() {
         when(resource.get("1")).thenReturn(Person.builder()
                 .id("1")
                 .firstName("Slappy")

@@ -21,13 +21,13 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class ReflectionExceptionTest {
+class ReflectionExceptionTest {
 //----------------------------------------------------------------------------------------------------------------------
 // Other Methods
 //----------------------------------------------------------------------------------------------------------------------
 
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         final ReflectiveOperationException cause = new ReflectiveOperationException("Oops!");
         final ReflectionException e = new ReflectionException(cause, "Hello, %s!", "Jaxxy");
         assertThat(e.getMessage()).isEqualTo("Hello, Jaxxy!");
