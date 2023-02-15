@@ -65,6 +65,10 @@
                         <goals>
                             <goal>jar</goal>
                         </goals>
+                        <configuration>
+                            <skipIfEmpty>false</skipIfEmpty>
+                            <forceCreation>true</forceCreation>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
