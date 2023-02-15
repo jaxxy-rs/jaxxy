@@ -21,7 +21,7 @@
 
     <groupId>org.jaxxy</groupId>
     <artifactId>jaxxy</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>1.1.0-SNAPSHOT</version>
 
     <packaging>pom</packaging>
     <name>Jaxxy</name>
@@ -123,6 +123,8 @@
         <module>rx</module>
         <module>rxjava</module>
         <module>security</module>
+        <module>spring-boot-autoconfigure</module>
+        <module>spring-boot-starter</module>
         <module>test</module>
         <module>util</module>
         <module>bom</module>

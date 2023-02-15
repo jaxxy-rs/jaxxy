@@ -39,12 +39,14 @@ import org.jaxxy.logging.mdc.MdcUriInfoFilter;
 import org.jaxxy.logging.mdc.MdcValueEncoder;
 import org.jaxxy.logging.mdc.RichMdc;
 import org.jaxxy.protobuf.ProtobufMessageBodyProvider;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@ConditionalOnClass
 public class JaxxyExampleConfiguration {
 //----------------------------------------------------------------------------------------------------------------------
 // Other Methods
