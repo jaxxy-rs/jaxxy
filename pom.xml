@@ -118,6 +118,7 @@
         <module>io</module>
         <module>jsonb</module>
         <module>logging</module>
+        <module>problem-details</module>
         <module>protobuf</module>
         <module>reactor</module>
         <module>rx</module>

@@ -18,9 +18,12 @@ package org.jaxxy.spring.boot.autoconfigure;
 
 import com.google.gson.Gson;
 import org.jaxxy.gson.GsonMessageBodyProvider;
+import org.jaxxy.problemdetails.ProblemDetails;
+import org.jaxxy.problemdetails.ProblemDetailsGsonSerializer;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.gson.GsonBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -35,4 +38,8 @@ public class JaxxyGsonAutoConfiguration {
         return new GsonMessageBodyProvider(gson);
     }
 
+    @Bean
+    public GsonBuilderCustomizer problemDetailsSerializerGsonCustomizer() {
+        return builder -> builder.registerTypeAdapter(ProblemDetails.class, new ProblemDetailsGsonSerializer());
+    }
 }
