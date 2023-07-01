@@ -17,21 +17,33 @@
 package org.jaxxy.spring.boot.autoconfigure;
 
 import com.google.gson.Gson;
-import org.jaxxy.gson.GsonMessageBodyProvider;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.jaxxy.problemdetails.IllegalArgumentExceptionMapper;
+import org.jaxxy.problemdetails.ProblemDetails;
+import org.jaxxy.problemdetails.ProblemDetailsGsonSerializer;
+import org.jaxxy.problemdetails.RootExceptionMapper;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.gson.GsonBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@AutoConfigureAfter(name="org.springframework.boot.autoconfigure.gson.GsonAutoConfiguration")
-@ConditionalOnClass(Gson.class)
-public class JaxxyGsonAutoConfiguration {
+@ConditionalOnClass(ProblemDetails.class)
+public class ProblemDetailsAutoConfiguration {
 
     @Bean
     @ConditionalOnBean(Gson.class)
-    public GsonMessageBodyProvider gsonMessageBodyProvider(Gson gson) {
-        return new GsonMessageBodyProvider(gson);
+    public GsonBuilderCustomizer problemDetailsSerializerGsonCustomizer() {
+        return builder -> builder.registerTypeAdapter(ProblemDetails.class, new ProblemDetailsGsonSerializer());
+    }
+
+    @Bean
+    public RootExceptionMapper rootExceptionMapper() {
+        return new RootExceptionMapper();
+    }
+
+    @Bean
+    public IllegalArgumentExceptionMapper illegalArgumentExceptionMapper() {
+        return new IllegalArgumentExceptionMapper();
     }
 }
