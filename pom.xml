@@ -82,7 +82,7 @@
         <commons.io.version>2.6</commons.io.version>
         <cxf.version>4.0.0</cxf.version>
         <gson.version>2.10</gson.version>
-        <guava.version>31.1-jre</guava.version>
+        <guava.version>32.0.0-jre</guava.version>
         <jackson.version>2.14.1</jackson.version>
 
         <jakarta.activation.version>2.1.0</jakarta.activation.version>
